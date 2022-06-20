@@ -2,7 +2,7 @@
   "expo": {
     "name": "UP",
     "slug": "UP",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/UpGrade.jpg",
     "userInterfaceStyle": "dark",
@@ -26,6 +26,7 @@
         "backgroundColor": "#1E1E1E"
       }
     },
+    
     "web": {
       "favicon": "./src/assets/UpGrade.jpg"
     }
