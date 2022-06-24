@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 import * as Animatable from 'react-native-animatable'
 
 import {Ionicons} from '@expo/vector-icons'
+
 import {useNavigation} from '@react-navigation/native'
 
-export default function SignIn() {
+export default function Cadastro() {
   const navigation = useNavigation();
  return (
-   <View style={styles.container}>
+   <ScrollView style={styles.container}>
     <View style={styles.containerLogo}>
         <Animatable.Image
         animation="flipInY"
@@ -20,25 +21,80 @@ export default function SignIn() {
       </View>
 
     <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+      <Text style={styles.title}>Nome Completo</Text>
+      <TextInput
+        placeholder="Nome Completo..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>CPF</Text>
+      <TextInput
+        placeholder="CPF..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Telefone</Text>
+      <TextInput
+        placeholder="Telefone..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Data de Nascimento</Text>
+      <TextInput
+        placeholder="Data de nascimento..."
+        style={styles.TextSenha}
+      />
       <Text style={styles.title}>E-mail</Text>
       <TextInput
         placeholder="E-mail..."
         style={styles.TextInput}
-      
       />
       <Text style={styles.title}>Senha</Text>
       <TextInput
         placeholder="Senha..."
         style={styles.TextSenha}
       />
+      <Text style={styles.title}>Confirmar Senha</Text>
+      <TextInput
+        placeholder="Senha..."
+        style={styles.TextSenha}
+      />
+
+      <Text style={styles.title}>CEP</Text>
+      <TextInput
+        placeholder="CEP..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Estado</Text>
+      <TextInput
+        placeholder="Estado..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Cidade</Text>
+      <TextInput
+        placeholder="Cidade..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Rua</Text>
+      <TextInput
+        placeholder="Rua..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Número</Text>
+      <TextInput
+        placeholder="Número..."
+        style={styles.TextSenha}
+      />
+      <Text style={styles.title}>Complemento</Text>
+      <TextInput
+        placeholder="Complemento..."
+        style={styles.TextSenha}
+      />
+
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Cadastrar-se</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.buttonRegister}
-      onPress={() => navigation.navigate("Cadastro")}>
-        <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
-
+      onPress={() => navigation.navigate("SignIn")}>
+        <Text style={styles.registerText}>ja é cadastrado</Text>
       </TouchableOpacity>
 
 
@@ -47,7 +103,7 @@ export default function SignIn() {
 
 
 
-   </View>
+   </ScrollView>
   );
 }
 
