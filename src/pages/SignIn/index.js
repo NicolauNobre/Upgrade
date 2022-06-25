@@ -1,13 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import * as Animatable from 'react-native-animatable'
 
 import {Ionicons} from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native'
 
+sendDatas = (email, password) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      "email" : email,
+      "password" : password,
+  })
+  };
+  fetch('https://upgrade-back-staging.herokuapp.com/cadastro', requestOptions)
+  .then(response => {
+      response.json().then(json => {
+        console.log(json);
+      });
+  });
+}
+
 export default function SignIn() {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
  return (
    <View style={styles.container}>
     <View style={styles.containerLogo}>
@@ -23,15 +44,17 @@ export default function SignIn() {
       <Text style={styles.title}>E-mail</Text>
       <TextInput
         placeholder="E-mail..."
+        onChangeText={setEmail}
         style={styles.TextInput}
-      
       />
       <Text style={styles.title}>Senha</Text>
       <TextInput
         placeholder="Senha..."
+        onChangeText={setPassword}
         style={styles.TextSenha}
+        secureTextEntry={true}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => this.sendDatas(email, password)}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
