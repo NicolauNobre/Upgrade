@@ -15,7 +15,7 @@ sendDatas = (email, password) => {
       "password" : password,
   })
   };
-  fetch('https://upgrade-back-staging.herokuapp.com/cadastro', requestOptions)
+  fetch('https://upgrade-back-staging.herokuapp.com/login', requestOptions)
   .then(response => {
       response.json().then(json => {
         console.log(json);
