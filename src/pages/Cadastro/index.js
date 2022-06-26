@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 import * as Animatable from 'react-native-animatable'
 
@@ -53,6 +53,7 @@ export default function Cadastro() {
   const [complement, setComplement] = useState('');
 
  return (
+   <KeyboardAvoidingView style={styles.container}>
    <ScrollView style={styles.container}>
     <View style={styles.containerLogo}>
         <Animatable.Image
@@ -161,6 +162,7 @@ export default function Cadastro() {
 
 
    </ScrollView>
+   </KeyboardAvoidingView>
   );
 }
 
