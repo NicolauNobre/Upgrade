@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import * as Animatable from 'react-native-animatable'
 
@@ -15,7 +15,7 @@ sendDatas = (email, password) => {
       "password" : password,
   })
   };
-  fetch('https://upgrade-back-staging.herokuapp.com/cadastro', requestOptions)
+  fetch('https://upgrade-back-staging.herokuapp.com/login', requestOptions)
   .then(response => {
       response.json().then(json => {
         console.log(json);
@@ -30,7 +30,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
 
  return (
-   <View style={styles.container}>
+   <ScrollView style={styles.container}>
     <View style={styles.containerLogo}>
         <Animatable.Image
         animation="flipInY"
@@ -70,7 +70,7 @@ export default function SignIn() {
 
 
 
-   </View>
+   </ScrollView>
   );
 }
 
