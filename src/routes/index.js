@@ -4,7 +4,7 @@ import Welcome from '../pages/Welcome'
 import SignIn from '../pages/SignIn'
 import Cadastro from '../pages/Cadastro'
 import Home from '../pages/Home'
-import Logar from '../pages/Logar'
+
 
 
 const Stack = createNativeStackNavigator();

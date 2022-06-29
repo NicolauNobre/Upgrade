@@ -35,7 +35,6 @@ export default function Cadastro() {
   const [vadress, setVadress] = useState('');
   const [complement, setComplement] = useState('');
   
-
   const validar = () =>{
     setVcpf('')
     setVemail('')

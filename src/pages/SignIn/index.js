@@ -14,6 +14,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [vemail, setVemail] = useState('');
   const [vpassword, setVpassword] = useState('');
+  const [v2login, setV2login] = useState('');
 
   const validar = () =>{
     setVemail('')
@@ -33,30 +34,46 @@ export default function SignIn() {
 
   }
 
+  const logar = (teste) =>{
+    let ll = false
+    if (teste.confirm){
+      ll = false
+    }else{
+      setV2login("Usuário ou senha inválidos")
+      ll = true
+    }
+    return !ll
+  }
+  async function fetchMoviesJSON() {
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/login',{
+      method: 'POST',
+      body: JSON.stringify({
+        "email" : email,
+        "password" : password,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const teste = await response.json();
+    return teste;
+  }
+  
   const enviar = () =>{
     if (validar()){
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          "email" : email,
-          "password" : password,
-      })
-      };
-      fetch('https://upgrade-back-staging.herokuapp.com/login', requestOptions)
-      .then(response => {
-        if (response.ok) {
-          response.json().then(json => {
-            console.log(json);
-          });
+      setV2login('')  
+      fetchMoviesJSON().then(teste => {
+        console.log(teste),
+        console.log("pegou resposta e chama login")
+        let statuslogin = logar(teste)
+        console.log(statuslogin)
+        
+        if (statuslogin){
+          console.log("login efetuado")
+          navigation.navigate("Welcome")
         }
       });
     }
-
   }
   
-
-
  return (
    <ScrollView style={styles.container}>
     <View style={styles.containerLogo}>
@@ -68,6 +85,7 @@ export default function SignIn() {
         />
       </View>
     <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+      <Text style={styles.msgerro}>{v2login}</Text>
       <Text style={styles.title}>E-mail</Text>
       <TextInput
         placeholder="E-mail..."
