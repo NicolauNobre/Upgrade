@@ -34,6 +34,7 @@ export default function Cadastro() {
   const [adress, setAdress] = useState('');
   const [vadress, setVadress] = useState('');
   const [complement, setComplement] = useState('');
+  const [vcadaster, setVcadaster] = useState('');
   
   const validar = () =>{
     setVcpf('')
@@ -109,33 +110,44 @@ export default function Cadastro() {
     return !error
   }
 
+  async function fetchMoviesJSON() {
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/cadaster',{
+      method: 'POST',
+      body: JSON.stringify({
+        "name" : nome,
+        "email" : email,
+        "password" : password,
+        "cpf" : cpf,
+        "phone" : phone,
+        "date_birthday" : date,
+        "zipcode" : zip,
+        "country_state" : country,
+        "city" : city,
+        "street" : street,
+        "address_number" : adress,
+        "complement" : complement,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const teste = await response.json();
+    return teste;
+  }
+
   const salvar = () =>{
     if (validar()){
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          "name" : nome,
-          "email" : email,
-          "password" : password,
-          "cpf" : cpf,
-          "phone" : phone,
-          "date_birthday" : date,
-          "zipcode" : zip,
-          "country_state" : country,
-          "city" : city,
-          "street" : street,
-          "address_number" : adress,
-          "complement" : complement
-      })
-      };
-      fetch('https://upgrade-back-staging.herokuapp.com/cadastro', requestOptions)
-      .then(response => {
-        if (response.ok) {
-          response.json().then(json => {
-            console.log(json);
-          });
+      setVcadaster('')
+      console.log("manda pro back")
+      fetchMoviesJSON().then(teste => {
+        console.log(teste)
+        console.log("pegou resposta")
+        if(teste.confirm){
+          console.log("cadastrou")
+          navigation.navigate("SignIn")
+        }else{
+          setVcadaster("Email ja cadastrado")
+          console.log("não cadastro")
         }
+        
       });
     }
   }
@@ -153,6 +165,7 @@ export default function Cadastro() {
       </View>
 
     <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+      <Text style={styles.msgerro}>{vcadaster}</Text>
       <Text style={styles.title}>Nome Completo</Text>
       <TextInput
         placeholder="Nome Completo..."
@@ -177,6 +190,7 @@ export default function Cadastro() {
       />
       <Text style={styles.msgerro}>{vphone}</Text>
       <Text style={styles.title}>Data de Nascimento</Text>
+
       <TextInput
       keyboardType="numbers-and-punctuation"
         placeholder="DD/MM/AAAA"
@@ -184,6 +198,7 @@ export default function Cadastro() {
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vdate}</Text>
+      
       <Text style={styles.title}>E-mail</Text>
       <TextInput
         keyboardType="email-address"

@@ -5,7 +5,6 @@ import * as Animatable from 'react-native-animatable';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
-//'https://upgrade-back-staging.herokuapp.com/login'
 
 export default function SignIn() {
   const navigation = useNavigation();
@@ -34,18 +33,8 @@ export default function SignIn() {
 
   }
 
-  const logar = (teste) =>{
-    let ll = false
-    if (teste.confirm){
-      ll = false
-    }else{
-      setV2login("Usuário ou senha inválidos")
-      ll = true
-    }
-    return !ll
-  }
   async function fetchMoviesJSON() {
-    const response = await fetch('https://upgrade-back-staging.herokuapp.com/login',{
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/login',{
       method: 'POST',
       body: JSON.stringify({
         "email" : email,
@@ -53,23 +42,26 @@ export default function SignIn() {
       }),
       headers: { 'Content-Type': 'application/json' },
     });
+    console.log("espera reposta");
     const teste = await response.json();
     return teste;
   }
   
   const enviar = () =>{
     if (validar()){
-      setV2login('')  
+      setV2login('') 
+      console.log("mandando para o back") 
       fetchMoviesJSON().then(teste => {
-        console.log(teste),
+        console.log(teste)
         console.log("pegou resposta e chama login")
-        let statuslogin = logar(teste)
-        console.log(statuslogin)
-        
-        if (statuslogin){
-          console.log("login efetuado")
+        if(teste.confirm){
+          console.log("logou")
           navigation.navigate("Welcome")
+        }else{
+          setV2login("Usuário ou senha inválidos")
+          console.log("não logou")
         }
+
       });
     }
   }
