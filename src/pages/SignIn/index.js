@@ -56,7 +56,7 @@ export default function SignIn() {
         console.log("pegou resposta e chama login")
         if(teste.confirm){
           console.log("logou")
-          navigation.navigate("Welcome")
+          navigation.navigate("Home")
         }else{
           setV2login("Usuário ou senha inválidos")
           console.log("não logou")
