@@ -111,6 +111,7 @@ export default function Infoitem() {
         <Text style={styles.msgerro}>{vdescricao}</Text>
         <Text style={styles.title}>Valor Do Item *</Text>
         <TextInput
+            keyboardType="number-pad"
             placeholder="Valor do Item"
             onChangeText={setValor}
             style={styles.TextSenha}
@@ -132,6 +133,7 @@ export default function Infoitem() {
         <Text style={styles.msgerro}>{vcategoria}</Text>
         <Text style={styles.title}>Quantidade *</Text>
         <TextInput
+            keyboardType="number-pad"
             placeholder="Quantidade"
             onChangeText={setQuantidade}
             style={styles.TextSenha}
