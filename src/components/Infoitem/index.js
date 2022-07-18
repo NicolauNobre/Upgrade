@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
-import * as Animatable from 'react-native-animatable'
+import {useNavigation} from '@react-navigation/native';
 
 export default function Infoitem() {
+    const navigation = useNavigation();
     const [nome, setNome] = useState('');
     const [vnome, setVnome] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -58,12 +59,13 @@ export default function Infoitem() {
       const response = await fetch('https://upgrade-back-staging.herokuapp.com/product/register',{
         method: 'POST',
         body: JSON.stringify({
-          "name" : nome,
-          "descrição" : descricao,
-          "valor" : valor,
-          "estado" : estado,
-          "categoria" : categoria,
-          "quantidade" : quantidade,
+          "title" : nome,
+          "description" : descricao,
+          "price" : valor,
+          "condition" : estado,
+          "class" : categoria,
+          "amount" : quantidade,
+          "userId" : usuario,
         }),
         headers: { 'Content-Type': 'application/json' },
       });
