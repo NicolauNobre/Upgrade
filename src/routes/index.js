@@ -4,6 +4,7 @@ import Welcome from '../pages/Welcome'
 import SignIn from '../pages/SignIn'
 import Cadastro from '../pages/Cadastro'
 import Home from '../pages/Home'
+import Registro from '../pages/Registro'
 
 
 
@@ -34,6 +35,12 @@ export default function Routes(){
             <Stack.Screen
                 name='Home'
                 component={Home}  
+                options={{headerShown: false}}          
+            />
+            
+            <Stack.Screen
+                name='Registro'
+                component={Registro}  
                 options={{headerShown: false}}          
             />
 

@@ -54,6 +54,8 @@ export default function SignIn() {
       fetchMoviesJSON().then(teste => {
         console.log(teste)
         console.log("pegou resposta e chama login")
+        console.log(teste.user._id)
+        
         if(teste.confirm){
           console.log("logou")
           navigation.navigate("Home")

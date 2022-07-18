@@ -166,14 +166,14 @@ export default function Cadastro() {
 
     <Animatable.View animation="fadeInUp" style={styles.containerForm}>
       <Text style={styles.msgerro}>{vcadaster}</Text>
-      <Text style={styles.title}>Nome Completo</Text>
+      <Text style={styles.title}>Nome Completo *</Text>
       <TextInput
         placeholder="Nome Completo..."
         onChangeText={setNome}
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vnome}</Text>
-      <Text style={styles.title}>CPF</Text>
+      <Text style={styles.title}>CPF *</Text>
       <TextInput
         keyboardType = "number-pad"
         placeholder="CPF..."
@@ -181,7 +181,7 @@ export default function Cadastro() {
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vcpf}</Text>
-      <Text style={styles.title}>Telefone (DDD+número)</Text>
+      <Text style={styles.title}>Telefone (DDD+número) *</Text>
       <TextInput
         keyboardType="phone-pad"
         placeholder="Telefone..."
@@ -189,7 +189,7 @@ export default function Cadastro() {
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vphone}</Text>
-      <Text style={styles.title}>Data de Nascimento</Text>
+      <Text style={styles.title}>Data de Nascimento *</Text>
 
       <TextInput
       keyboardType="numbers-and-punctuation"
@@ -199,7 +199,7 @@ export default function Cadastro() {
       />
       <Text style={styles.msgerro}>{vdate}</Text>
       
-      <Text style={styles.title}>E-mail</Text>
+      <Text style={styles.title}>E-mail *</Text>
       <TextInput
         keyboardType="email-address"
         placeholder="E-mail..."
@@ -207,7 +207,7 @@ export default function Cadastro() {
         style={styles.TextInput}
       />
       <Text style={styles.msgerro}>{vemail}</Text>
-      <Text style={styles.title}>Senha</Text>
+      <Text style={styles.title}>Senha *</Text>
       <TextInput
         placeholder="Senha..."
         onChangeText={setPassword}
@@ -215,7 +215,7 @@ export default function Cadastro() {
         secureTextEntry={true}
       />
       <Text style={styles.msgerro}>{vpassword}</Text>
-      <Text style={styles.title}>Confirmar Senha</Text>
+      <Text style={styles.title}>Confirmar Senha *</Text>
       <TextInput
         placeholder="Senha..."
         onChangeText={setPassword2}
@@ -223,7 +223,7 @@ export default function Cadastro() {
         secureTextEntry={true}
       />
       <Text style={styles.msgerro}>{vpassword}</Text>
-      <Text style={styles.title}>CEP (apenas os números)</Text>
+      <Text style={styles.title}>CEP (apenas os números) *</Text>
       <TextInput
         keyboardType="number-pad"
         placeholder="CEP..."
@@ -231,28 +231,28 @@ export default function Cadastro() {
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vzip}</Text>
-      <Text style={styles.title}>Estado</Text>
+      <Text style={styles.title}>Estado *</Text>
       <TextInput
         placeholder="Estado..."
         onChangeText={setCountry}
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vcountry}</Text>
-      <Text style={styles.title}>Cidade</Text>
+      <Text style={styles.title}>Cidade *</Text>
       <TextInput
         placeholder="Cidade..."
         onChangeText={setCity}
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vcity}</Text>
-      <Text style={styles.title}>Rua</Text>
+      <Text style={styles.title}>Rua *</Text>
       <TextInput
         placeholder="Rua..."
         onChangeText={setStreet}
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vstreet}</Text>
-      <Text style={styles.title}>Número</Text>
+      <Text style={styles.title}>Número *</Text>
       <TextInput
         keyboardType="number-pad"
         placeholder="Número..."
