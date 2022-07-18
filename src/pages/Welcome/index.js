@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native'
 
 export default function Welcome() {
   const navigation = useNavigation();
- return (
+  return (
     <View style={styles.container}>
     
       <View style={styles.containerLogo}>
