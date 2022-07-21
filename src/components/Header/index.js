@@ -13,9 +13,6 @@ export default function Header(){
 
         <View style={styles.container}>
             <View style={styles.content}>
-                <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
-                    <Feather name="menu" size={27} color="#FF7851"/>
-                </TouchableOpacity>
                 <View style={styles.containerForm}>
                 <Text style={styles.title}></Text>
                     <TextInput
