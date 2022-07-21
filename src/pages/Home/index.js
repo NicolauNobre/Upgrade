@@ -6,9 +6,8 @@ import Mid from '../../components/Mid';
 import Midi from '../../components/Midi';
 import Mide from '../../components/Mide';
 
-export default function Home(userid) {
+export default function Home() {
   
-  console.log(userid.route.params.params.userid)
   return (
     <ScrollView style={styles.container}>
         <Header/>

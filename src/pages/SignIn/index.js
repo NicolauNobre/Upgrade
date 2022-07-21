@@ -58,7 +58,7 @@ export default function SignIn() {
         
         if(teste.confirm){
           console.log("logou")
-          navigation.navigate('Home', {
+          navigation.navigate('Initial', {
             params: {userid: id},
           })
         }else{

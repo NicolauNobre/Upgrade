@@ -7,10 +7,6 @@ export default function Mide() {
     const navigation = useNavigation();
  return (
    <ScrollView style={styles.container}>
-    <TouchableOpacity style={styles.buttonRegister}onPress={() => navigation.navigate("Registro")}>
-        <Text style={styles.registerText}>Registrar item</Text>
-    </TouchableOpacity>
-
     <Text style={styles.text}>Visto Recentemente</Text>
     <View style={{flexDirection:'row',justifyContent:'space-around'}}>
         <Imagens/>
