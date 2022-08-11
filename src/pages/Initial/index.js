@@ -9,8 +9,10 @@ import {Feather} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-export default function Initial(userid) {
-    //console.log(userid.route.params.params.userid)
+
+export default function Initial() {
+    //const id = (userid.route.params.params.userid)
+    //console.log(id)
     return (
         <Tab.Navigator screenOptions={{ 
             headerShown: false,
@@ -19,8 +21,6 @@ export default function Initial(userid) {
             backgroundColor: "#1E1E1E",
             paddingBottom: 5,
             paddingTop: 5,
-     
-            
             }}
         }
             >
@@ -37,6 +37,7 @@ export default function Initial(userid) {
             name="Registro" 
             component={Registro} 
             options={{
+                // params: {params: id},
                 tabBarIcon:({size,color}) => (
                     <Feather name="crosshair" size={size} color={color}/>
                 )   
@@ -45,7 +46,7 @@ export default function Initial(userid) {
             <Tab.Screen 
             name="Ofertas" 
             component={Ofertas} 
-            options={{
+            options={{ 
                 tabBarIcon:({size,color}) => (
                     <Feather name="key" size={size} color={color}/>
                 )   
@@ -54,6 +55,7 @@ export default function Initial(userid) {
             <Tab.Screen 
             name="Perfil" 
             component={Perfil} 
+            o
             options={{
                 tabBarIcon:({size,color}) => (
                     <Feather name="user" size={size} color={color}/>

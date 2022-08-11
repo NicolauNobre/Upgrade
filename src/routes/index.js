@@ -47,7 +47,7 @@ export default function Routes(){
 
             <Stack.Screen
                 name='Registro'
-                component={Registro}  
+                component={Registro}
                 options={{headerShown: false}}          
             />
         </Stack.Navigator>

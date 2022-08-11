@@ -2,13 +2,14 @@ import React from "react";
 import {View,TextInput,StyleSheet, Text, StatusBar, TouchableOpacity} from "react-native"
 import {Feather} from '@expo/vector-icons'
 import { NavigationContainer } from '@react-navigation/native';
-
+import {useNavigation} from '@react-navigation/native'
 
 
 const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 64;
 
 
 export default function Header(){
+    const navigation = useNavigation();
     return (
 
         <View style={styles.container}>
@@ -20,7 +21,7 @@ export default function Header(){
                     />
                     </View>
 
-                <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
+                <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}onPress={() => navigation.navigate("Welcome")}>
                     <Feather name="shopping-cart" size={27} color="#FF7851"/>
                 </TouchableOpacity>
                 
