@@ -17,12 +17,11 @@ export default function Ofertas() {
         return teste;
     }
 
-
     const buscar = () =>{
         fetchMoviesJSON().then(teste => {
         setNitem (teste.length)
         // console.log("pegou itens")
-        // console.log(teste)
+        console.log(teste)
         });
     }
     buscar()
