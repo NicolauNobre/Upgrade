@@ -40,13 +40,16 @@ export default function Perfil() {
         setCity(teste.city)
         setStreet(teste.street)
         setAdress(teste.address_number)
-        setComplement(teste.address_complement)
-        console.log("complemento", complement)
-        
+        setComplement(teste.address_complement)     
         });
+        if(complement =! undefined){
+
+        }else{
+          setComplement('')
+        }
     }
 
-
+    
  return (
    <View style={styles.container}>
     <Text style={styles.text}>Página do Perfil da conta</Text>
@@ -56,7 +59,7 @@ export default function Perfil() {
     <Text style={styles.text}>Telefone: {phone}</Text>
     <Text style={styles.text}>Endereço:</Text>
     <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
-    <Text style={styles.text}>Número: {adress}, CEP: {zip}</Text>
+    <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
    </View>
   );
 }
