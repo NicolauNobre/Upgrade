@@ -21,6 +21,6 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: '#1E1E1E',
   },
 });

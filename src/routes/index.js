@@ -6,6 +6,7 @@ import Cadastro from '../pages/Cadastro'
 import Home from '../pages/Home'
 import Initial from '../pages/Initial'
 import Registro from '../pages/Registro'
+import Shopping from '../components/Shopping'
 
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,12 @@ export default function Routes(){
                 name='Registro'
                 component={Registro}
                 options={{headerShown: false}}          
+            />
+            <Stack.Screen
+                name='Shopping'
+                component={Shopping}
+                options={{headerShown: false}} 
+                           
             />
         </Stack.Navigator>
 

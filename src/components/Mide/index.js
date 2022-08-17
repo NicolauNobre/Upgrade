@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image,TouchableOpacity,ScrollView } from 'react-native';
 import Imagens from '../Imagens'
 import {useNavigation} from '@react-navigation/native';
+import { color } from 'react-native-reanimated';
 
 export default function Mide() {
     const navigation = useNavigation();
@@ -26,9 +27,13 @@ export default function Mide() {
 }
 
 const styles = StyleSheet.create({
+    container:{
+        backgroundColor: "#1E1E1E"
+    },
     text:{
         fontSize: 20,
-        marginHorizontal: '1%'
+        marginHorizontal: '1%',
+        color: '#FF7851',
     },
     buttonRegister:{
         marginTop: 14,

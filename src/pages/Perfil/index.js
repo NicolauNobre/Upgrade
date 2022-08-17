@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import {Feather} from '@expo/vector-icons'
 
 export default function Perfil() {
     const [email, setEmail] = useState('');
@@ -52,7 +53,8 @@ export default function Perfil() {
     
  return (
    <View style={styles.container}>
-    <Text style={styles.text}>Página do Perfil da conta</Text>
+    <Feather style={styles.user} name="user" size={27} color="#FF7851"/>
+    <Text style={styles.text1}>Página do Perfil da conta</Text>
     <Text style={styles.text}>Nome: {nome}</Text>
     <Text style={styles.text}>Email: {email}</Text>
     <Text style={styles.text}>Documento: {cpf}</Text>
@@ -66,13 +68,32 @@ export default function Perfil() {
 
 const styles = StyleSheet.create({
     container:{
+        backgroundColor: '#1E1E1E',
         flex:1,
-        justifyContent:'center',
-        alignItems:'center'
+    },
+    user:{
+      justifyContent: 'center',
+      alignItems:'center',
+      marginTop: 20,
+      marginLeft: 190,
+    },
+    text1:{
+      alignItems: 'center',
+      justifyContent: 'center',
+      color:'#FF7851',
+      fontSize: 25,
+      marginTop: 28,
+      marginBottom: 12,
+      marginLeft: 70,
     },
     text:{
-        fontSize: 25,
-        fontWeight: 'bold'
+      color:'#FF7851',
+      fontSize: 20,
+      marginTop: 28,
+      marginBottom: 5,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+          
     }
 
 });

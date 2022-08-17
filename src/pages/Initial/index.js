@@ -16,7 +16,7 @@ export default function Initial() {
     return (
         <Tab.Navigator screenOptions={{ 
             headerShown: false,
-            tabBarActiveTintColor: '#FFF',
+            tabBarActiveTintColor: '#FF7851',
             tabBarStyle:{
             backgroundColor: "#1E1E1E",
             paddingBottom: 5,

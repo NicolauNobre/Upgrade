@@ -44,6 +44,7 @@ export default function Midi() {
 
 const styles = StyleSheet.create({
     container:{
+        backgroundColor: "#1E1E1E",
         paddingStart: 14,
         marginBottom: 30,
         marginTop: 8,
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     labelButton:{
+        color: '#FF7851',
         marginTop: 4,
         textAlign: 'center',
 

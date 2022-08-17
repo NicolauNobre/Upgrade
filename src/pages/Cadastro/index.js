@@ -271,7 +271,7 @@ export default function Cadastro() {
       </TouchableOpacity>
       <TouchableOpacity style={styles.buttonRegister}
       onPress={() => navigation.navigate("SignIn")}>
-        <Text style={styles.registerText}>ja é cadastrado</Text>
+        <Text style={styles.registerText}>Já é cadastrado</Text>
       </TouchableOpacity>
     </Animatable.View>
    </ScrollView>
