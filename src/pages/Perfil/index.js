@@ -43,12 +43,13 @@ export default function Perfil() {
         setAdress(teste.address_number)
         setComplement(teste.address_complement)     
         });
-        if(complement =! undefined){
+        // if(complement =! undefined){
 
-        }else{
-          setComplement('')
-        }
+        // }else{
+        //   setComplement('')
+        // }
     }
+    buscar()
 
     
  return (
