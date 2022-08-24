@@ -4,10 +4,13 @@ import Welcome from '../pages/Welcome'
 import SignIn from '../pages/SignIn'
 import Cadastro from '../pages/Cadastro'
 import Home from '../pages/Home'
-
+import Initial from '../pages/Initial'
+import Registro from '../pages/Registro'
+import Shopping from '../components/Shopping'
 
 
 const Stack = createNativeStackNavigator();
+
 
 export default function Routes(){
     return(
@@ -36,7 +39,26 @@ export default function Routes(){
                 component={Home}  
                 options={{headerShown: false}}          
             />
+            
+            <Stack.Screen
+                name='Initial'
+                component={Initial}  
+                options={{headerShown: false}}          
+            />
 
+            <Stack.Screen
+                name='Registro'
+                component={Registro}
+                options={{headerShown: false}}          
+            />
+            <Stack.Screen
+                name='Shopping'
+                component={Shopping}
+                options={{headerShown: false}} 
+                           
+            />
         </Stack.Navigator>
+
+        
     )
 }

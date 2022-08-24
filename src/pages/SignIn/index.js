@@ -54,9 +54,13 @@ export default function SignIn() {
       fetchMoviesJSON().then(teste => {
         console.log(teste)
         console.log("pegou resposta e chama login")
+        const id = teste.user_id
+        
         if(teste.confirm){
           console.log("logou")
-          navigation.navigate("Home")
+          navigation.navigate('Initial', {
+            params: {userid: id},
+          })
         }else{
           setV2login("Usuário ou senha inválidos")
           console.log("não logou")

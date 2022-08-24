@@ -1,14 +1,13 @@
-
+import * as React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import Header from '../../components/Header'
-import Mid from '../../components/Mid'
-import Midi from '../../components/Midi'
+import 'react-native-gesture-handler';
+import Header from '../../components/Header';
+import Mid from '../../components/Mid';
+import Midi from '../../components/Midi';
 import Mide from '../../components/Mide';
 
-
-import {useNavigation} from '@react-navigation/native';
-
 export default function Home() {
+  
   return (
     <ScrollView style={styles.container}>
         <Header/>
@@ -22,6 +21,6 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: '#1E1E1E',
   },
 });
