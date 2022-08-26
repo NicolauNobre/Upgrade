@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styles from "./styles";
-import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, Touchable } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
@@ -96,16 +96,25 @@ export default function SignIn() {
         style={styles.TextSenha}
         secureTextEntry={true}
       />
+
       <Text style={styles.msgerro}>{vpassword}</Text>
       <TouchableOpacity style={styles.button} onPress={() => enviar()}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-
+      <TouchableOpacity styles={styles.buttonRegister}>
+      <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
+      </TouchableOpacity>
+      <Text style={styles.ou}>Ou</Text>
+      <Text style={styles.msgerro}>{vpassword}</Text>
+      <TouchableOpacity style={styles.button2}>
+        <Text style={styles.buttonText} onPress={() => navigation.navigate("Initial")}>Entrar com o Google</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.buttonRegister}
       onPress={() => navigation.navigate("Cadastro")}>
         <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
 
       </TouchableOpacity>
+      
     </Animatable.View>
    </ScrollView>
   );

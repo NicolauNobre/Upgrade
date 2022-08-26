@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import {Feather} from '@expo/vector-icons'
 
 export default function Perfil() {
@@ -43,17 +43,35 @@ export default function Perfil() {
         setAdress(teste.address_number)
         setComplement(teste.address_complement)     
         });
-        if(complement =! undefined){
+        // if(complement =! undefined){
 
-        }else{
-          setComplement('')
-        }
+        // }else{
+        //   setComplement('')
+        // }
     }
+    buscar()
 
     
  return (
-   <View style={styles.container}>
-    <Feather style={styles.user} name="user" size={27} color="#FF7851"/>
+   <ScrollView style={styles.container}>
+     <TouchableOpacity style={styles.button}
+      onPress={() => navigation.navigate("Inital")}>
+        <Text style={styles.buttonText}>Vender</Text>
+
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}
+      onPress={() => navigation.navigate("Inital")}>
+        <Text style={styles.buttonText}>Minhas Vendas</Text>
+
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}
+      onPress={() => navigation.navigate("Inital")}>
+        <Text style={styles.buttonText}>Meus Itens a Venda</Text>
+
+      </TouchableOpacity>
+      <View style={styles.areaButton}>
+    <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
+    </View>
     <Text style={styles.text1}>Página do Perfil da conta</Text>
     <Text style={styles.text}>Nome: {nome}</Text>
     <Text style={styles.text}>Email: {email}</Text>
@@ -62,7 +80,7 @@ export default function Perfil() {
     <Text style={styles.text}>Endereço:</Text>
     <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
     <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
-   </View>
+   </ScrollView>
   );
 }
 
@@ -94,6 +112,36 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       alignItems: 'flex-start',
           
-    }
-
+    },
+    button:{
+      flexDirection:'row',
+      backgroundColor: '#FF7851',
+      width: '80%',
+      borderRadius: 50,
+      paddingVertical: 8,
+      marginTop: 14,
+      justifyContent:'center',
+      alignItems: 'center',
+      alignSelf: 'center',
+  },
+  buttonText:{
+      flexDirection:'row',
+    color: '#1E1E1E',
+    fontSize: 18,
+  },
+  areaButton:{
+    backgroundColor: 'white',
+    height:60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf:'center',
+    marginTop: 10,
+},
+labelButton:{
+    color: '#FF7851',
+    marginTop: 4,
+    textAlign: 'center',
+},
 });

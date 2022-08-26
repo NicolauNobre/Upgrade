@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable'
 import {Ionicons} from '@expo/vector-icons'
 
 import {useNavigation} from '@react-navigation/native'
+import DatePicker from 'react-native-datepicker';
 
 export default function Cadastro() {
   const navigation = useNavigation();
@@ -163,13 +164,13 @@ export default function Cadastro() {
           resizeMode = "contain"
         />
       </View>
-
+    <Text style={styles.Dados}>Dados Pessoais</Text>
     <Animatable.View animation="fadeInUp" style={styles.containerForm}>
       <Text style={styles.msgerro}>{vcadaster}</Text>
       <Text style={styles.title}>Nome Completo *</Text>
       <TextInput
         placeholder="Nome Completo..."
-        onChangeText={setNome}
+        onChangeText={setNome}  
         style={styles.TextSenha}
       />
       <Text style={styles.msgerro}>{vnome}</Text>
@@ -190,7 +191,7 @@ export default function Cadastro() {
       />
       <Text style={styles.msgerro}>{vphone}</Text>
       <Text style={styles.title}>Data de Nascimento *</Text>
-
+     
       <TextInput
       keyboardType="numbers-and-punctuation"
         placeholder="DD/MM/AAAA"
@@ -222,6 +223,7 @@ export default function Cadastro() {
         style={styles.TextSenha}
         secureTextEntry={true}
       />
+      <Text style={styles.Dados}>Endereço</Text>
       <Text style={styles.msgerro}>{vpassword}</Text>
       <Text style={styles.title}>CEP (apenas os números) *</Text>
       <TextInput
@@ -266,6 +268,7 @@ export default function Cadastro() {
         onChangeText={setComplement}
         style={styles.TextSenha}
       />
+      <Text style={styles.Obg}>Os campos com * são obrigatórios!</Text>
       <TouchableOpacity style={styles.button} onPress={() => salvar()}>
         <Text style={styles.buttonText}>Cadastrar-se</Text>
       </TouchableOpacity>
@@ -313,8 +316,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FF7851',
-    fontSize: 20,
-    marginTop: 28,
+    fontSize: 16,
+    marginTop: 10,
     marginLeft: 35,
     marginBottom: 5,
   },
@@ -362,5 +365,17 @@ const styles = StyleSheet.create({
     width: '80%',
     alignSelf: 'center',
     textAlign: 'center'
-  }
+  },
+  Dados:{
+    color: '#FFFFFF',
+    fontSize: 25,
+    alignSelf: 'center',
+    marginTop: 15,
+  },
+  Obg:{
+    color: '#FF7851',
+    fontSize: 15,
+    alignSelf: 'center',
+    marginTop: 15,
+  },
 })

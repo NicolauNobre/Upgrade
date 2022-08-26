@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     registerText:{
-      color: '#FF7851'
+      color: '#FF7851',
+      alignSelf:'center'
     },
     TextInput:{
       backgroundColor: 'white',
@@ -84,6 +85,27 @@ const styles = StyleSheet.create({
       width: '80%',
       alignSelf: 'center',
       textAlign: 'center'
+    },
+    forget:{
+      color: '#FFFFFF',
+      fontSize: 13,
+      alignSelf: 'center',
+      marginTop: 10,
+    },
+    ou:{
+      color: '#FFFFFF',
+      fontSize: 16  ,
+      alignSelf: 'center',
+    },
+    button2:{
+      backgroundColor: '#DB4A39',
+      width: '80%',
+      borderRadius: 50,
+      paddingVertical: 8,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center'
+
     }
   })
 
