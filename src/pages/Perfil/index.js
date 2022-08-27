@@ -31,8 +31,6 @@ export default function Perfil() {
 
     const buscar = () =>{
         fetchMoviesJSON().then(teste => {
-        // console.log("pegou itens")
-        // console.log(teste)
         setEmail(teste.email)
         setNome(teste.name)
         setCpf(teste.cpf)
@@ -43,11 +41,6 @@ export default function Perfil() {
         setAdress(teste.address_number)
         setComplement(teste.address_complement)     
         });
-        // if(complement =! undefined){
-
-        // }else{
-        //   setComplement('')
-        // }
     }
     buscar()
 
@@ -85,44 +78,44 @@ export default function Perfil() {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor: '#1E1E1E',
-        flex:1,
-    },
-    user:{
-      justifyContent: 'center',
-      alignItems:'center',
-      marginTop: 20,
-      marginLeft: 190,
-    },
-    text1:{
-      alignItems: 'center',
-      justifyContent: 'center',
-      color:'#FF7851',
-      fontSize: 25,
-      marginTop: 28,
-      marginBottom: 12,
-      marginLeft: 70,
-    },
-    text:{
-      color:'#FF7851',
-      fontSize: 20,
-      marginTop: 28,
-      marginBottom: 5,
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-          
-    },
-    button:{
-      flexDirection:'row',
-      backgroundColor: '#FF7851',
-      width: '80%',
-      borderRadius: 50,
-      paddingVertical: 8,
-      marginTop: 14,
-      justifyContent:'center',
-      alignItems: 'center',
-      alignSelf: 'center',
+  container:{
+      backgroundColor: '#1E1E1E',
+      flex:1,
+  },
+  user:{
+    justifyContent: 'center',
+    alignItems:'center',
+    marginTop: 20,
+    marginLeft: 190,
+  },
+  text1:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    color:'#FF7851',
+    fontSize: 25,
+    marginTop: 28,
+    marginBottom: 12,
+    marginLeft: 70,
+  },
+  text:{
+    color:'#FF7851',
+    fontSize: 20,
+    marginTop: 28,
+    marginBottom: 5,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+        
+  },
+  button:{
+    flexDirection:'row',
+    backgroundColor: '#FF7851',
+    width: '80%',
+    borderRadius: 50,
+    paddingVertical: 8,
+    marginTop: 14,
+    justifyContent:'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   buttonText:{
       flexDirection:'row',
@@ -138,10 +131,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf:'center',
     marginTop: 10,
-},
-labelButton:{
-    color: '#FF7851',
-    marginTop: 4,
-    textAlign: 'center',
-},
+  },
+  labelButton:{
+      color: '#FF7851',
+      marginTop: 4,
+      textAlign: 'center',
+  },
 });

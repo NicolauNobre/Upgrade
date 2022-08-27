@@ -54,7 +54,7 @@ export default function SignIn() {
       fetchMoviesJSON().then(teste => {
         console.log(teste)
         console.log("pegou resposta e chama login")
-        const id = teste.user._id
+        const id = teste.user_id
         
         if(teste.confirm){
           console.log("logou")

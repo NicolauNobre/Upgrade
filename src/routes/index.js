@@ -6,8 +6,12 @@ import Cadastro from '../pages/Cadastro'
 import Home from '../pages/Home'
 import Initial from '../pages/Initial'
 import Registro from '../pages/Registro'
-import Shopping from '../components/Shopping'
+import Shopping from '../pages/Shopping'
 import Password from '../pages/Password'
+import Car from '../pages/Car'
+import Sales from '../pages/Sales'
+import Purchases from '../pages/Purchases'
+
 
 
 const Stack = createNativeStackNavigator();
@@ -61,6 +65,24 @@ export default function Routes(){
             <Stack.Screen
                 name='Password'
                 component={Password}
+                options={{headerShown: false}} 
+                           
+            />
+            <Stack.Screen
+                name='Car'
+                component={Car}
+                options={{headerShown: false}} 
+                           
+            />
+            <Stack.Screen
+                name='Sales'
+                component={Sales}
+                options={{headerShown: false}} 
+                           
+            />
+            <Stack.Screen
+                name='Purchases'
+                component={Purchases}
                 options={{headerShown: false}} 
                            
             />

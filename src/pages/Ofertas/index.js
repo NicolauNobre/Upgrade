@@ -1,40 +1,37 @@
 import React, {useState, useEffect} from 'react';
-import { render } from 'react-dom';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 
 
-export default function Ofertas() {
-    const [nitem, setNitem] = useState(null);
-    const [itens, setItens] = useState([])
 
+export default function Ofertas() {
 
     async function fetchMoviesJSON() {
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
           method: 'Get',
         });
         const teste = await response.json();
+        global.item = teste
         return teste;
     }
 
     const buscar = () =>{
-        fetchMoviesJSON().then(teste => {
-        setNitem (teste.length)
-        setItens (teste)
-        });
+        fetchMoviesJSON()
     }
-    buscar()
 
  return (
-   <View style={styles.container}>
-    <Text style={styles.text}>Página de Ofertas</Text>
-    <Text style={styles.text}>Total de Ofertas: {nitem}</Text>
-    {
-        itens.map(index =>(
-            <Text href="#" style={styles.text}>{index.title}</Text>    
-        ))
-    }
-   </View>
+
+    <View style={styles.container}>
+        {buscar()}
+        <Text style={styles.text}>Página de Ofertas</Text>
+        {   
+            // item.map(index =>(
+            //     <TouchableOpacity>
+            //         <Text style={styles.text}>{index.title}</Text>
+            //     </TouchableOpacity>    
+            // ))     
+        }
+    </View>
   );
 }
 
