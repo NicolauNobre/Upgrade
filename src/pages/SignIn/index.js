@@ -96,8 +96,8 @@ export default function SignIn() {
         style={styles.TextSenha}
         secureTextEntry={true}
       />
-
       <Text style={styles.msgerro}>{vpassword}</Text>
+
       <TouchableOpacity style={styles.button} onPress={() => enviar()}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -105,10 +105,10 @@ export default function SignIn() {
       <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
       </TouchableOpacity>
       <Text style={styles.ou}>Ou</Text>
-      <Text style={styles.msgerro}>{vpassword}</Text>
-      <TouchableOpacity style={styles.button2}>
+
+      {/* <TouchableOpacity style={styles.button2}>
         <Text style={styles.buttonText} onPress={() => navigation.navigate("Initial")}>Entrar com o Google</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.buttonRegister}
       onPress={() => navigation.navigate("Cadastro")}>
         <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
