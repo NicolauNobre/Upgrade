@@ -93,11 +93,9 @@ const styles = StyleSheet.create({
       marginTop: 10,
     },
     ou:{
-      display: 'none',
       color: '#FFFFFF',
       fontSize: 16  ,
       alignSelf: 'center',
-      paddingTop: 10,
     },
     button2:{
       backgroundColor: '#DB4A39',
