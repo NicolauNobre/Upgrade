@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 
-import validator from 'validator'
-import * as Animatable from 'react-native-animatable'
-import {Ionicons} from '@expo/vector-icons'
+import validator from 'validator';
+import * as Animatable from 'react-native-animatable';
+import {Ionicons} from '@expo/vector-icons';
 
-import {useNavigation} from '@react-navigation/native'
-import DatePicker from 'react-native-datepicker';
+import {useNavigation} from '@react-navigation/native';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 
 export default function Cadastro() {
   const navigation = useNavigation();
@@ -22,7 +23,7 @@ export default function Cadastro() {
   const [vcpf, setVcpf] = useState('')
   const [phone, setPhone] = useState('');
   const [vphone, setVphone] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [vdate, setVdate] = useState('');
   const [zip, setZip] = useState('');
   const [vzip, setVzip] = useState('');
@@ -36,6 +37,7 @@ export default function Cadastro() {
   const [vadress, setVadress] = useState('');
   const [complement, setComplement] = useState('');
   const [vcadaster, setVcadaster] = useState('');
+  const [tempo, setTempo] = useState('');
   
   const validar = () =>{
     setVcpf('')
@@ -82,7 +84,6 @@ export default function Cadastro() {
       setVadress("número invalido")
       error = true
     }
-
     if(date == ''){
       setVdate("Preencha a data")
       error = true
@@ -107,11 +108,10 @@ export default function Cadastro() {
       setVstreet("preencha o campo Rua")
       error = true
     }
-
     return !error
   }
 
-  async function fetchMoviesJSON() {
+  async function fetchMoviesJSON(temp) {
     const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/cadaster',{
       method: 'POST',
       body: JSON.stringify({
@@ -120,7 +120,7 @@ export default function Cadastro() {
         "password" : password,
         "cpf" : cpf,
         "phone" : phone,
-        "date_birthday" : date,
+        "date_birthday" : temp,
         "zipcode" : zip,
         "country_state" : country,
         "city" : city,
@@ -135,10 +135,12 @@ export default function Cadastro() {
   }
 
   const salvar = () =>{
+    let temp = (date.getMonth()+1)+'/'+(date.getDate())+'/'+date.getFullYear()
+    // console.log(temp)
     if (validar()){
       setVcadaster('')
       console.log("manda pro back")
-      fetchMoviesJSON().then(teste => {
+      fetchMoviesJSON(temp).then(teste => {
         console.log(teste)
         console.log("pegou resposta")
         if(teste.confirm){
@@ -152,7 +154,23 @@ export default function Cadastro() {
       });
     }
   }
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
 
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
  return (
    <KeyboardAvoidingView style={styles.container}>
    <ScrollView style={styles.container}>
@@ -192,12 +210,17 @@ export default function Cadastro() {
       <Text style={styles.msgerro}>{vphone}</Text>
       <Text style={styles.title}>Data de Nascimento *</Text>
      
-      <TextInput
+      {/* <TextInput
       keyboardType="numbers-and-punctuation"
         placeholder="DD/MM/AAAA"
         onChangeText={setDate}
         style={styles.TextSenha}
-      />
+      /> */}
+      <TouchableOpacity style={styles.datebutton}
+      onPress={showDatepicker}>
+        <Text style={styles.datetext}>Precione para escolher a data</Text>
+      </TouchableOpacity>
+      
       <Text style={styles.msgerro}>{vdate}</Text>
       
       <Text style={styles.title}>E-mail *</Text>
@@ -234,11 +257,45 @@ export default function Cadastro() {
       />
       <Text style={styles.msgerro}>{vzip}</Text>
       <Text style={styles.title}>Estado *</Text>
-      <TextInput
+      <Picker
+          style={styles.TextSenha}
+          selectedValue={country}
+          onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
+          itemStyle={styles.TextSenha}
+        >
+          <Picker.Item label="Acre" value="Acre" />
+          <Picker.Item label="Alagoas" value="Alagoas" />
+          <Picker.Item label="Amapá" value="Amapá" />
+          <Picker.Item label="Amazonas" value="Amazonas" />
+          <Picker.Item label="Bahia" value="Bahia" />
+          <Picker.Item label="Ceara" value="Ceara" />
+          <Picker.Item label="Distrito Federal" value="Distrito Federal" />
+          <Picker.Item label="Espírito Santo" value="Espírito Santo" />
+          <Picker.Item label="Goiás" value="Goiás" />
+          <Picker.Item label="Maranhão" value="Maranhão" />
+          <Picker.Item label="Mato Grosso" value="Mato Grosso" />
+          <Picker.Item label="Mato Grosso do Sul" value="Mato Grosso do Sul" />
+          <Picker.Item label="Minas Gerais" value="Minas Gerais" />
+          <Picker.Item label="Pará" value="Pará" />
+          <Picker.Item label="Paraíba" value="Paraíba" />
+          <Picker.Item label="Paraná" value="Paraná" />
+          <Picker.Item label="Pernambuco" value="Pernambuco" />
+          <Picker.Item label="Piauí" value="Piauí" />
+          <Picker.Item label="Rio de Janeiro" value="Rio de Janeiro" />
+          <Picker.Item label="Rio Grande do Norte" value="Rio Grande do Norte" />
+          <Picker.Item label="Rio Grande do Sul" value="Rio Grande do Sul" />
+          <Picker.Item label="Rondônia" value="Rondônia" />
+          <Picker.Item label="Roraima" value="Roraima" />
+          <Picker.Item label="Santa Catarina" value="Santa Catarina" />
+          <Picker.Item label="São Paulo" value="São Paulo" />
+          <Picker.Item label="Sergipe" value="Sergipe" />
+          <Picker.Item label="Tocantins" value="Tocantins" />
+        </Picker>
+      {/* <TextInput
         placeholder="Estado..."
         onChangeText={setCountry}
         style={styles.TextSenha}
-      />
+      /> */}
       <Text style={styles.msgerro}>{vcountry}</Text>
       <Text style={styles.title}>Cidade *</Text>
       <TextInput
@@ -378,4 +435,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 15,
   },
+  datebutton:{
+    backgroundColor: 'gray',
+    borderRadius: 50,
+    width: '80%',
+    alignSelf: 'center',
+    textAlign: 'center'
+  },
+  datetext:{
+    backgroundColor: 'gray',
+    color: 'black',
+    borderRadius: 50,
+    width: '100%',
+    alignSelf: 'center',
+    textAlign: 'center'
+  }
 })

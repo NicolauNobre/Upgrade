@@ -52,9 +52,9 @@ export default function SignIn() {
       setV2login('') 
       console.log("mandando para o back") 
       fetchMoviesJSON().then(teste => {
-        console.log(teste)
+        // console.log(teste)
         console.log("pegou resposta e chama login")
-        const id = teste.user._id
+        const id = teste.user_id
         
         if(teste.confirm){
           console.log("logou")
@@ -96,19 +96,19 @@ export default function SignIn() {
         style={styles.TextSenha}
         secureTextEntry={true}
       />
-
       <Text style={styles.msgerro}>{vpassword}</Text>
+      
       <TouchableOpacity style={styles.button} onPress={() => enviar()}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity styles={styles.buttonRegister}>
       <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
       </TouchableOpacity>
-      <Text style={styles.ou}>Ou</Text>
-      <Text style={styles.msgerro}>{vpassword}</Text>
+
+      {/* <Text style={styles.ou}>Ou</Text>
       <TouchableOpacity style={styles.button2}>
         <Text style={styles.buttonText} onPress={() => navigation.navigate("Initial")}>Entrar com o Google</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.buttonRegister}
       onPress={() => navigation.navigate("Cadastro")}>
         <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
