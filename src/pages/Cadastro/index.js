@@ -37,7 +37,6 @@ export default function Cadastro() {
   const [vadress, setVadress] = useState('');
   const [complement, setComplement] = useState('');
   const [vcadaster, setVcadaster] = useState('');
-  const [tempo, setTempo] = useState('');
   
   const validar = () =>{
     setVcpf('')
@@ -257,40 +256,42 @@ export default function Cadastro() {
       />
       <Text style={styles.msgerro}>{vzip}</Text>
       <Text style={styles.title}>Estado *</Text>
-      <Picker
-          style={styles.TextSenha}
-          selectedValue={country}
-          onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
-          itemStyle={styles.TextSenha}
-        >
-          <Picker.Item label="Acre" value="Acre" />
-          <Picker.Item label="Alagoas" value="Alagoas" />
-          <Picker.Item label="Amapá" value="Amapá" />
-          <Picker.Item label="Amazonas" value="Amazonas" />
-          <Picker.Item label="Bahia" value="Bahia" />
-          <Picker.Item label="Ceara" value="Ceara" />
-          <Picker.Item label="Distrito Federal" value="Distrito Federal" />
-          <Picker.Item label="Espírito Santo" value="Espírito Santo" />
-          <Picker.Item label="Goiás" value="Goiás" />
-          <Picker.Item label="Maranhão" value="Maranhão" />
-          <Picker.Item label="Mato Grosso" value="Mato Grosso" />
-          <Picker.Item label="Mato Grosso do Sul" value="Mato Grosso do Sul" />
-          <Picker.Item label="Minas Gerais" value="Minas Gerais" />
-          <Picker.Item label="Pará" value="Pará" />
-          <Picker.Item label="Paraíba" value="Paraíba" />
-          <Picker.Item label="Paraná" value="Paraná" />
-          <Picker.Item label="Pernambuco" value="Pernambuco" />
-          <Picker.Item label="Piauí" value="Piauí" />
-          <Picker.Item label="Rio de Janeiro" value="Rio de Janeiro" />
-          <Picker.Item label="Rio Grande do Norte" value="Rio Grande do Norte" />
-          <Picker.Item label="Rio Grande do Sul" value="Rio Grande do Sul" />
-          <Picker.Item label="Rondônia" value="Rondônia" />
-          <Picker.Item label="Roraima" value="Roraima" />
-          <Picker.Item label="Santa Catarina" value="Santa Catarina" />
-          <Picker.Item label="São Paulo" value="São Paulo" />
-          <Picker.Item label="Sergipe" value="Sergipe" />
-          <Picker.Item label="Tocantins" value="Tocantins" />
-        </Picker>
+      <View style={styles.pickercontainer}>
+        <Picker
+            style={styles.TextSenha}
+            selectedValue={country}
+            onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
+            itemStyle={styles.TextSenha}
+          >
+            <Picker.Item label="Acre" value="Acre" />
+            <Picker.Item label="Alagoas" value="Alagoas" />
+            <Picker.Item label="Amapá" value="Amapá" />
+            <Picker.Item label="Amazonas" value="Amazonas" />
+            <Picker.Item label="Bahia" value="Bahia" />
+            <Picker.Item label="Ceara" value="Ceara" />
+            <Picker.Item label="Distrito Federal" value="Distrito Federal" />
+            <Picker.Item label="Espírito Santo" value="Espírito Santo" />
+            <Picker.Item label="Goiás" value="Goiás" />
+            <Picker.Item label="Maranhão" value="Maranhão" />
+            <Picker.Item label="Mato Grosso" value="Mato Grosso" />
+            <Picker.Item label="Mato Grosso do Sul" value="Mato Grosso do Sul" />
+            <Picker.Item label="Minas Gerais" value="Minas Gerais" />
+            <Picker.Item label="Pará" value="Pará" />
+            <Picker.Item label="Paraíba" value="Paraíba" />
+            <Picker.Item label="Paraná" value="Paraná" />
+            <Picker.Item label="Pernambuco" value="Pernambuco" />
+            <Picker.Item label="Piauí" value="Piauí" />
+            <Picker.Item label="Rio de Janeiro" value="Rio de Janeiro" />
+            <Picker.Item label="Rio Grande do Norte" value="Rio Grande do Norte" />
+            <Picker.Item label="Rio Grande do Sul" value="Rio Grande do Sul" />
+            <Picker.Item label="Rondônia" value="Rondônia" />
+            <Picker.Item label="Roraima" value="Roraima" />
+            <Picker.Item label="Santa Catarina" value="Santa Catarina" />
+            <Picker.Item label="São Paulo" value="São Paulo" />
+            <Picker.Item label="Sergipe" value="Sergipe" />
+            <Picker.Item label="Tocantins" value="Tocantins" />
+          </Picker>
+        </View>
       {/* <TextInput
         placeholder="Estado..."
         onChangeText={setCountry}
@@ -417,11 +418,11 @@ const styles = StyleSheet.create({
   },
   TextSenha:{
     backgroundColor: 'white',
-    color: '#A3A3A3',
+    color: 'black',
     borderRadius: 50,
     width: '80%',
     alignSelf: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   Dados:{
     color: '#FFFFFF',
@@ -436,18 +437,28 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   datebutton:{
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
     borderRadius: 50,
     width: '80%',
+    height: 30,
     alignSelf: 'center',
     textAlign: 'center'
   },
   datetext:{
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
     color: 'black',
+    height: 30,
+    textAlignVertical: 'center',
     borderRadius: 50,
     width: '100%',
+    fontSize: 15,
     alignSelf: 'center',
     textAlign: 'center'
+  },
+  pickercontainer:{
+    backgroundColor: 'white',
+    borderRadius: 50,
+    width: '80%',
+    alignSelf: 'center',
   }
 })

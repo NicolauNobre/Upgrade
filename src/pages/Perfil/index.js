@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import {Feather} from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native';
 
@@ -54,55 +54,54 @@ export default function Perfil(params) {
      <TouchableOpacity style={styles.button}
       onPress={() => navigation.navigate("Registro")}>
         <Text style={styles.buttonText}>Vender</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={styles.button}
-      onPress={() => navigation.navigate("Sales", {
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Sales", {
         params: {userid: userid},
       })}>
         <Text style={styles.buttonText}>Minhas Vendas</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={styles.button}
-      onPress={() => navigation.navigate("Itens", {
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Itens", {
         params: {userid: userid},
-      })}>
+        })}>
         <Text style={styles.buttonText}>Meus Itens a Venda</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={styles.button}
-      onPress={() => navigation.navigate("Purchases", {
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Purchases", {
         params: {userid: userid},
-      })}>
+       })}>
         <Text style={styles.buttonText}>Minhas compras</Text>
-    </TouchableOpacity>
-    <View style={styles.line}/>
-    <View style={styles.areaButton}>
-      <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
-    </View>
-    <Text style={styles.text1}>{nome}</Text>
-    <Text style={styles.text}>Nome: {nome}</Text>
-    <View style={styles.line}/>
-    <Text style={styles.text}>Email: {email}</Text>
-    <View style={styles.line}/>
-    <Text style={styles.text}>Documento: {cpf}</Text>
-    <View style={styles.line}/>
-    <Text style={styles.text}>Telefone: {phone}</Text>
-    <View style={styles.line}/>
-    <Text style={styles.text}>Endereço:</Text>
-    <View style={styles.line}/>
-    <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
-    <View style={styles.line}/>
-    <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
-    <View style={styles.line}/>
-   </ScrollView>
+      </TouchableOpacity>
+      <View style={styles.line}/>
+      <ImageBackground source={require('../../assets/UpGrade.jpg')} resizeMode="cover" style={styles.image}>
+        <View style={styles.areaButton}>
+          <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
+        </View>
+        <Text style={styles.text1}>{nome}</Text>
+        <Text style={styles.text}>Nome: {nome}</Text>
+        <Text style={styles.text}>Email: {email}</Text>
+        <Text style={styles.text}>Documento: {cpf}</Text>
+        <Text style={styles.text}>Telefone: {phone}</Text>
+        <Text style={styles.text}>Endereço:</Text>
+        <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
+        <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
+      </ImageBackground>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container:{
-      backgroundColor: '#E6E6E6',
+      backgroundColor: '#1E1E1E',
       flex:1,
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
   },
   user:{
     justifyContent: 'center',
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   text:{
-    color:'#FF7851',
+    color:'white',
     fontSize: 20,
     marginTop: 28,
     marginBottom: 5,

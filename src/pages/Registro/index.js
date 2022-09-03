@@ -158,7 +158,7 @@ export default function Registro(params) {
         />
         <Text style={styles.msgerro}>{vestado}</Text>
         <Text style={styles.title2}>Categoria Do Item *</Text>
-        <View style={styles.cat}>
+        <View style={styles.pickercontainer}>
         <Picker
           style={styles.TextSenha}
           selectedValue={categoria}
@@ -257,11 +257,13 @@ const styles = StyleSheet.create({
     buttonRegister:{
       backgroundColor: '#1E1E1E',
       marginTop: 30,
+      padding: 10,
       borderRadius: 50,
       width: '45%',
       alignSelf: 'center'
     },
     buttonPick:{
+      padding: 5,
       backgroundColor: '#FF7851',
       marginTop: 10,
       borderRadius: 50,
@@ -277,28 +279,30 @@ const styles = StyleSheet.create({
       backgroundColor: '#E6E6E6',
       color: '#FF7851',
       marginTop: 10,
-      fontSize: 16,
+      fontSize: 20,
       borderRadius: 20,
     },
     TextSenha:{
       backgroundColor: 'white',
+      padding: 5,
       color: 'black',
       borderRadius: 50,
       width: '80%',
+      fontSize: 20,
+      // height: 60,
       alignSelf: 'center',
       textAlign: 'center'
     },
     title1:{
       backgroundColor: '#E6E6E6',
       color: '#FF7851',
-      fontSize: 25,
+      fontSize: 30,
       fontWeight: '400'
     },
-    cat:{
+    pickercontainer:{
       backgroundColor: 'white',
-      marginTop: 10,
       borderRadius: 50,
-      width: '70%',
+      width: '80%',
       alignSelf: 'center',
       fontSize: 10,
     }

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 
@@ -28,9 +28,12 @@ export default function Ofertas() {
                         return(
                             <View key={index._id} style={styles.itemcontainer} >
                                 <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index}, })}>
-                                    <Text style={styles.text}>Nome: {index.title}</Text>
-                                    <Text style={styles.text}> R$: {index.price}</Text>
-                                
+                                    <Text style={styles.titletext}>{index.title}</Text>
+                                    <Image
+                                        source={require('../../assets/UpGrade.jpg')}
+                                        style={styles.Img}
+                                    />
+                                    <Text style={styles.pricetext}> R$: {index.price}</Text>
                                 </TouchableOpacity>  
                             </View>  
                         );
@@ -39,11 +42,12 @@ export default function Ofertas() {
                             return(
                                 <View key={index._id} style={styles.itemcontainer} >
                                     <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index}, })}>
-                                        <Text style={styles.text}>Nome: {index.title}</Text>
-                                        <Text style={styles.text}>R$: {index.price}</Text>
-                                        <Text style={styles.text}>Quantidade: {index.amount}</Text>
-                                        <Text style={styles.text}>condição: {index.condition}</Text>
-                                        <Text style={styles.text}>{index.description}</Text>
+                                        <Text style={styles.titletext}>{index.title}</Text>
+                                        <Image
+                                            source={require('../../assets/UpGrade.jpg')}
+                                            style={styles.Img}
+                                        />
+                                        <Text style={styles.pricetext}> R$: {index.price}</Text>
                                     </TouchableOpacity>  
                                 </View>  
                             );
@@ -54,13 +58,14 @@ export default function Ofertas() {
         }
     }
     return (
-        <ScrollView>
+        <ScrollView style={styles.scrollcontainer}>
             <View style={styles.container}>
-                <Text style={styles.texttitle}>Ofertas de Produtos:</Text>
+                <Text style={styles.texttitle}>Produtos disponiveis:</Text>
                 <View style={styles.containerForm}>
                     <TextInput
                         placeholder="Buscar Produto"
                         onChangeText={value => setPesquisa(value)}
+                        style={styles.busca}
                     />
                 </View>
                 {buscar()}
@@ -77,11 +82,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#1E1E1E',
         paddingTop: 10,
     },
+    scrollcontainer:{
+        flex:1,
+        backgroundColor: '#1E1E1E',
+    },
     text:{
         fontSize: 20,
         fontWeight: 'bold',
         alignSelf: 'center',
         color: 'white',
+        paddingBottom: 10,
+        paddingTop: 10,
+    },
+    pricetext:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'yellow',
+        backgroundColor: '#FF7851',
+        alignSelf: 'center',
+        paddingTop: 10,
     },
     texttitle:{
         fontSize: 25,
@@ -98,30 +117,59 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     itemcontainer:{
-        justifyContent: 'space-around',
-        backgroundColor:'#FF7851',
+        width: '100%',
+        justifyContent: 'center',
         paddingBottom: 20,
         margin: 10,
 
     },
-    itembutton:{
+    titletext:{
+        fontSize: 36,
+        fontWeight: 'bold',
+        color: '#FFFF',
         backgroundColor: '#FF7851',
-        borderRadius: 10,
+        alignSelf: 'center',
+        paddingBottom: 10,
+    },
+    itembutton:{
+        width: '80%',
+        backgroundColor: '#FF7851',
+        borderRadius: 30,
         padding: 20,
-        alignSelf: 'flex-start',
-        flexDirection: 'column',
-       
+        alignSelf: 'center',   
     },
     containerForm:{
         backgroundColor: 'white',
+        width: '90%',
         fontSize: 20,
         flex: 1,
+        height: 50,
+        alignContent: 'center',
         paddingHorizontal: 10,
         borderRadius: 25,
+        marginTop: 5,
+        marginBottom: 20,
     },
     title:{
         color: '#FF7851',
         fontSize: 1 ,
+    },
+    Img:{
+        width: 100,
+        height: 100,
+        alignSelf: 'center',
+        borderRadius: 10,
+    },
+    busca:{
+        backgroundColor: 'white',
+        color: 'black',
+        borderRadius: 50,
+        width: '80%',
+        fontSize: 20,
+        height: 50,
+        alignSelf: 'center',
+        textAlign: 'center',
+        textAlignVertical: 'center',
     },
 
 });
