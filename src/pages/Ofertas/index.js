@@ -24,26 +24,15 @@ export default function Ofertas(params) {
         if (resp){
             return (
                 item.map(index =>{
-                    let filter = pesquisa.toUpperCase();
-                    let products = index.title.toUpperCase();
-                    if(pesquisa == ''){
-                        return(
-                            <View key={index._id} style={styles.itemcontainer} >
-                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                    <Text style={styles.titletext}>{index.title}</Text>
-                                    <Image
-                                        source={require('../../assets/UpGrade.jpg')}
-                                        style={styles.Img}
-                                    />
-                                    <Text style={styles.pricetext}> R$: {index.price}</Text>
-                                </TouchableOpacity>  
-                            </View>  
-                        );
+                    if(index.title == undefined){
+                        setResp(false)
                     }else{
-                        if(products.includes(filter)){
+                        let filter = pesquisa.toUpperCase();
+                        let products = index.title.toUpperCase();
+                        if(pesquisa == ''){
                             return(
                                 <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid}, })}>
+                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
                                         <Text style={styles.titletext}>{index.title}</Text>
                                         <Image
                                             source={require('../../assets/UpGrade.jpg')}
@@ -53,6 +42,21 @@ export default function Ofertas(params) {
                                     </TouchableOpacity>  
                                 </View>  
                             );
+                        }else{
+                            if(products.includes(filter)){
+                                return(
+                                    <View key={index._id} style={styles.itemcontainer} >
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid}, })}>
+                                            <Text style={styles.titletext}>{index.title}</Text>
+                                            <Image
+                                                source={require('../../assets/UpGrade.jpg')}
+                                                style={styles.Img}
+                                            />
+                                            <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                        </TouchableOpacity>  
+                                    </View>  
+                                );
+                            }
                         }
                     }
                 })

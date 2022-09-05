@@ -11,7 +11,7 @@ export default function Purchases(params) {
     const [resp, setResp] = useState(false);
 
     async function fetchMoviesJSON() {
-        console.log('buscando itens')
+        // console.log('buscando itens')
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/Cart',{
           method: 'POST',
           body: JSON.stringify({
@@ -27,7 +27,7 @@ export default function Purchases(params) {
     const buscar = ()=> {
         fetchMoviesJSON()
         if (resp){
-            console.log(item)
+            // console.log(item)
             return (
                 item.map(index =>{
                     // console.log(index.productsInfo._id)
