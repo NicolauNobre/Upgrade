@@ -3,10 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image}
 import {useNavigation} from '@react-navigation/native';
 
 
-export default function Ofertas() {
+export default function Ofertas(params) {
     const navigation = useNavigation();
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
+    const userid = params.route.params.id;
+    // console.log(userid);
 
     async function fetchMoviesJSON() {
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
@@ -27,7 +29,7 @@ export default function Ofertas() {
                     if(pesquisa == ''){
                         return(
                             <View key={index._id} style={styles.itemcontainer} >
-                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index}, })}>
+                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
                                     <Text style={styles.titletext}>{index.title}</Text>
                                     <Image
                                         source={require('../../assets/UpGrade.jpg')}
@@ -41,7 +43,7 @@ export default function Ofertas() {
                         if(products.includes(filter)){
                             return(
                                 <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index}, })}>
+                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid}, })}>
                                         <Text style={styles.titletext}>{index.title}</Text>
                                         <Image
                                             source={require('../../assets/UpGrade.jpg')}

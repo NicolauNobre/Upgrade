@@ -4,13 +4,50 @@ import {useNavigation} from '@react-navigation/native';
 import {Picker} from '@react-native-picker/picker';
 
 
-export default function Pageitem(item) {
+export default function Pageitem(params) {
     const navigation = useNavigation();
     const [quant, setQuant] = useState('1');
     const [vquant, setVquant] = useState('');
-    // console.log(item.route.params.params.item)
-    global.index = item.route.params.params.item;
+    // console.log(params.route.params.params.item)
+    global.index = params.route.params.params.item;
+    const userid = params.route.params.params.id
+    async function fetchMoviesJSON() {
+        let response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/Addcart/',{
+          method: 'POST',
+          body: JSON.stringify({
+            "productId": index._id,
+            "quantity": quant,
+            "userId" : userid,
+            "status" : "1"
+          }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+        console.log("Registrando no carrinho...")
+        let teste = await response.json();
+        return teste;
+    }
 
+    const validar = () =>{
+        setVquant("")
+        if(quant > index.amount){
+            setVquant("Quantidade indisponivel!")
+        }else{
+            fetchMoviesJSON().then(teste => {
+                // console.log(teste)
+                
+                if(teste.confirm){
+                  console.log("Registrou no carrinho")
+                  navigation.navigate('Initial', {
+                    params: {userid: userid},
+                  })
+                }else{
+                  console.log("Não registrou")
+                }
+        
+            });
+        }
+    }
+    // console.log(quant)
  return (
     <View style={styles.container}>
         <Text style={styles.prod}>Informações sobre o produto:</Text>
@@ -22,6 +59,7 @@ export default function Pageitem(item) {
                     source={require('../../assets/UpGrade.jpg')}
                     style={styles.Img}
                 />
+                <Text style={styles.error}>{vquant}</Text>
                 <Text style={styles.itemtext}>Quantidade disponivel: {index.amount}</Text>
                 <TextInput
                     keyboardType="number-pad"
@@ -30,9 +68,10 @@ export default function Pageitem(item) {
                     style={styles.iteminput}
                 />
                 <Text style={styles.itemtext}>Condição: {index.condition}</Text>
+                <Text style={styles.itemtext}>Categoria: {index.class}</Text>
                 <Text style={styles.pricetext}>R$ {index.price}</Text>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>comprar</Text>
+                <TouchableOpacity style={styles.button} onPress={() => validar()}>
+                    <Text style={styles.buttonText}>Comprar</Text>
                 </TouchableOpacity>
                 <Text style={styles.descriptiontext}>Descrição: {index.description}</Text>
             </View>
@@ -66,6 +105,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         paddingTop: 10,
     },
+    error:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#FF0000',
+        backgroundColor: '#FF7851',
+        alignSelf: 'center',
+        paddingTop: 10,
+    },
     iteminput:{
         marginTop: 10,
         width: '70%',
@@ -75,6 +122,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: 'white',
         alignSelf: 'center',
+        textAlign: 'center',
         padding:5,
     },
     pricetext:{

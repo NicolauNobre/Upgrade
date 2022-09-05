@@ -49,6 +49,9 @@ export default function Initial(userid) {
             <Tab.Screen 
             name="Ofertas" 
             component={Ofertas} 
+            initialParams={
+                {id: id}
+            }
             options={{ 
                 tabBarIcon:({size,color}) => (
                     <Feather name="key" size={size} color={color}/>

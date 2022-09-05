@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   text1:{
     alignSelf:'center',
-    color:'#FF7851',
+    color:'white',
     fontSize: 25,
     marginTop: 28,
     marginBottom: 12,
