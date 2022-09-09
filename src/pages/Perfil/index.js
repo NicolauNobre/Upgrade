@@ -29,12 +29,6 @@ export default function Perfil(params) {
         });
         // console.log("esperando reposta");
         const teste = await response.json();
-        return teste;
-      }
-
-
-    const buscar = () =>{
-        fetchMoviesJSON().then(teste => {
         setEmail(teste.email)
         setNome(teste.name)
         setCpf(teste.cpf)
@@ -43,11 +37,12 @@ export default function Perfil(params) {
         setCity(teste.city)
         setStreet(teste.street)
         setAdress(teste.address_number)
-        setComplement(teste.address_complement)     
-        });
-    }
-    buscar()
+        setComplement(teste.address_complement)
+      }
 
+    useEffect( () => {
+      fetchMoviesJSON();
+    }, []);
 
   return (
     <ScrollView style={styles.container}>
