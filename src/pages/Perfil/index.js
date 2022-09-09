@@ -49,17 +49,12 @@ export default function Perfil(params) {
     buscar()
 
 
- return (
-   <ScrollView style={styles.container}>
-     <TouchableOpacity style={styles.button}
-      onPress={() => navigation.navigate("Registro")}>
-        <Text style={styles.buttonText}>Vender</Text>
-      </TouchableOpacity>
-
+  return (
+    <ScrollView style={styles.container}>
       <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Sales", {
         params: {userid: userid},
-      })}>
+        })}>
         <Text style={styles.buttonText}>Minhas Vendas</Text>
       </TouchableOpacity>
 
@@ -73,22 +68,22 @@ export default function Perfil(params) {
       <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Purchases", {
         params: {userid: userid},
-       })}>
+        })}>
         <Text style={styles.buttonText}>Minhas compras</Text>
       </TouchableOpacity>
       <View style={styles.line}/>
       <ImageBackground source={require('../../assets/UpGrade.jpg')} resizeMode="cover" style={styles.image}>
-        <View style={styles.areaButton}>
-          <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
-        </View>
-        <Text style={styles.text1}>{nome}</Text>
-        <Text style={styles.text}>Nome: {nome}</Text>
-        <Text style={styles.text}>Email: {email}</Text>
-        <Text style={styles.text}>Documento: {cpf}</Text>
-        <Text style={styles.text}>Telefone: {phone}</Text>
-        <Text style={styles.text}>Endereço:</Text>
-        <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
-        <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
+          <View style={styles.areaButton}>
+            <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
+          </View>
+          <Text style={styles.text1}>{nome}</Text>
+          <Text style={styles.text}>Nome: {nome}</Text>
+          <Text style={styles.text}>Email: {email}</Text>
+          <Text style={styles.text}>Documento: {cpf}</Text>
+          <Text style={styles.text}>Telefone: {phone}</Text>
+          <Text style={styles.text}>Endereço:</Text>
+          <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
+          <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
       </ImageBackground>
     </ScrollView>
   );

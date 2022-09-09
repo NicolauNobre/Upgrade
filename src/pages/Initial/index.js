@@ -2,10 +2,9 @@ import React, {useState, useEffect} from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../Home';
-import Registro from '../Registro';
 import Perfil from '../Perfil';
 import Ofertas from '../Ofertas';
-import Purchases from '../Purchases';
+import Car from '../Car';
 import {Feather} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -23,8 +22,7 @@ export default function Initial(userid) {
             backgroundColor: "#1E1E1E",
             paddingBottom: 5,
             paddingTop: 5,
-            }}
-        }
+            }}}
             >
             <Tab.Screen 
             name="Home" 
@@ -35,19 +33,7 @@ export default function Initial(userid) {
                 )   
             }}
             />
-
-            <Tab.Screen 
-            name="Purchases"
-            initialParams={
-                {id: id}
-            }
-            component={Purchases} 
-            options={{
-                tabBarIcon:({size,color}) => (
-                    <Feather name="crosshair" size={size} color={color}/>
-                )   
-            }}
-            />
+            
             <Tab.Screen 
             name="Ofertas" 
             component={Ofertas} 
@@ -60,6 +46,20 @@ export default function Initial(userid) {
                 )   
             }}
             />
+
+            <Tab.Screen 
+            name="Carrinho"
+            initialParams={
+                {id: id}
+            }
+            component={Car} 
+            options={{
+                tabBarIcon:({size,color}) => (
+                    <Feather name="shopping-cart" size={size} color={color}/>
+                )   
+            }}
+            />
+
             <Tab.Screen 
             name="Perfil" 
             component={Perfil} 

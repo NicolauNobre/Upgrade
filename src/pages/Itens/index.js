@@ -11,7 +11,6 @@ export default function Itens(userid) {
    <View style={styles.container}>
     <Text style={styles.header}>Meus itens a venda</Text>
     <View style={styles.line}/>
-
    </View>
   );
 }

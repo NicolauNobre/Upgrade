@@ -84,7 +84,7 @@ export default function Ofertas(params) {
     }
 
     return (
-        <View style={{height: '100%'}}>
+        <View style={{height: '100%', width: '100%'}}>
             {loading()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
@@ -96,8 +96,9 @@ export default function Ofertas(params) {
                             style={styles.busca}
                         />
                     </View>
-                    {buscar()}
+
                 </View>
+                {buscar()}
             </ScrollView>
         </View>
     );
@@ -149,8 +150,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         paddingBottom: 20,
-        margin: 10,
-
+        marginTop: 10,
     },
     titletext:{
         fontSize: 36,
