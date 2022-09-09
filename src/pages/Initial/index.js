@@ -5,6 +5,7 @@ import Home from '../Home';
 import Registro from '../Registro';
 import Perfil from '../Perfil';
 import Ofertas from '../Ofertas';
+import Purchases from '../Purchases';
 import {Feather} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -34,12 +35,13 @@ export default function Initial(userid) {
                 )   
             }}
             />
+
             <Tab.Screen 
-            name="Registro"
+            name="Purchases"
             initialParams={
                 {id: id}
             }
-            component={Registro} 
+            component={Purchases} 
             options={{
                 tabBarIcon:({size,color}) => (
                     <Feather name="crosshair" size={size} color={color}/>

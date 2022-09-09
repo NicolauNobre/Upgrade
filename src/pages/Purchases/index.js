@@ -1,17 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 
 export default function Purchases(params) {
     const navigation = useNavigation();
     const [pesquisa, setPesquisa] = useState('');
-    const userid = params.route.params.params.userid
+    const userid = params.route.params.id
     // console.log(userid)
     const [resp, setResp] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [item, setItem] = useState([]);
 
     async function fetchMoviesJSON() {
-        // console.log('buscando itens')
+        setIsLoading(true)
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/Cart',{
           method: 'POST',
           body: JSON.stringify({
@@ -20,12 +22,19 @@ export default function Purchases(params) {
           headers: { 'Content-Type': 'application/json' },
         });
         const teste = await response.json();
-        global.item = teste;
+        // console.log(teste)
+        setItem (teste);
         setResp(true);
+        setIsLoading(false);
     }
 
+    useEffect( () => {
+        fetchMoviesJSON();
+    }, []);
+
+
     const buscar = ()=> {
-        fetchMoviesJSON()
+        // console.log(userid)
         if (resp){
             // console.log(item)
             return (
@@ -36,7 +45,7 @@ export default function Purchases(params) {
                     if(pesquisa == ''){
                         return(
                             <View key={index.productsInfo._id} style={styles.itemcontainer} >
-                                <TouchableOpacity style={styles.itembutton} >
+                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
                                     <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                     <Image
                                         source={require('../../assets/UpGrade.jpg')}
@@ -51,7 +60,7 @@ export default function Purchases(params) {
                         if(products.includes(filter)){
                             return(
                                 <View key={index.productsInfo._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton}>
+                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
                                         <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                         <Image
                                             source={require('../../assets/UpGrade.jpg')}
@@ -68,20 +77,34 @@ export default function Purchases(params) {
         }
     }
 
-    return (
-        <ScrollView style={styles.scrollcontainer}>
-            <View style={styles.container}>
-                <Text style={styles.header}>Minhas compras</Text>
-                <View style={styles.containerForm}>
-                    <TextInput
-                        placeholder="Buscar Produto"
-                        onChangeText={value => setPesquisa(value)}
-                        style={styles.busca}
-                    />
+    const loading = () =>{
+        if(isLoading){
+            // console.log('buscando...')
+            return(
+                <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                    <ActivityIndicator color={"#fff"} size={50}/> 
                 </View>
-                {buscar()}
-            </View>
-        </ScrollView>
+            )
+        }
+    }
+
+    return (
+        <View style={{height: '100%'}}>
+            {loading()}
+            <ScrollView style={styles.scrollcontainer}>
+                <View style={styles.container}>
+                    <Text style={styles.header}>Minhas compras</Text>
+                    <View style={styles.containerForm}>
+                        <TextInput
+                            placeholder="Buscar Produto"
+                            onChangeText={value => setPesquisa(value)}
+                            style={styles.busca}
+                        />
+                    </View>
+                    {buscar()}
+                </View>
+            </ScrollView>
+        </View>
   );
 }
 

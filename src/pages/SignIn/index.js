@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styles from "./styles";
-import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, Touchable } from 'react-native';
+import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, useWindowDimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
@@ -14,8 +14,10 @@ export default function SignIn() {
   const [vemail, setVemail] = useState('');
   const [vpassword, setVpassword] = useState('');
   const [v2login, setV2login] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const validar = () =>{
+    // setIsLoading(true)
     setVemail('')
     setVpassword('')
     let error = false
@@ -48,6 +50,7 @@ export default function SignIn() {
   }
   
   const enviar = () =>{
+    setIsLoading(true)
     if (validar()){
       setV2login('') 
       console.log("mandando para o back") 
@@ -58,64 +61,81 @@ export default function SignIn() {
         
         if(teste.confirm){
           console.log("logou")
+          setIsLoading(false)
           navigation.navigate('Initial', {
             params: {userid: id},
           })
         }else{
           setV2login("Usuário ou senha inválidos")
           console.log("não logou")
+          setIsLoading(false)
         }
 
       });
+    }else{
+      setIsLoading(false)
+    }
+  }
+
+  //função para tela de carregamento durante o envio e aguardo de resposta
+  const loading = () =>{
+    if(isLoading){
+      return(
+      <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+        <ActivityIndicator color={"#FF7851"} size={100}/> 
+      </View>
+      )
     }
   }
   
+
  return (
-   <ScrollView style={styles.container}>
-    <View style={styles.containerLogo}>
-        <Animatable.Image
-        animation="flipInY"
-          source={require('../../assets/UpGrade.jpg')}
-          style = {{ width:'100%'}}
-          resizeMode = "contain"
-        />
-      </View>
-    <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-      <Text style={styles.msgerro}>{v2login}</Text>
-      <Text style={styles.title}>E-mail</Text>
-      <TextInput
-        placeholder="E-mail..."
-        onChangeText={value => setEmail(value)}
-        style={styles.TextInput}
-      />
-      <Text style={styles.msgerro}>{vemail}</Text>
-      <Text style={styles.title}>Senha</Text>
-      <TextInput
-        placeholder="Senha..."
-        onChangeText={value => setPassword(value)}
-        style={styles.TextSenha}
-        secureTextEntry={true}
-      />
-      <Text style={styles.msgerro}>{vpassword}</Text>
-      
-      <TouchableOpacity style={styles.button} onPress={() => enviar()}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity styles={styles.buttonRegister}>
-      <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
-      </TouchableOpacity>
+    <View style={{height: '100%'}}>
+      {loading()}
+      <ScrollView style={styles.container}>
+        <View style={styles.containerLogo}>
+          <Animatable.Image
+            animation="flipInY"
+            source={require('../../assets/UpGrade.jpg')}
+            style = {{ width:'100%'}}
+            resizeMode = "contain"
+          />
+        </View>
+        <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+          <Text style={styles.msgerro}>{v2login}</Text>
+          <Text style={styles.title}>E-mail</Text>
+          <TextInput
+            placeholder="E-mail..."
+            onChangeText={value => setEmail(value)}
+            style={styles.TextInput}
+          />
+          <Text style={styles.msgerro}>{vemail}</Text>
+          <Text style={styles.title}>Senha</Text>
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={value => setPassword(value)}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword}</Text>
+          
+          <TouchableOpacity style={styles.button} onPress={() => enviar()}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity styles={styles.buttonRegister}>
+          <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
 
-      {/* <Text style={styles.ou}>Ou</Text>
-      <TouchableOpacity style={styles.button2}>
-        <Text style={styles.buttonText} onPress={() => navigation.navigate("Initial")}>Entrar com o Google</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity style={styles.buttonRegister}
-      onPress={() => navigation.navigate("Cadastro")}>
-        <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
-
-      </TouchableOpacity>
-      
-    </Animatable.View>
-   </ScrollView>
+          {/* <Text style={styles.ou}>Ou</Text>
+          <TouchableOpacity style={styles.button2}>
+            <Text style={styles.buttonText} onPress={() => navigation.navigate("Initial")}>Entrar com o Google</Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.buttonRegister}
+          onPress={() => navigation.navigate("Cadastro")}>
+            <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
+          </TouchableOpacity>
+        </Animatable.View>
+      </ScrollView>
+    </View>
   );
 }

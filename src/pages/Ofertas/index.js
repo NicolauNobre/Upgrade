@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 
@@ -7,20 +7,28 @@ export default function Ofertas(params) {
     const navigation = useNavigation();
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [item, setItem] = useState([]);
     const userid = params.route.params.id;
     // console.log(userid);
 
     async function fetchMoviesJSON() {
+        setIsLoading(true)
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
           method: 'Get',
         });
         const teste = await response.json();
-        global.item = teste;
+        setItem (teste);
         setResp(true);
+        setIsLoading(false)
     }
 
+    useEffect( () => {
+        fetchMoviesJSON();
+    }, []);
+
     const buscar = ()=> {
-        fetchMoviesJSON()
+        // setIsLoading(true)
         if (resp){
             return (
                 item.map(index =>{
@@ -63,20 +71,35 @@ export default function Ofertas(params) {
             );
         }
     }
-    return (
-        <ScrollView style={styles.scrollcontainer}>
-            <View style={styles.container}>
-                <Text style={styles.texttitle}>Produtos disponiveis:</Text>
-                <View style={styles.containerForm}>
-                    <TextInput
-                        placeholder="Buscar Produto"
-                        onChangeText={value => setPesquisa(value)}
-                        style={styles.busca}
-                    />
+
+    const loading = () =>{
+        if(isLoading){
+            // console.log('buscando...')
+            return(
+                <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                    <ActivityIndicator color={"#fff"} size={50}/> 
                 </View>
-                {buscar()}
-            </View>
-        </ScrollView>
+            )
+        }
+    }
+
+    return (
+        <View style={{height: '100%'}}>
+            {loading()}
+            <ScrollView style={styles.scrollcontainer}>
+                <View style={styles.container}>
+                    <Text style={styles.texttitle}>Produtos disponiveis:</Text>
+                    <View style={styles.containerForm}>
+                        <TextInput
+                            placeholder="Buscar Produto"
+                            onChangeText={value => setPesquisa(value)}
+                            style={styles.busca}
+                        />
+                    </View>
+                    {buscar()}
+                </View>
+            </ScrollView>
+        </View>
     );
 }
 
