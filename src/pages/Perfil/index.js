@@ -69,17 +69,17 @@ export default function Perfil(params) {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate("Sales", {
-        params: {userid: userid},
-        })}>
-        <Text style={styles.buttonText}>Minhas Vendas</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Itens", {
         params: {userid: userid},
         })}>
         <Text style={styles.buttonText}>Meus Itens a Venda</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Sales", {
+        params: {userid: userid},
+        })}>
+        <Text style={styles.buttonText}>Minhas Vendas</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}
@@ -103,6 +103,13 @@ export default function Perfil(params) {
         <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
         <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
       </ImageBackground>
+      <TouchableOpacity style={styles.buttonedit}
+        // onPress={() => navigation.navigate("Registro", {
+        // params: {userid: userid},
+        // })}
+        >
+        <Text style={styles.buttonText}>Editar dados</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -142,6 +149,18 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     backgroundColor: '#FF7851',
     width: '80%',
+    borderRadius: 50,
+    paddingVertical: 8,
+    marginTop: 14,
+    marginBottom: 5,
+    justifyContent:'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  buttonedit:{
+    flexDirection:'row',
+    backgroundColor: '#FF7851',
+    width: '50%',
     borderRadius: 50,
     paddingVertical: 8,
     marginTop: 14,
