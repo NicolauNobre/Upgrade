@@ -20,16 +20,22 @@ export default function SignIn() {
   const validar = () =>{
     setVemail('')
     setVpassword('')
+    setV2login('')
     let error = false
     let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
     let match = regex.test(email)
     if (match){
     } else{
+      if(email== ''){
+        setVemail("Preencha o Email")
+        error = true
+      }else
         setVemail("Preencha o Email corretamente")
         error = true
     }
     if(password == ''){
       setVpassword("Preencha a Senha")
+      error = true
     }
     return !error
 

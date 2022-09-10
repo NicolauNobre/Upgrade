@@ -47,7 +47,7 @@ export default function Perfil(params) {
       fetchMoviesJSON();
     }, []);
 
-    // função para tela de carregamento enquanto busca produtos
+    // função para tela de carregamento enquanto busca dados do usuário
     const loading = () =>{
       if(isLoading){
           // console.log('buscando...')

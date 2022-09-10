@@ -86,7 +86,7 @@ export default function Car(params) {
             // console.log('buscando...')
             return(
                 <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
-                    <ActivityIndicator color={"#fff"} size={50}/> 
+                    <ActivityIndicator color={"#FF7851"} size={100}/> 
                 </View>
             )
         }
