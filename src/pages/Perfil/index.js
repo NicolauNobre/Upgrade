@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import {Feather} from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native';
 
 export default function Perfil(params) {
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false);
     // console.log(params.route.params.id);
     const userid = params.route.params.id
     const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ export default function Perfil(params) {
 
     // função para busca de dados do usuário
     async function fetchMoviesJSON() {
-      // let userid = "62fac1ca944b5fa5b2bb4708"
+      setIsLoading(true)
       const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/profile',{
         method: 'POST',
         body: JSON.stringify({
@@ -29,6 +30,7 @@ export default function Perfil(params) {
       });
       // console.log("esperando reposta");
       const teste = await response.json();
+      setIsLoading(false)
       //recebe os dados do usuário
       setEmail(teste.email)
       setNome(teste.name)
@@ -44,6 +46,18 @@ export default function Perfil(params) {
     useEffect( () => {
       fetchMoviesJSON();
     }, []);
+
+    // função para tela de carregamento enquanto busca produtos
+    const loading = () =>{
+      if(isLoading){
+          // console.log('buscando...')
+          return(
+              <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                  <ActivityIndicator color={"#FF7851"} size={50}/> 
+              </View>
+          )
+      }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -76,17 +90,18 @@ export default function Perfil(params) {
       </TouchableOpacity>
       <View style={styles.line}/>
       <ImageBackground source={require('../../assets/UpGrade.jpg')} resizeMode="cover" style={styles.image}>
-          <View style={styles.areaButton}>
-            <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
-          </View>
-          <Text style={styles.text1}>{nome}</Text>
-          <Text style={styles.text}>Nome: {nome}</Text>
-          <Text style={styles.text}>Email: {email}</Text>
-          <Text style={styles.text}>Documento: {cpf}</Text>
-          <Text style={styles.text}>Telefone: {phone}</Text>
-          <Text style={styles.text}>Endereço:</Text>
-          <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
-          <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
+        {loading()}
+        <View style={styles.areaButton}>
+          <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
+        </View>
+        <Text style={styles.text1}>{nome}</Text>
+        <Text style={styles.text}>Nome: {nome}</Text>
+        <Text style={styles.text}>Email: {email}</Text>
+        <Text style={styles.text}>Documento: {cpf}</Text>
+        <Text style={styles.text}>Telefone: {phone}</Text>
+        <Text style={styles.text}>Endereço:</Text>
+        <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
+        <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
       </ImageBackground>
     </ScrollView>
   );
