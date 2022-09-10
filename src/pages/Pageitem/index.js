@@ -9,8 +9,11 @@ export default function Pageitem(params) {
     const [quant, setQuant] = useState('1');
     const [vquant, setVquant] = useState('');
     // console.log(params.route.params.params.item)
+
     global.index = params.route.params.params.item;
     const userid = params.route.params.params.id
+
+    // função para adicionar o itens no carrinho (compra)
     async function fetchMoviesJSON() {
         let response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/Addcart/',{
           method: 'POST',
@@ -22,11 +25,12 @@ export default function Pageitem(params) {
           }),
           headers: { 'Content-Type': 'application/json' },
         });
-        console.log("Registrando no carrinho...")
+        // console.log("Registrando no carrinho...")
         let teste = await response.json();
         return teste;
     }
 
+    // função para validar a quantidade de itens que o usuário deseja
     const validar = () =>{
         setVquant("")
         if(quant > index.amount){
@@ -36,18 +40,19 @@ export default function Pageitem(params) {
                 // console.log(teste)
                 
                 if(teste.confirm){
-                  console.log("Registrou no carrinho")
-                  navigation.navigate('Initial', {
-                    params: {userid: userid},
-                  })
+                    //console.log("Registrou no carrinho")
+                    navigation.navigate('Initial', {
+                        params: {userid: userid},
+                    })
                 }else{
-                  console.log("Não registrou")
+                    //console.log("Não registrou")
+                    alert("compra não registrada")
                 }
         
             });
         }
     }
-    // console.log(quant)
+
  return (
     <View style={styles.container}>
         <Text style={styles.prod}>Informações sobre o produto:</Text>

@@ -16,8 +16,8 @@ export default function SignIn() {
   const [v2login, setV2login] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // função para validar os formularios
   const validar = () =>{
-    // setIsLoading(true)
     setVemail('')
     setVpassword('')
     let error = false
@@ -35,6 +35,7 @@ export default function SignIn() {
 
   }
 
+  // função para enviar os formularios para o back
   async function fetchMoviesJSON() {
     const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/login',{
       method: 'POST',
@@ -44,30 +45,31 @@ export default function SignIn() {
       }),
       headers: { 'Content-Type': 'application/json' },
     });
-    console.log("espera reposta");
+    // console.log("espera reposta");
     const teste = await response.json();
     return teste;
   }
   
+  // função de envio de formulários se eles forem válidos
   const enviar = () =>{
     setIsLoading(true)
     if (validar()){
       setV2login('') 
-      console.log("mandando para o back") 
+      // console.log("mandando para o back") 
       fetchMoviesJSON().then(teste => {
         // console.log(teste)
-        console.log("pegou resposta e chama login")
+        // console.log("pegou resposta e chama login")
         const id = teste.user_id
         
         if(teste.confirm){
-          console.log("logou")
+          // console.log("logou")
           setIsLoading(false)
           navigation.navigate('Initial', {
             params: {userid: id},
           })
         }else{
           setV2login("Usuário ou senha inválidos")
-          console.log("não logou")
+          // console.log("não logou")
           setIsLoading(false)
         }
 
@@ -77,7 +79,7 @@ export default function SignIn() {
     }
   }
 
-  //função para tela de carregamento durante o envio e aguardo de resposta
+  //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
   const loading = () =>{
     if(isLoading){
       return(
@@ -102,6 +104,7 @@ export default function SignIn() {
           />
         </View>
         <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+
           <Text style={styles.msgerro}>{v2login}</Text>
           <Text style={styles.title}>E-mail</Text>
           <TextInput
@@ -110,6 +113,7 @@ export default function SignIn() {
             style={styles.TextInput}
           />
           <Text style={styles.msgerro}>{vemail}</Text>
+
           <Text style={styles.title}>Senha</Text>
           <TextInput
             placeholder="Senha..."
@@ -122,14 +126,11 @@ export default function SignIn() {
           <TouchableOpacity style={styles.button} onPress={() => enviar()}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
+
           <TouchableOpacity styles={styles.buttonRegister}>
           <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
           </TouchableOpacity>
 
-          {/* <Text style={styles.ou}>Ou</Text>
-          <TouchableOpacity style={styles.button2}>
-            <Text style={styles.buttonText} onPress={() => navigation.navigate("Initial")}>Entrar com o Google</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity style={styles.buttonRegister}
           onPress={() => navigation.navigate("Cadastro")}>
             <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>

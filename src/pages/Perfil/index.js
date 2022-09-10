@@ -17,28 +17,29 @@ export default function Perfil(params) {
     const [adress, setAdress] = useState('');
     const [complement, setComplement] = useState('');
 
-
+    // função para busca de dados do usuário
     async function fetchMoviesJSON() {
-        // let userid = "62fac1ca944b5fa5b2bb4708"
-        const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/profile',{
-          method: 'POST',
-          body: JSON.stringify({
-            "user_id" : userid,
-          }),
-          headers: { 'Content-Type': 'application/json' },
-        });
-        // console.log("esperando reposta");
-        const teste = await response.json();
-        setEmail(teste.email)
-        setNome(teste.name)
-        setCpf(teste.cpf)
-        setPhone(teste.phone)
-        setZip(teste.zipcode)
-        setCity(teste.city)
-        setStreet(teste.street)
-        setAdress(teste.address_number)
-        setComplement(teste.address_complement)
-      }
+      // let userid = "62fac1ca944b5fa5b2bb4708"
+      const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/profile',{
+        method: 'POST',
+        body: JSON.stringify({
+          "user_id" : userid,
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      // console.log("esperando reposta");
+      const teste = await response.json();
+      //recebe os dados do usuário
+      setEmail(teste.email)
+      setNome(teste.name)
+      setCpf(teste.cpf)
+      setPhone(teste.phone)
+      setZip(teste.zipcode)
+      setCity(teste.city)
+      setStreet(teste.street)
+      setAdress(teste.address_number)
+      setComplement(teste.address_complement)
+    }
 
     useEffect( () => {
       fetchMoviesJSON();
@@ -46,6 +47,13 @@ export default function Perfil(params) {
 
   return (
     <ScrollView style={styles.container}>
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Registro", {
+        params: {userid: userid},
+        })}>
+        <Text style={styles.buttonText}>Vender</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Sales", {
         params: {userid: userid},

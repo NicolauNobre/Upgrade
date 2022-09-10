@@ -5,6 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function Ofertas(params) {
     const navigation = useNavigation();
+
+    // variaveis utilizadas
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -12,28 +14,32 @@ export default function Ofertas(params) {
     const userid = params.route.params.id;
     // console.log(userid);
 
+    // função do request de produtos ao back
     async function fetchMoviesJSON() {
-        setIsLoading(true)
+        setIsLoading(true);
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
           method: 'Get',
         });
         const teste = await response.json();
         setItem (teste);
         setResp(true);
-        setIsLoading(false)
+        setIsLoading(false);
     }
 
     useEffect( () => {
         fetchMoviesJSON();
     }, []);
 
+    //função para retornar os itens na view
     const buscar = ()=> {
-        // setIsLoading(true)
         if (resp){
+            // console.log(item)
             return (
+                // percorre o array de itens
                 item.map(index =>{
+                    // console.log(index)
                     if(index.title == undefined){
-                        setResp(false)
+                        setResp(false);
                     }else{
                         let filter = pesquisa.toUpperCase();
                         let products = index.title.toUpperCase();
@@ -51,6 +57,7 @@ export default function Ofertas(params) {
                                 </View>  
                             );
                         }else{
+                            // console.log("produto: ", products, "pesquisa", filter)
                             if(products.includes(filter)){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
@@ -72,6 +79,7 @@ export default function Ofertas(params) {
         }
     }
 
+    // função para tela de carregamento enquanto busca produtos
     const loading = () =>{
         if(isLoading){
             // console.log('buscando...')
@@ -82,6 +90,7 @@ export default function Ofertas(params) {
             )
         }
     }
+
 
     return (
         <View style={{height: '100%', width: '100%'}}>
@@ -96,13 +105,13 @@ export default function Ofertas(params) {
                             style={styles.busca}
                         />
                     </View>
-
                 </View>
                 {buscar()}
             </ScrollView>
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container:{

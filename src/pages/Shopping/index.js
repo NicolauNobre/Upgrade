@@ -24,10 +24,6 @@ export default function Shopping(){
                 <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}onPress={() => navigation.navigate("Initial")}>
                     <Feather name="home" size={27} color="#FF7851"/>
                 </TouchableOpacity>
-                
-
-
-
             </View>
         </View>
     )

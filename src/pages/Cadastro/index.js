@@ -39,6 +39,7 @@ export default function Cadastro() {
   const [vcadaster, setVcadaster] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
+  // função para validar os formulários (precisa de melhorias)
   const validar = () =>{
     setVcpf('')
     setVemail('')
@@ -111,6 +112,7 @@ export default function Cadastro() {
     return !error
   }
 
+  // função para enviar os formularios para o back
   async function fetchMoviesJSON(temp) {
     const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/cadaster',{
       method: 'POST',
@@ -134,24 +136,26 @@ export default function Cadastro() {
     return teste;
   }
 
+  // função de envio de formulários se eles forem válidos
   const salvar = () =>{
     setIsLoading(true)
     let temp = (date.getMonth()+1)+'/'+(date.getDate())+'/'+date.getFullYear()
     // console.log(temp)
     if (validar()){
       setVcadaster('')
-      console.log("manda pro back")
+      // console.log("manda pro back")
       fetchMoviesJSON(temp).then(teste => {
-        console.log(teste)
-        console.log("pegou resposta")
+        // console.log(teste)
+        // console.log("pegou resposta")
         if(teste.confirm){
-          console.log("cadastrou")
+          // console.log("cadastrou")
           setIsLoading(false)
           navigation.navigate("SignIn")
         }else{
           setIsLoading(false)
           setVcadaster("Erro ao cadastrar, verifique seus dados")
-          console.log("não cadastro")
+          // console.log("não cadastro")
+          alert("Verifique seus dados e tente novamente")
         }
         
       });
@@ -159,11 +163,13 @@ export default function Cadastro() {
       setIsLoading(false)
     }
   }
+
+  // função para o data picker
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
   };
-
+  // função para modal do data picker
   const showMode = (currentMode) => {
     DateTimePickerAndroid.open({
       value: date,
@@ -172,14 +178,14 @@ export default function Cadastro() {
       is24Hour: true,
     });
   };
-
+  // função para mostrar a modal do datapicker
   const showDatepicker = () => {
     showMode('date');
   };
 
 
 
-  //função para tela de carregamento durante o envio e aguardo de resposta
+  //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
   const loading = () =>{
     if(isLoading){
       // flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: ''

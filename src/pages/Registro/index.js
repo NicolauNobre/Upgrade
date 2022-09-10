@@ -12,22 +12,7 @@ const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 
 export default function Registro(params) {
   const [image, setImage] = useState(null);
   // console.log(params.route.params.id);
-  const userid = params.route.params.id
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    // console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
+    const userid = params.route.params.id
     const navigation = useNavigation();
     const [nome, setNome] = useState('');
     const [vnome, setVnome] = useState('');
@@ -42,7 +27,22 @@ export default function Registro(params) {
     const [quantidade, setQuantidade] = useState('');
     const [vquantidade, setVquantidade] = useState('');
     const [vregistro, setVregistro] = useState('');
+    
+    // função para pegar a imagem
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      // console.log(result);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    };
 
+    // função para validar os formulários (precisa de alguma melhorias)
     const validar = () =>{
       setVnome('')
       setVdescricao('')
@@ -77,7 +77,8 @@ export default function Registro(params) {
 
       return !error
     }
-    // https://upgrade-back-staging.herokuapp.com/product/register
+
+    // função para enviar os formulários para o back
     async function fetchMoviesJSON() {
       const response = await fetch('https://upgrade-back-staging.herokuapp.com/product/register',{
         method: 'POST',
@@ -96,18 +97,20 @@ export default function Registro(params) {
       return teste;
     }
 
+    // função de envio de formulários se eles forem válidos
     const salvar = () =>{
-
       if (validar()){
-        console.log("manda pro back")
+        // console.log("manda pro back")
         fetchMoviesJSON().then(teste => {
-          console.log(teste)
-          console.log("pegou resposta")
+          // console.log(teste)
+          // console.log("pegou resposta")
           if(teste.confirm){
-            console.log("Registrou")
+            // console.log("Registrou")
+            alert("Item Registrado")
             navigation.navigate("Home")
           }else{
-            console.log("não Registrou")
+            // console.log("não Registrou")
+            alert("Item Não Registrado")
             setVregistro("Não registrou")
           }
         });

@@ -5,13 +5,14 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function Car(params) {
     const navigation = useNavigation();
-    const [pesquisa, setPesquisa] = useState('');
     const userid = params.route.params.id
     // console.log(userid)
+    const [pesquisa, setPesquisa] = useState('');
     const [resp, setResp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [item, setItem] = useState([]);
 
+    // função do request de produtos no carrinho ao back
     async function fetchMoviesJSON() {
         setIsLoading(true)
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/Cart',{
@@ -32,14 +33,15 @@ export default function Car(params) {
         fetchMoviesJSON();
     }, []);
 
-
+    //função para retornar os itens na view
     const buscar = ()=> {
-        // console.log(userid)
+
         if (resp){
             // console.log(item)
             return (
+                // percorre o array de itens
                 item.map(index =>{
-                    // console.log(index.productsInfo._id)
+                    // console.log(index)
                     let filter = pesquisa.toUpperCase();
                     let products = index.productsInfo.title.toUpperCase();
                     if(pesquisa == ''){
@@ -57,6 +59,7 @@ export default function Car(params) {
                             </View>  
                         );
                     }else{
+                        // console.log("produto: ", products, "pesquisa", filter)
                         if(products.includes(filter)){
                             return(
                                 <View key={index.productsInfo._id} style={styles.itemcontainer} >
@@ -77,6 +80,7 @@ export default function Car(params) {
         }
     }
 
+    // função para tela de carregamento enquanto busca produtos
     const loading = () =>{
         if(isLoading){
             // console.log('buscando...')
