@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, ActivityIndicator} from 'react-native';
 
-import validator from 'validator';
 import * as Animatable from 'react-native-animatable';
-import {Ionicons} from '@expo/vector-icons';
-
 import {useNavigation} from '@react-navigation/native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
