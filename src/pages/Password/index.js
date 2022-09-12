@@ -114,7 +114,7 @@ export default function Password() {
               resizeMode = "contain"
             />
           </View>
-          <Text style={styles.Dados}>Um código de confimação será enviado por email</Text>
+          <Text style={styles.Dados}>Um código de confirmação será enviado para o seu email</Text>
           <Text style={styles.msgerro}></Text>
           <Text style={styles.title}>E-mail *</Text>
           <TextInput

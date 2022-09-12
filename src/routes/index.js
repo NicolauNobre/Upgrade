@@ -11,6 +11,7 @@ import Sales from '../pages/Sales'
 import Purchases from '../pages/Purchases'
 import Itens from '../pages/Itens'
 import Pageitem from '../pages/Pageitem'
+import Editcadastro from '../pages/Editcadastro'
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,11 @@ export default function Routes(){
             <Stack.Screen
                 name='Pageitem'
                 component={Pageitem}
+                options={{headerShown: false}}             
+            />
+            <Stack.Screen
+                name='Editcadastro'
+                component={Editcadastro}
                 options={{headerShown: false}}             
             />
         </Stack.Navigator>

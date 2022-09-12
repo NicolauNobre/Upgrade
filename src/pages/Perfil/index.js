@@ -104,9 +104,9 @@ export default function Perfil(params) {
         <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
       </ImageBackground>
       <TouchableOpacity style={styles.buttonedit}
-        // onPress={() => navigation.navigate("Registro", {
-        // params: {userid: userid},
-        // })}
+        onPress={() => navigation.navigate("Editcadastro", {
+        params: {userid: userid},
+        })}
         >
         <Text style={styles.buttonText}>Editar dados</Text>
       </TouchableOpacity>
