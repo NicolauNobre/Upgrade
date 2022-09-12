@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import styles from "./styles";
 import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, useWindowDimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 

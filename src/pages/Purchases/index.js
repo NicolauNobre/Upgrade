@@ -7,12 +7,12 @@ export default function Purchases(userid) {
     const navigation = useNavigation();
     const id = userid.route.params.params.userid;
     // console.log (id)
- return (
-   <View style={styles.container}>
-    <Text style={styles.header}>Minhas Compras</Text>
-    <View style={styles.line}/>
-   </View>
-  );
+    return (
+        <View style={styles.container}>
+            <Text style={styles.header}>Minhas Compras</Text>
+            <View style={styles.line}/>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

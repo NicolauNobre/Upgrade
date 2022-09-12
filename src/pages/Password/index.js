@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 
@@ -114,6 +113,7 @@ export default function Password() {
               resizeMode = "contain"
             />
           </View>
+          <Text style={styles.msgerro}>{send}</Text>
           <Text style={styles.Dados}>Um código de confirmação será enviado para o seu email</Text>
           <Text style={styles.msgerro}></Text>
           <Text style={styles.title}>E-mail *</Text>

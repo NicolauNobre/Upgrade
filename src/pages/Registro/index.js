@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView} from 'react-native';
 import 'react-native-gesture-handler';
-import {Feather} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import {Picker} from '@react-native-picker/picker';
 
@@ -10,8 +9,8 @@ import {useNavigation} from '@react-navigation/native'
 const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 64;
 
 export default function Registro(params) {
-  const [image, setImage] = useState(null);
-  // console.log(params.route.params.id);
+    const [image, setImage] = useState(null);
+    // console.log(params.route.params.id);
     const userid = params.route.params.id
     const navigation = useNavigation();
     const [nome, setNome] = useState('');
@@ -42,7 +41,7 @@ export default function Registro(params) {
       }
     };
 
-    // função para validar os formulários (precisa de alguma melhorias)
+    // função para validar os formulários (precisa de algumas melhorias)
     const validar = () =>{
       setVnome('')
       setVdescricao('')
@@ -116,6 +115,7 @@ export default function Registro(params) {
         });
       }
     }
+    
     return (
         <ScrollView style={styles.container}>
           <View style={styles.containerview}>

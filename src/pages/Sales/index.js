@@ -8,12 +8,12 @@ export default function Sales(userid) {
     // console.log (id)
     const navigation = useNavigation();
 
- return (
-    <View style={styles.container}>
-    <Text style={styles.header}>Minhas Vendas</Text>
-    <View style={styles.line}/>
-   </View>
-  );
+    return (
+        <View style={styles.container}>
+            <Text style={styles.header}>Minhas Vendas</Text>
+            <View style={styles.line}/>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

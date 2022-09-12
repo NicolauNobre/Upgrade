@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Picker} from '@react-native-picker/picker';
-
 
 export default function Pageitem(params) {
     const navigation = useNavigation();
