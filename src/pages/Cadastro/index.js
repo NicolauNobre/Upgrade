@@ -372,7 +372,8 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container:{
     flex:1.,
-    backgroundColor: '#1E1E1E'
+    backgroundColor: '#1E1E1E',
+    paddingBottom: 15,
   },
   msgerro:{
     color:"red",
@@ -435,7 +436,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   registerText:{
-    color: '#FF7851'
+    color: 'white'
   },
   TextInput:{
     backgroundColor: 'white',
@@ -460,7 +461,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   Obg:{
-    color: '#FF7851',
+    color: 'white',
     fontSize: 15,
     alignSelf: 'center',
     marginTop: 15,

@@ -131,15 +131,16 @@ export default function SignIn() {
           <TouchableOpacity style={styles.button} onPress={() => enviar()}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-
+          <View style={styles.line}/>
           <TouchableOpacity styles={styles.buttonRegister}>
-          <Text style={styles.registerText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
+          <Text style={styles.whiteText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.buttonRegister}
           onPress={() => navigation.navigate("Cadastro")}>
-            <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
+            <Text style={styles.whiteText}>Não possui uma conta? <Text style={styles.orangetext}>Registre-se</Text></Text>
           </TouchableOpacity>
+
         </Animatable.View>
       </ScrollView>
     </View>

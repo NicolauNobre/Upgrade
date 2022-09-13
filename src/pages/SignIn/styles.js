@@ -8,6 +8,15 @@ const styles = StyleSheet.create({
     title:{
       color: '#FF7851',
       fontSize: 16,
+      fontFamily: 'inter'
+    },
+    whiteText:{
+      color: 'white',
+      alignSelf:'center'
+    },
+    orangetext:{
+      color: '#FF7851',
+      alignSelf:'center'
     },
     msgerro:{
       color:"red",
@@ -105,7 +114,12 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       alignSelf: 'center'
-
+    },
+    line:{
+      borderBottomColor: '#E7E7E7',
+      borderBottomWidth: 2,
+      marginTop: 10,
+      marginBottom: 5,
     }
   })
 

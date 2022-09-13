@@ -53,7 +53,7 @@ export default function Perfil(params) {
           // console.log('buscando...')
           return(
               <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
-                  <ActivityIndicator color={"#FF7851"} size={50}/> 
+                  <ActivityIndicator color={"#FF7851"} size={100}/> 
               </View>
           )
       }
@@ -61,6 +61,7 @@ export default function Perfil(params) {
 
   return (
     <ScrollView style={styles.container}>
+      {loading()}
       <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Registro", {
         params: {userid: userid},
@@ -89,20 +90,23 @@ export default function Perfil(params) {
         <Text style={styles.buttonText}>Minhas compras</Text>
       </TouchableOpacity>
       <View style={styles.line}/>
-      <ImageBackground source={require('../../assets/UpGrade.jpg')} resizeMode="cover" style={styles.image}>
-        {loading()}
-        <View style={styles.areaButton}>
-          <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
-        </View>
-        <Text style={styles.text1}>{nome}</Text>
+      <View style={styles.areaButton}>
+        <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
+      </View>
+      <Text style={styles.text1}>{nome}</Text>
+      <View style={styles.line}/>
+      <Text style={styles.textout}>Dados pessoais</Text>
+      <View style={styles.infobackground}>
         <Text style={styles.text}>Nome: {nome}</Text>
         <Text style={styles.text}>Email: {email}</Text>
         <Text style={styles.text}>Documento: {cpf}</Text>
         <Text style={styles.text}>Telefone: {phone}</Text>
-        <Text style={styles.text}>Endereço:</Text>
+      </View>
+      <Text style={styles.textout}>Endereço</Text>
+      <View style={styles.infobackground}>
         <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
         <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
-      </ImageBackground>
+      </View>
       <TouchableOpacity style={styles.buttonedit}
         onPress={() => navigation.navigate("Editcadastro", {
         params: {userid: userid},
@@ -137,7 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   text:{
-    color:'white',
+    color:'black',
     fontSize: 20,
     marginTop: 28,
     marginBottom: 5,
@@ -160,10 +164,10 @@ const styles = StyleSheet.create({
   buttonedit:{
     flexDirection:'row',
     backgroundColor: '#FF7851',
-    width: '50%',
+    width: '80%',
     borderRadius: 50,
     paddingVertical: 8,
-    marginTop: 14,
+    marginTop: 20,
     marginBottom: 5,
     justifyContent:'center',
     alignItems: 'center',
@@ -192,5 +196,19 @@ const styles = StyleSheet.create({
   line:{
     borderBottomColor: '#A3A3A3',
     borderBottomWidth: 2,
-}
+  },
+  infobackground:{
+    backgroundColor: 'white',
+    width: '80%',
+    alignSelf: 'center',
+    marginTop: 15,
+    borderRadius: 10,
+  },
+  textout:{
+    color:'white',
+    fontSize: 20,
+    marginTop: 28,
+    marginBottom: 5,
+    alignSelf: 'center',
+  }
 });

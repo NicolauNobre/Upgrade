@@ -144,7 +144,7 @@ export default function Password() {
           <Text style={styles.msgerro}>{vpassword2}</Text>
 
           <TouchableOpacity style={styles.buttonback}
-            onPress={() => navigation.navigate("SignIn")}>
+            onPress={() => navigation.goBack()}>
             <Text style={styles.buttonText}>Voltar</Text>
           </TouchableOpacity>
 
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     button:{
         flexDirection:'row',
         backgroundColor: '#FF7851',
-        width: '30%',
+        width: '80%',
         borderRadius: 50,
         paddingVertical: 8,
         marginTop: 15,
@@ -213,8 +213,8 @@ const styles = StyleSheet.create({
     },
     buttonback:{
       flexDirection:'row',
-      backgroundColor: '#FF7851',
-      width: '30%',
+      backgroundColor: 'gray',
+      width: '80%',
       borderRadius: 50,
       paddingVertical: 8,
       marginTop: 30,
