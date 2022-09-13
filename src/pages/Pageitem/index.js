@@ -7,8 +7,7 @@ export default function Pageitem(params) {
     const [quant, setQuant] = useState('1');
     const [vquant, setVquant] = useState('');
     // console.log(params.route.params.params.item)
-
-    global.index = params.route.params.params.item;
+    const index = params.route.params.params.item;
     const userid = params.route.params.params.id
 
     // função para adicionar o itens no carrinho (compra)

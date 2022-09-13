@@ -94,6 +94,10 @@ export default function Perfil(params) {
         <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
       </View>
       <Text style={styles.text1}>{nome}</Text>
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Welcome")}>
+        <Text style={styles.buttonText}>Sair</Text>
+      </TouchableOpacity>
       <View style={styles.line}/>
       <Text style={styles.textout}>Dados pessoais</Text>
       <View style={styles.infobackground}>
