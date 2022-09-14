@@ -5,7 +5,10 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
+import * as Font from 'expo-font';
 
+//Font.loadAsync('fontFamilyOrFontMap');
+//console.log(Font)
 export default function Cadastro() {
   const navigation = useNavigation();
 
@@ -374,6 +377,7 @@ const styles = StyleSheet.create({
     flex:1.,
     backgroundColor: '#1E1E1E',
     paddingBottom: 15,
+    //fontFamily: 'Roboto'
   },
   msgerro:{
     color:"red",
@@ -383,6 +387,7 @@ const styles = StyleSheet.create({
   title:{
     color: '#FF7851',
     fontSize: 16,
+    //fontFamily: 'Roboto'
   },
   containerHeader:{
     marginBottom: '8%',
@@ -430,6 +435,7 @@ const styles = StyleSheet.create({
   buttonText:{
     color: '#1E1E1E',
     fontSize: 18,
+    //fontFamily: 'Inter'
   },
   buttonRegister:{
     marginTop: 14,

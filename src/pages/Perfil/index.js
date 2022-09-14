@@ -98,7 +98,7 @@ export default function Perfil(params) {
         onPress={() => navigation.navigate("Welcome")}>
         <Text style={styles.buttonText}>Sair</Text>
       </TouchableOpacity>
-      <View style={styles.line}/>
+
       <Text style={styles.textout}>Dados pessoais</Text>
       <View style={styles.infobackground}>
         <Text style={styles.text}>Nome: {nome}</Text>
@@ -124,7 +124,7 @@ export default function Perfil(params) {
 
 const styles = StyleSheet.create({
   container:{
-      backgroundColor: '#1E1E1E',
+      backgroundColor: '#E6E6E6',
       flex:1,
   },
   image: {
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   text1:{
     alignSelf:'center',
-    color:'white',
+    color:'#1E1E1E',
     fontSize: 25,
     marginTop: 28,
     marginBottom: 12,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textout:{
-    color:'white',
+    color:'#1E1E1E',
     fontSize: 20,
     marginTop: 28,
     marginBottom: 5,
