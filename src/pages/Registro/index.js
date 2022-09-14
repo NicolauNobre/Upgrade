@@ -1,32 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
+import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView} from 'react-native';
 import 'react-native-gesture-handler';
-import {Feather} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import {Picker} from '@react-native-picker/picker';
 
 import {useNavigation} from '@react-navigation/native'
 
 const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 64;
 
-export default function Registro(userid) {
-  const [image, setImage] = useState(null);
-  console.log(userid);
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
-
+export default function Registro(params) {
+    const [image, setImage] = useState(null);
+    // console.log(params.route.params.id);
+    const userid = params.route.params.id
     const navigation = useNavigation();
     const [nome, setNome] = useState('');
     const [vnome, setVnome] = useState('');
@@ -41,13 +26,27 @@ export default function Registro(userid) {
     const [quantidade, setQuantidade] = useState('');
     const [vquantidade, setVquantidade] = useState('');
     const [vregistro, setVregistro] = useState('');
+    
+    // função para pegar a imagem
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      // console.log(result);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    };
 
+    // função para validar os formulários (precisa de algumas melhorias)
     const validar = () =>{
       setVnome('')
       setVdescricao('')
       setVvalor('')
       setVestado('')
-      setVcategoria('')
       setVquantidade('')
       let error = false
       if (nome == ''){
@@ -67,7 +66,7 @@ export default function Registro(userid) {
         error = true
       }
       if(categoria == ''){
-        setVcategoria("Digite a categoria do item")
+        setVcategoria("Selecione a categoria do item")
         error = true
       }
       if(quantidade == ''){
@@ -77,9 +76,9 @@ export default function Registro(userid) {
 
       return !error
     }
-    // https://upgrade-back-staging.herokuapp.com/product/register
+
+    // função para enviar os formulários para o back
     async function fetchMoviesJSON() {
-      let usuario = "62c24f2e53b525876f3d731c"
       const response = await fetch('https://upgrade-back-staging.herokuapp.com/product/register',{
         method: 'POST',
         body: JSON.stringify({
@@ -89,7 +88,7 @@ export default function Registro(userid) {
           "condition" : estado,
           "class" : categoria,
           "amount" : quantidade,
-          "userId" : usuario,
+          "userId" : userid,
         }),
         headers: { 'Content-Type': 'application/json' },
       });
@@ -97,30 +96,33 @@ export default function Registro(userid) {
       return teste;
     }
 
+    // função de envio de formulários se eles forem válidos
     const salvar = () =>{
       if (validar()){
-        console.log("manda pro back")
+        // console.log("manda pro back")
         fetchMoviesJSON().then(teste => {
-          console.log(teste)
-          console.log("pegou resposta")
+          // console.log(teste)
+          // console.log("pegou resposta")
           if(teste.confirm){
-            console.log("Registrou")
+            // console.log("Registrou")
+            alert("Item Registrado")
             navigation.navigate("Home")
           }else{
-            console.log("não Registrou")
+            // console.log("não Registrou")
+            alert("Item Não Registrado")
             setVregistro("Não registrou")
           }
         });
       }
     }
-
+    
     return (
         <ScrollView style={styles.container}>
           <View style={styles.containerview}>
             <View style={styles.content}>
-              <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
+              {/* <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
                 <Feather name="menu" size={27} color="#FF7851"/>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <View style={styles.containerForm}>
                 <Text style={styles.title}> Registrar item para a Venda</Text>
               </View>      
@@ -159,11 +161,26 @@ export default function Registro(userid) {
         />
         <Text style={styles.msgerro}>{vestado}</Text>
         <Text style={styles.title2}>Categoria Do Item *</Text>
-        <TextInput
-            placeholder="Categoria do Item"
-            onChangeText={setCategoria}
-            style={styles.TextSenha}
-        />
+        <View style={styles.pickercontainer}>
+        <Picker
+          style={styles.TextSenha}
+          selectedValue={categoria}
+          onValueChange={(itemValue, itemIndex) =>setCategoria(itemValue)}
+          itemStyle={styles.TextSenha}
+        >
+          
+          <Picker.Item label="Memória Ram" value="memoria ram" />
+          <Picker.Item label="HD" value="HD" />
+          <Picker.Item label="SSD" value="SSD" />
+          <Picker.Item label="placa de video" value="placa de video" />
+          <Picker.Item label="placa Mãe" value="placa mae" />
+          <Picker.Item label="Monitor" value="monitor" />
+          <Picker.Item label="Gabinete" value="gabinete" />
+          <Picker.Item label="Periférico" value="periférico" />
+          <Picker.Item label="Processador" value="processador" />
+          <Picker.Item label="Cooler" value="Cooler" />
+        </Picker>
+        </View>
         <Text style={styles.msgerro}>{vcategoria}</Text>
         <Text style={styles.title2}>Quantidade *</Text>
         <TextInput
@@ -243,11 +260,13 @@ const styles = StyleSheet.create({
     buttonRegister:{
       backgroundColor: '#1E1E1E',
       marginTop: 30,
+      padding: 10,
       borderRadius: 50,
       width: '45%',
       alignSelf: 'center'
     },
     buttonPick:{
+      padding: 5,
       backgroundColor: '#FF7851',
       marginTop: 10,
       borderRadius: 50,
@@ -263,20 +282,31 @@ const styles = StyleSheet.create({
       backgroundColor: '#E6E6E6',
       color: '#FF7851',
       marginTop: 10,
-      fontSize: 16,
+      fontSize: 20,
+      borderRadius: 20,
     },
     TextSenha:{
       backgroundColor: 'white',
-      color: '#A3A3A3',
+      padding: 5,
+      color: 'black',
       borderRadius: 50,
       width: '80%',
+      fontSize: 20,
+      // height: 60,
       alignSelf: 'center',
       textAlign: 'center'
     },
     title1:{
       backgroundColor: '#E6E6E6',
       color: '#FF7851',
-      fontSize: 25,
+      fontSize: 30,
       fontWeight: '400'
     },
+    pickercontainer:{
+      backgroundColor: 'white',
+      borderRadius: 50,
+      width: '80%',
+      alignSelf: 'center',
+      fontSize: 10,
+    }
 });

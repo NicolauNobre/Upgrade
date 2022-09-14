@@ -8,6 +8,15 @@ const styles = StyleSheet.create({
     title:{
       color: '#FF7851',
       fontSize: 16,
+      fontFamily: 'inter'
+    },
+    whiteText:{
+      color: 'white',
+      alignSelf:'center'
+    },
+    orangetext:{
+      color: '#FF7851',
+      alignSelf:'center'
     },
     msgerro:{
       color:"red",
@@ -67,11 +76,12 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     registerText:{
-      color: '#FF7851'
+      color: '#FF7851',
+      alignSelf:'center'
     },
     TextInput:{
       backgroundColor: 'white',
-      color: '#A3A3A3',
+      color: 'black',
       borderRadius: 50,
       width: '80%',
       alignSelf: 'center',
@@ -84,6 +94,32 @@ const styles = StyleSheet.create({
       width: '80%',
       alignSelf: 'center',
       textAlign: 'center'
+    },
+    forget:{
+      color: '#FFFFFF',
+      fontSize: 13,
+      alignSelf: 'center',
+      marginTop: 10,
+    },
+    ou:{
+      color: '#FFFFFF',
+      fontSize: 16  ,
+      alignSelf: 'center',
+    },
+    button2:{
+      backgroundColor: '#DB4A39',
+      width: '80%',
+      borderRadius: 50,
+      paddingVertical: 8,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center'
+    },
+    line:{
+      borderBottomColor: '#E7E7E7',
+      borderBottomWidth: 2,
+      marginTop: 10,
+      marginBottom: 5,
     }
   })
 

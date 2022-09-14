@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, ActivityIndicator} from 'react-native';
 
-import validator from 'validator'
-import * as Animatable from 'react-native-animatable'
-import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
+import {useNavigation} from '@react-navigation/native';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
+import * as Font from 'expo-font';
 
-import {useNavigation} from '@react-navigation/native'
-
+//Font.loadAsync('fontFamilyOrFontMap');
+//console.log(Font)
 export default function Cadastro() {
   const navigation = useNavigation();
 
@@ -21,7 +23,7 @@ export default function Cadastro() {
   const [vcpf, setVcpf] = useState('')
   const [phone, setPhone] = useState('');
   const [vphone, setVphone] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [vdate, setVdate] = useState('');
   const [zip, setZip] = useState('');
   const [vzip, setVzip] = useState('');
@@ -35,7 +37,9 @@ export default function Cadastro() {
   const [vadress, setVadress] = useState('');
   const [complement, setComplement] = useState('');
   const [vcadaster, setVcadaster] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
+  // função para validar os formulários (precisa de melhorias)
   const validar = () =>{
     setVcpf('')
     setVemail('')
@@ -81,7 +85,6 @@ export default function Cadastro() {
       setVadress("número invalido")
       error = true
     }
-
     if(date == ''){
       setVdate("Preencha a data")
       error = true
@@ -106,11 +109,11 @@ export default function Cadastro() {
       setVstreet("preencha o campo Rua")
       error = true
     }
-
     return !error
   }
 
-  async function fetchMoviesJSON() {
+  // função para enviar os formularios para o back
+  async function fetchMoviesJSON(temp) {
     const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/cadaster',{
       method: 'POST',
       body: JSON.stringify({
@@ -119,7 +122,7 @@ export default function Cadastro() {
         "password" : password,
         "cpf" : cpf,
         "phone" : phone,
-        "date_birthday" : date,
+        "date_birthday" : temp,
         "zipcode" : zip,
         "country_state" : country,
         "city" : city,
@@ -133,148 +136,238 @@ export default function Cadastro() {
     return teste;
   }
 
+  // função de envio de formulários se eles forem válidos
   const salvar = () =>{
+    setIsLoading(true)
+    let temp = (date.getMonth()+1)+'/'+(date.getDate())+'/'+date.getFullYear()
+    // console.log(temp)
     if (validar()){
       setVcadaster('')
-      console.log("manda pro back")
-      fetchMoviesJSON().then(teste => {
-        console.log(teste)
-        console.log("pegou resposta")
+      // console.log("manda pro back")
+      fetchMoviesJSON(temp).then(teste => {
+        // console.log(teste)
+        // console.log("pegou resposta")
         if(teste.confirm){
-          console.log("cadastrou")
+          // console.log("cadastrou")
+          setIsLoading(false)
           navigation.navigate("SignIn")
         }else{
-          setVcadaster("Email ja cadastrado")
-          console.log("não cadastro")
+          setIsLoading(false)
+          setVcadaster("Erro ao cadastrar, verifique seus dados")
+          // console.log("não cadastro")
+          alert("Verifique seus dados e tente novamente")
         }
         
       });
+    }else{
+      setIsLoading(false)
     }
   }
 
+  // função para o data picker
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
+  // função para modal do data picker
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+  // função para mostrar a modal do datapicker
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+
+
+  //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
+  const loading = () =>{
+    if(isLoading){
+      // flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: ''
+      return(
+      <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+        <ActivityIndicator color={"#FF7851"} size={100}/> 
+      </View>
+      )
+    }
+  }
+
+
  return (
    <KeyboardAvoidingView style={styles.container}>
-   <ScrollView style={styles.container}>
-    <View style={styles.containerLogo}>
-        <Animatable.Image
-        animation="flipInY"
-          source={require('../../assets/UpGrade.jpg')}
-          style = {{ width:'100%'}}
-          resizeMode = "contain"
-        />
-      </View>
-
-    <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-      <Text style={styles.msgerro}>{vcadaster}</Text>
-      <Text style={styles.title}>Nome Completo *</Text>
-      <TextInput
-        placeholder="Nome Completo..."
-        onChangeText={setNome}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vnome}</Text>
-      <Text style={styles.title}>CPF *</Text>
-      <TextInput
-        keyboardType = "number-pad"
-        placeholder="CPF..."
-        onChangeText={setCpf}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vcpf}</Text>
-      <Text style={styles.title}>Telefone (DDD+número) *</Text>
-      <TextInput
-        keyboardType="phone-pad"
-        placeholder="Telefone..."
-        onChangeText={setPhone}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vphone}</Text>
-      <Text style={styles.title}>Data de Nascimento *</Text>
-
-      <TextInput
-      keyboardType="numbers-and-punctuation"
-        placeholder="DD/MM/AAAA"
-        onChangeText={setDate}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vdate}</Text>
-      
-      <Text style={styles.title}>E-mail *</Text>
-      <TextInput
-        keyboardType="email-address"
-        placeholder="E-mail..."
-        onChangeText={setEmail}
-        style={styles.TextInput}
-      />
-      <Text style={styles.msgerro}>{vemail}</Text>
-      <Text style={styles.title}>Senha *</Text>
-      <TextInput
-        placeholder="Senha..."
-        onChangeText={setPassword}
-        style={styles.TextSenha}
-        secureTextEntry={true}
-      />
-      <Text style={styles.msgerro}>{vpassword}</Text>
-      <Text style={styles.title}>Confirmar Senha *</Text>
-      <TextInput
-        placeholder="Senha..."
-        onChangeText={setPassword2}
-        style={styles.TextSenha}
-        secureTextEntry={true}
-      />
-      <Text style={styles.msgerro}>{vpassword}</Text>
-      <Text style={styles.title}>CEP (apenas os números) *</Text>
-      <TextInput
-        keyboardType="number-pad"
-        placeholder="CEP..."
-        onChangeText={setZip}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vzip}</Text>
-      <Text style={styles.title}>Estado *</Text>
-      <TextInput
-        placeholder="Estado..."
-        onChangeText={setCountry}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vcountry}</Text>
-      <Text style={styles.title}>Cidade *</Text>
-      <TextInput
-        placeholder="Cidade..."
-        onChangeText={setCity}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vcity}</Text>
-      <Text style={styles.title}>Rua *</Text>
-      <TextInput
-        placeholder="Rua..."
-        onChangeText={setStreet}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vstreet}</Text>
-      <Text style={styles.title}>Número *</Text>
-      <TextInput
-        keyboardType="number-pad"
-        placeholder="Número..."
-        onChangeText={setAdress}
-        style={styles.TextSenha}
-      />
-      <Text style={styles.msgerro}>{vadress}</Text>
-      <Text style={styles.title}>Complemento</Text>
-      <TextInput
-        placeholder="Complemento..."
-        onChangeText={setComplement}
-        style={styles.TextSenha}
-      />
-      <TouchableOpacity style={styles.button} onPress={() => salvar()}>
-        <Text style={styles.buttonText}>Cadastrar-se</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonRegister}
-      onPress={() => navigation.navigate("SignIn")}>
-        <Text style={styles.registerText}>Já é cadastrado</Text>
-      </TouchableOpacity>
-    </Animatable.View>
-   </ScrollView>
+   {loading()}
+    <View style={{height: '100%'}}>
+      {loading()}
+      <ScrollView style={styles.container}>
+        <View style={styles.containerLogo}>
+            <Animatable.Image
+            animation="flipInY"
+              source={require('../../assets/UpGrade.jpg')}
+              style = {{ width:'100%'}}
+              resizeMode = "contain"
+            />
+          </View>
+        <Text style={styles.Dados}>Dados Pessoais</Text>
+        <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+          <Text style={styles.msgerro}>{vcadaster}</Text>
+          <Text style={styles.title}>Nome Completo *</Text>
+          <TextInput
+            placeholder="Nome Completo..."
+            onChangeText={setNome}  
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vnome}</Text>
+          <Text style={styles.title}>CPF *</Text>
+          <TextInput
+            keyboardType = "number-pad"
+            placeholder="CPF..."
+            onChangeText={setCpf}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vcpf}</Text>
+          <Text style={styles.title}>Telefone (DDD+número) *</Text>
+          <TextInput
+            keyboardType="phone-pad"
+            placeholder="Telefone..."
+            onChangeText={setPhone}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vphone}</Text>
+          <Text style={styles.title}>Data de Nascimento *</Text>
+        
+          {/* <TextInput
+          keyboardType="numbers-and-punctuation"
+            placeholder="DD/MM/AAAA"
+            onChangeText={setDate}
+            style={styles.TextSenha}
+          /> */}
+          <TouchableOpacity style={styles.datebutton}
+          onPress={showDatepicker}>
+            <Text style={styles.datetext}>Precione para escolher a data</Text>
+          </TouchableOpacity>
+          
+          <Text style={styles.msgerro}>{vdate}</Text>
+          
+          <Text style={styles.title}>E-mail *</Text>
+          <TextInput
+            keyboardType="email-address"
+            placeholder="E-mail..."
+            onChangeText={setEmail}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vemail}</Text>
+          <Text style={styles.title}>Senha *</Text>
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={setPassword}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword}</Text>
+          <Text style={styles.title}>Confirmar Senha *</Text>
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={setPassword2}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.Dados}>Endereço</Text>
+          <Text style={styles.msgerro}>{vpassword}</Text>
+          <Text style={styles.title}>CEP (apenas os números) *</Text>
+          <TextInput
+            keyboardType="number-pad"
+            placeholder="CEP..."
+            onChangeText={setZip}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vzip}</Text>
+          <Text style={styles.title}>Estado *</Text>
+          <View style={styles.pickercontainer}>
+            <Picker
+                style={styles.TextSenha}
+                selectedValue={country}
+                onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
+                itemStyle={styles.TextSenha}
+              >
+                <Picker.Item label="Acre" value="Acre" />
+                <Picker.Item label="Alagoas" value="Alagoas" />
+                <Picker.Item label="Amapá" value="Amapá" />
+                <Picker.Item label="Amazonas" value="Amazonas" />
+                <Picker.Item label="Bahia" value="Bahia" />
+                <Picker.Item label="Ceara" value="Ceara" />
+                <Picker.Item label="Distrito Federal" value="Distrito Federal" />
+                <Picker.Item label="Espírito Santo" value="Espírito Santo" />
+                <Picker.Item label="Goiás" value="Goiás" />
+                <Picker.Item label="Maranhão" value="Maranhão" />
+                <Picker.Item label="Mato Grosso" value="Mato Grosso" />
+                <Picker.Item label="Mato Grosso do Sul" value="Mato Grosso do Sul" />
+                <Picker.Item label="Minas Gerais" value="Minas Gerais" />
+                <Picker.Item label="Pará" value="Pará" />
+                <Picker.Item label="Paraíba" value="Paraíba" />
+                <Picker.Item label="Paraná" value="Paraná" />
+                <Picker.Item label="Pernambuco" value="Pernambuco" />
+                <Picker.Item label="Piauí" value="Piauí" />
+                <Picker.Item label="Rio de Janeiro" value="Rio de Janeiro" />
+                <Picker.Item label="Rio Grande do Norte" value="Rio Grande do Norte" />
+                <Picker.Item label="Rio Grande do Sul" value="Rio Grande do Sul" />
+                <Picker.Item label="Rondônia" value="Rondônia" />
+                <Picker.Item label="Roraima" value="Roraima" />
+                <Picker.Item label="Santa Catarina" value="Santa Catarina" />
+                <Picker.Item label="São Paulo" value="São Paulo" />
+                <Picker.Item label="Sergipe" value="Sergipe" />
+                <Picker.Item label="Tocantins" value="Tocantins" />
+              </Picker>
+            </View>
+          {/* <TextInput
+            placeholder="Estado..."
+            onChangeText={setCountry}
+            style={styles.TextSenha}
+          /> */}
+          <Text style={styles.msgerro}>{vcountry}</Text>
+          <Text style={styles.title}>Cidade *</Text>
+          <TextInput
+            placeholder="Cidade..."
+            onChangeText={setCity}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vcity}</Text>
+          <Text style={styles.title}>Rua *</Text>
+          <TextInput
+            placeholder="Rua..."
+            onChangeText={setStreet}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vstreet}</Text>
+          <Text style={styles.title}>Número *</Text>
+          <TextInput
+            keyboardType="number-pad"
+            placeholder="Número..."
+            onChangeText={setAdress}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.msgerro}>{vadress}</Text>
+          <Text style={styles.title}>Complemento</Text>
+          <TextInput
+            placeholder="Complemento..."
+            onChangeText={setComplement}
+            style={styles.TextSenha}
+          />
+          <Text style={styles.Obg}>Os campos com * são obrigatórios!</Text>
+          <TouchableOpacity style={styles.button} onPress={() => salvar()}>
+            <Text style={styles.buttonText}>Cadastrar-se</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonRegister}
+          onPress={() => navigation.navigate("SignIn")}>
+            <Text style={styles.registerText}>Já é cadastrado</Text>
+          </TouchableOpacity>
+        </Animatable.View>
+      </ScrollView>
+    </View>
    </KeyboardAvoidingView>
   );
 }
@@ -282,7 +375,9 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container:{
     flex:1.,
-    backgroundColor: '#1E1E1E'
+    backgroundColor: '#1E1E1E',
+    paddingBottom: 15,
+    //fontFamily: 'Roboto'
   },
   msgerro:{
     color:"red",
@@ -292,6 +387,7 @@ const styles = StyleSheet.create({
   title:{
     color: '#FF7851',
     fontSize: 16,
+    //fontFamily: 'Roboto'
   },
   containerHeader:{
     marginBottom: '8%',
@@ -313,8 +409,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FF7851',
-    fontSize: 20,
-    marginTop: 28,
+    fontSize: 16,
+    marginTop: 10,
     marginLeft: 35,
     marginBottom: 5,
   },
@@ -339,13 +435,14 @@ const styles = StyleSheet.create({
   buttonText:{
     color: '#1E1E1E',
     fontSize: 18,
+    //fontFamily: 'Inter'
   },
   buttonRegister:{
     marginTop: 14,
     alignSelf: 'center'
   },
   registerText:{
-    color: '#FF7851'
+    color: 'white'
   },
   TextInput:{
     backgroundColor: 'white',
@@ -357,10 +454,47 @@ const styles = StyleSheet.create({
   },
   TextSenha:{
     backgroundColor: 'white',
-    color: '#A3A3A3',
+    color: 'black',
     borderRadius: 50,
     width: '80%',
     alignSelf: 'center',
+    textAlign: 'center',
+  },
+  Dados:{
+    color: '#FFFFFF',
+    fontSize: 25,
+    alignSelf: 'center',
+    marginTop: 15,
+  },
+  Obg:{
+    color: 'white',
+    fontSize: 15,
+    alignSelf: 'center',
+    marginTop: 15,
+  },
+  datebutton:{
+    backgroundColor: 'white',
+    borderRadius: 50,
+    width: '80%',
+    height: 30,
+    alignSelf: 'center',
     textAlign: 'center'
+  },
+  datetext:{
+    backgroundColor: 'white',
+    color: 'black',
+    height: 30,
+    textAlignVertical: 'center',
+    borderRadius: 50,
+    width: '100%',
+    fontSize: 15,
+    alignSelf: 'center',
+    textAlign: 'center'
+  },
+  pickercontainer:{
+    backgroundColor: 'white',
+    borderRadius: 50,
+    width: '80%',
+    alignSelf: 'center',
   }
 })

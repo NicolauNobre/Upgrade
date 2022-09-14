@@ -1,27 +1,29 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image, ActivityIndicator} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 
-export default function Ofertas(params) {
+export default function Car(params) {
     const navigation = useNavigation();
-
-
-    // variaveis utilizadas
-    const [resp, setResp] = useState(false);
+    const userid = params.route.params.id
+    // console.log(userid)
     const [pesquisa, setPesquisa] = useState('');
+    const [resp, setResp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [item, setItem] = useState([]);
-    const userid = params.route.params.id;
-    // console.log(userid);
 
-    // função do request de produtos ao back
+    // função do request de produtos no carrinho ao back
     async function fetchMoviesJSON() {
-        setIsLoading(true);
-        const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
-          method: 'Get',
+        setIsLoading(true)
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/Cart',{
+          method: 'POST',
+          body: JSON.stringify({
+            "userId" : userid,
+          }),
+          headers: { 'Content-Type': 'application/json' },
         });
         const teste = await response.json();
+        // console.log(teste)
         setItem (teste);
         setResp(true);
         setIsLoading(false);
@@ -33,46 +35,44 @@ export default function Ofertas(params) {
 
     //função para retornar os itens na view
     const buscar = ()=> {
+
         if (resp){
             // console.log(item)
             return (
                 // percorre o array de itens
                 item.map(index =>{
                     // console.log(index)
-                    if(index.title == undefined){
-                        setResp(false);
+                    let filter = pesquisa.toUpperCase();
+                    let products = index.productsInfo.title.toUpperCase();
+                    if(pesquisa == ''){
+                        return(
+                            <View key={index.productsInfo._id} style={styles.itemcontainer} >
+                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
+                                    <Text style={styles.titletext}>{index.productsInfo.title}</Text>
+                                    <Image
+                                        source={require('../../assets/UpGrade.jpg')}
+                                        style={styles.Img}
+                                    />
+                                    <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
+                                    <Text style={styles.pricetext}> R$: {index.productsInfo.price}</Text>
+                                </TouchableOpacity>  
+                            </View>  
+                        );
                     }else{
-                        let filter = pesquisa.toUpperCase();
-                        let products = index.title.toUpperCase();
-                        if(pesquisa == ''){
+                        // console.log("produto: ", products, "pesquisa", filter)
+                        if(products.includes(filter)){
                             return(
-                                <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                        <Text style={styles.titletext}>{index.title}</Text>
+                                <View key={index.productsInfo._id} style={styles.itemcontainer} >
+                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
+                                        <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                         <Image
                                             source={require('../../assets/UpGrade.jpg')}
                                             style={styles.Img}
                                         />
-                                        <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                        <Text style={styles.pricetext}> R$: {index.productsInfo.price}</Text>
                                     </TouchableOpacity>  
                                 </View>  
                             );
-                        }else{
-                            // console.log("produto: ", products, "pesquisa", filter)
-                            if(products.includes(filter)){
-                                return(
-                                    <View key={index._id} style={styles.itemcontainer} >
-                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid}, })}>
-                                            <Text style={styles.titletext}>{index.title}</Text>
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
-                                            <Text style={styles.pricetext}> R$: {index.price}</Text>
-                                        </TouchableOpacity>  
-                                    </View>  
-                                );
-                            }
                         }
                     }
                 })
@@ -93,11 +93,11 @@ export default function Ofertas(params) {
     }
 
     return (
-        <View style={{height: '100%', width: '100%'}}>
+        <View style={{height: '100%'}}>
             {loading()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
-                    <Text style={styles.texttitle}>Produtos disponiveis:</Text>
+                    <Text style={styles.header}>Meu Carrinho</Text>
                     <View style={styles.containerForm}>
                         <TextInput
                             placeholder="Buscar Produto"
@@ -105,15 +105,39 @@ export default function Ofertas(params) {
                             style={styles.busca}
                         />
                     </View>
+                    {buscar()}
                 </View>
-                {buscar()}
             </ScrollView>
         </View>
-    );
+  );
 }
 
-
 const styles = StyleSheet.create({
+    text:{
+        color: 'white',
+        fontSize: 25,
+        fontWeight: 'bold'
+    },
+    header:{
+        color:'white',
+        alignSelf: 'center',
+        flexDirection: 'row',
+        marginVertical: '5%',
+        fontSize: 25,
+
+    },
+    line:{
+        borderBottomColor: 'white',
+        borderBottomWidth: 2,
+    },
+    itemtext:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#FFFF',
+        backgroundColor: '#FF7851',
+        alignSelf: 'center',
+        paddingTop: 10,
+    },
     container:{
         flex:1,
         justifyContent:'center',
@@ -159,7 +183,8 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         paddingBottom: 20,
-        marginTop: 10,
+        margin: 10,
+
     },
     titletext:{
         fontSize: 36,

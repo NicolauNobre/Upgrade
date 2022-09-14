@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native'
 const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 64;
 
 
-export default function Header(){
+export default function Shopping(){
     const navigation = useNavigation();
     return (
 
@@ -21,13 +21,9 @@ export default function Header(){
                     />
                     </View>
 
-                <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}onPress={() => navigation.navigate("Shopping")}>
-                    <Feather name="shopping-cart" size={27} color="#FF7851"/>
+                <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}onPress={() => navigation.navigate("Initial")}>
+                    <Feather name="home" size={27} color="#FF7851"/>
                 </TouchableOpacity>
-                
-
-
-
             </View>
         </View>
     )
