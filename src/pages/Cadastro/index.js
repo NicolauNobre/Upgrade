@@ -5,7 +5,6 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
-import * as Font from 'expo-font';
 
 //Font.loadAsync('fontFamilyOrFontMap');
 //console.log(Font)

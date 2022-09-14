@@ -11,15 +11,16 @@ export default function Home() {
       <View style={styles.containerLogo}>
         <LinearGradient colors={['#1E1E1E', '#E6E6E6']}
                         style={styles.linearGradient}
-                        start={{ x: 0, y: 0.6 }}
+                        start={{ x: 0, y: 0.3 }}
         >    
-            </LinearGradient>
+        
           <Image
             animation="flipInY"
             source={require('../../assets/UpGrade.jpg')}
-            style = {{ width:'40%'}}
+            style = {{ width:'40%', borderRadius: 30, }}
             resizeMode = "contain"
             />
+        
           <ScrollView style={styles.container3} horizontal={true} showsHorizontalScrollIndicator={false}>
             <TouchableOpacity style={styles.buttonslider}>
               <Text style={styles.textslider}>Exemplo</Text>
@@ -28,10 +29,11 @@ export default function Home() {
               <Text style={styles.textslider}>Exemplo2</Text>
             </TouchableOpacity>
           </ScrollView>
+        </LinearGradient>
       </View>
       <View style={styles.containerpremium}>
         <LinearGradient colors={['#FF7851', '#1E1E1E']}
-                        style={styles.linearGradient}
+                        style={styles.linearGradient2}
                         start={{ x: 0, y: 0.5 }}
                         end={{ x: 1, y: 0.5 }}
         >
@@ -152,7 +154,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   linearGradient:{
+    width: '100%',
+    // borderRadius: 3,
+    alignItems: 'center',
+  },
+  linearGradient2:{
     width: '80%',
     borderRadius: 3,
+    alignItems: 'center',
   }
 });
