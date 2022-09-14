@@ -68,7 +68,6 @@ export default function Perfil(params) {
         })}>
         <Text style={styles.buttonText}>Vender</Text>
       </TouchableOpacity>
-
       <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Itens", {
         params: {userid: userid},
@@ -98,6 +97,7 @@ export default function Perfil(params) {
         onPress={() => navigation.navigate("Welcome")}>
         <Text style={styles.buttonText}>Sair</Text>
       </TouchableOpacity>
+
 
       <Text style={styles.textout}>Dados pessoais</Text>
       <View style={styles.infobackground}>

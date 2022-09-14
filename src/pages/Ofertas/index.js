@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 export default function Ofertas(params) {
     const navigation = useNavigation();
 
+
     // variaveis utilizadas
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
@@ -90,7 +91,6 @@ export default function Ofertas(params) {
             )
         }
     }
-
 
     return (
         <View style={{height: '100%', width: '100%'}}>
@@ -209,5 +209,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical: 'center',
     },
-
 });
