@@ -52,7 +52,7 @@ export default function Pageitem(params) {
 
  return (
     <View style={styles.container}>
-        <Text style={styles.prod}>Informações sobre o produto:</Text>
+        <Text style={styles.prod}>Informações Sobre o Produto</Text>
         <View style={styles.line}/>
         <ScrollView style={styles.scrollcontainer}>
             <View style={styles.itemcontainer}>
@@ -72,10 +72,10 @@ export default function Pageitem(params) {
                 <Text style={styles.itemtext}>Condição: {index.condition}</Text>
                 <Text style={styles.itemtext}>Categoria: {index.class}</Text>
                 <Text style={styles.pricetext}>R$ {index.price}</Text>
+                <Text style={styles.descriptiontext}>Descrição: {index.description}</Text>
                 <TouchableOpacity style={styles.button} onPress={() => validar()}>
                     <Text style={styles.buttonText}>Comprar</Text>
                 </TouchableOpacity>
-                <Text style={styles.descriptiontext}>Descrição: {index.description}</Text>
             </View>
         </ScrollView>
     </View>
@@ -89,21 +89,20 @@ const styles = StyleSheet.create({
     },
     scrollcontainer:{
         flex:1,
-        backgroundColor: '#FF7851',
+        backgroundColor: '#E6E6E6',
     },
     text:{
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
+        color: '#1E1E1E',
+        backgroundColor: '#E6E6E6',
         alignSelf: 'center',
         width: '50%',
     },
     itemtext:{
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
+        color: '#1E1E1E',
         alignSelf: 'center',
         paddingTop: 10,
     },
@@ -111,7 +110,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         color: '#FF0000',
-        backgroundColor: '#FF7851',
         alignSelf: 'center',
         paddingTop: 10,
     },
@@ -130,8 +128,7 @@ const styles = StyleSheet.create({
     pricetext:{
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'yellow',
-        backgroundColor: '#FF7851',
+        color: '#1E1E1E',
         alignSelf: 'center',
         paddingTop: 10,
     },
@@ -146,22 +143,23 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     buttonText:{
-        color: '#FF7851',
+        color: '#E6E6E6',
         fontSize: 25,
     },
     descriptiontext:{
         fontSize: 25,
         fontWeight: 'bold',
         color: 'black',
-        backgroundColor: '#FF7851', 
+        backgroundColor: '#E6E6E6', 
         paddingTop: 10,
+        alignSelf: 'center'
     },
     
     titletext:{
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
+        color: '#1E1E1E',
+        backgroundColor: '#E6E6E6',
         alignSelf: 'center',
         paddingBottom: 20,
     },
@@ -185,7 +183,7 @@ const styles = StyleSheet.create({
     itemcontainer:{
         width: '100%',
         justifyContent: 'space-around',
-        backgroundColor:'#FF7851',
+        backgroundColor:'#E6E6E6',
         height: '100%',
     }
 

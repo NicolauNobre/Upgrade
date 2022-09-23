@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Ofertas(params) {
@@ -63,11 +64,12 @@ export default function Ofertas(params) {
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
                                         <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid}, })}>
-                                            <Text style={styles.titletext}>{index.title}</Text>
                                             <Image
                                                 source={require('../../assets/UpGrade.jpg')}
                                                 style={styles.Img}
                                             />
+                                            <Text style={styles.titletext}>{index.title}</Text>
+                                            <View style={styles.line}/>
                                             <Text style={styles.pricetext}> R$: {index.price}</Text>
                                         </TouchableOpacity>  
                                     </View>  
@@ -97,14 +99,20 @@ export default function Ofertas(params) {
             {loading()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
+                <LinearGradient 
+                colors={['#1E1E1E', '#E6E6E6']}
+                style={styles.linearGradient}
+                start={{ x: 0, y: 0.9 }}
+                >
                     <Text style={styles.texttitle}>Produtos disponiveis:</Text>
                     <View style={styles.containerForm}>
                         <TextInput
                             placeholder="Buscar Produto"
                             onChangeText={value => setPesquisa(value)}
                             style={styles.busca}
-                        />
+                            />
                     </View>
+                </LinearGradient>
                 </View>
                 {buscar()}
             </ScrollView>
@@ -123,7 +131,7 @@ const styles = StyleSheet.create({
     },
     scrollcontainer:{
         flex:1,
-        backgroundColor: '#1E1E1E',
+        backgroundColor: '#E6E6E6',
     },
     text:{
         fontSize: 20,
@@ -136,16 +144,15 @@ const styles = StyleSheet.create({
     pricetext:{
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'yellow',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
+        color: '#1E1E1E',
+        alignSelf: 'flex-end',
         paddingTop: 10,
     },
     texttitle:{
         fontSize: 25,
         fontWeight: 'bold',
         alignSelf: 'center',
-        color: 'white',
+        color: '#E6E6E6',
         padding: 10,
     },
     buttonRegister:{
@@ -164,17 +171,18 @@ const styles = StyleSheet.create({
     titletext:{
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
+        color: '#1E1E1E',
+        alignSelf: 'flex-start',
         paddingBottom: 10,
     },
     itembutton:{
-        width: '80%',
-        backgroundColor: '#FF7851',
-        borderRadius: 30,
+        width: '90%',
+        backgroundColor: 'white',
+        borderRadius: 5,
         padding: 20,
-        alignSelf: 'center',   
+        alignSelf: 'center',
+        borderColor: '#1E1E1E',
+        borderWidth: 0.4
     },
     containerForm:{
         backgroundColor: 'white',
@@ -193,9 +201,9 @@ const styles = StyleSheet.create({
         fontSize: 1 ,
     },
     Img:{
-        width: 100,
-        height: 100,
-        alignSelf: 'center',
+        width: 150,
+        height: 150,
+        alignSelf: 'flex-start',
         borderRadius: 10,
     },
     busca:{
@@ -209,4 +217,15 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical: 'center',
     },
+    line:{
+        borderBottomColor: '#E7E7E7',
+        borderBottomWidth: 2,
+        marginTop: 10,
+        marginBottom: 5,
+    },
+    linearGradient:{
+        width: '100%',
+        // borderRadius: 3,
+        alignItems: 'center',
+      },
 });

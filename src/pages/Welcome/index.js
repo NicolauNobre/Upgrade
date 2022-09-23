@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image,TouchableOpacity, SafeAreaView } from 'react-native';
 import * as Animatable from 'react-native-animatable'
 import {useNavigation} from '@react-navigation/native'
 
@@ -7,7 +7,7 @@ export default function Welcome() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
     
       <View style={styles.containerLogo}>
         <Animatable.Image
@@ -27,7 +27,7 @@ export default function Welcome() {
         </TouchableOpacity>
       </Animatable.View>
 
-    </View>
+    </SafeAreaView>
   );
 }
 

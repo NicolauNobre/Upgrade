@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Car(params) {
     const navigation = useNavigation();
@@ -97,15 +97,21 @@ export default function Car(params) {
             {loading()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
-                    <Text style={styles.header}>Meu Carrinho</Text>
-                    <View style={styles.containerForm}>
-                        <TextInput
-                            placeholder="Buscar Produto"
-                            onChangeText={value => setPesquisa(value)}
-                            style={styles.busca}
-                        />
-                    </View>
-                    {buscar()}
+                    <LinearGradient 
+                    colors={['#1E1E1E', '#E6E6E6']}
+                    style={styles.linearGradient}
+                    start={{ x: 0, y: 0.9 }}
+                    >
+                        <Text style={styles.header}>Meu Carrinho</Text>
+                        <View style={styles.containerForm}>
+                            <TextInput
+                                placeholder="Buscar Produto"
+                                onChangeText={value => setPesquisa(value)}
+                                style={styles.busca}
+                                />
+                        </View>
+                        {buscar()}
+                    </LinearGradient>
                 </View>
             </ScrollView>
         </View>
@@ -133,9 +139,8 @@ const styles = StyleSheet.create({
     itemtext:{
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
+        color: '#1E1E1E',
+        alignSelf: 'flex-end',
         paddingTop: 10,
     },
     container:{
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
     },
     scrollcontainer:{
         flex:1,
-        backgroundColor: '#1E1E1E',
+        backgroundColor: '#E6E6E6',
     },
     text:{
         fontSize: 20,
@@ -160,9 +165,8 @@ const styles = StyleSheet.create({
     pricetext:{
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'yellow',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
+        color: '#1E1E1E',
+        alignSelf: 'flex-end',
         paddingTop: 10,
     },
     texttitle:{
@@ -184,22 +188,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingBottom: 20,
         margin: 10,
-
+        backgroundColor: '#E6E6E6'
     },
     titletext:{
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
+        color: '#1E1E1E',
+        alignSelf: 'flex-start',
         paddingBottom: 10,
     },
     itembutton:{
-        width: '80%',
-        backgroundColor: '#FF7851',
-        borderRadius: 30,
+        width: '90%',
+        backgroundColor: 'white',
+        borderRadius: 5,
         padding: 20,
-        alignSelf: 'center',   
+        alignSelf: 'center',
+        borderColor: '#1E1E1E',
+        borderWidth: 0.4  
     },
     containerForm:{
         backgroundColor: 'white',
@@ -218,9 +223,9 @@ const styles = StyleSheet.create({
         fontSize: 1 ,
     },
     Img:{
-        width: 100,
-        height: 100,
-        alignSelf: 'center',
+        width: 150,
+        height: 150,
+        alignSelf: 'flex-start',
         borderRadius: 10,
     },
     busca:{
@@ -234,4 +239,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical: 'center',
     },
+    linearGradient:{
+        width: '100%',
+        alignItems: 'center',
+      },
 });

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {KeyboardAvoidingView,ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import {Feather} from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Perfil(params) {
     const navigation = useNavigation();
@@ -62,42 +63,54 @@ export default function Perfil(params) {
   return (
     <ScrollView style={styles.container}>
       {loading()}
-      <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate("Registro", {
-        params: {userid: userid},
-        })}>
-        <Text style={styles.buttonText}>Vender</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate("Itens", {
-        params: {userid: userid},
-        })}>
-        <Text style={styles.buttonText}>Meus Itens a Venda</Text>
-      </TouchableOpacity>
+      <ScrollView style={styles.header}>
+        <LinearGradient 
+          colors={['#1E1E1E', '#E6E6E6']}
+          style={styles.linearGradient}
+          start={{ x: 0, y: 0.8 }}
+          >
 
-      <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate("Sales", {
-        params: {userid: userid},
-        })}>
-        <Text style={styles.buttonText}>Minhas Vendas</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.button}
+            onPress={() => navigation.navigate("Registro", {
+            params: {userid: userid},
+            })}>
+            <Text style={styles.buttonText}>Vender</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.button}
+            onPress={() => navigation.navigate("Itens", {
+            params: {userid: userid},
+            })}>
+            <Text style={styles.buttonText}>Meus Itens a Venda</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate("Purchases", {
-        params: {userid: userid},
-        })}>
-        <Text style={styles.buttonText}>Minhas compras</Text>
-      </TouchableOpacity>
-      <View style={styles.line}/>
-      <View style={styles.areaButton}>
-        <Feather style={styles.labelButton} name="user" size={27} color="#FF7851"/>
-      </View>
+          <TouchableOpacity style={styles.button}
+            onPress={() => navigation.navigate("Sales", {
+            params: {userid: userid},
+            })}>
+            <Text style={styles.buttonText}>Minhas Vendas</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button}
+            onPress={() => navigation.navigate("Purchases", {
+            params: {userid: userid},
+            })}>
+            <Text style={styles.buttonText}>Minhas compras</Text>
+          </TouchableOpacity>
+
+          <View style={styles.line}/>
+          <View style={styles.areaButton}>
+            <Feather style={styles.labelButton} name="user" size={60} color="#FF7851"/>
+          </View>
+
+        </LinearGradient>
+      </ScrollView>
+
       <Text style={styles.text1}>{nome}</Text>
       <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate("Welcome")}>
         <Text style={styles.buttonText}>Sair</Text>
       </TouchableOpacity>
-
 
       <Text style={styles.textout}>Dados pessoais</Text>
       <View style={styles.infobackground}>
@@ -118,7 +131,7 @@ export default function Perfil(params) {
         >
         <Text style={styles.buttonText}>Editar dados</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </ScrollView> 
   );
 }
 
@@ -141,17 +154,17 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     color:'#1E1E1E',
     fontSize: 25,
-    marginTop: 28,
+    marginTop: 20,
     marginBottom: 12,
   },
   text:{
     color:'black',
     fontSize: 20,
-    marginTop: 28,
+    marginTop: 15,
     marginBottom: 5,
     flexDirection: 'column',
     alignItems: 'flex-start',
-        
+    paddingLeft: 10
   },
   button:{
     flexDirection:'row',
@@ -178,19 +191,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonText:{
-      flexDirection:'row',
-    color: '#1E1E1E',
+    flexDirection:'row',
+    color: 'white',
     fontSize: 18,
   },
   areaButton:{
     backgroundColor: 'white',
-    height:60,
-    width: 60,
-    borderRadius: 30,
+    height: 120,
+    width: 120,
+    borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'center',
-    marginTop: 10,
+    marginTop: 20,
   },
   labelButton:{
       color: '#FF7851',
@@ -203,16 +216,25 @@ const styles = StyleSheet.create({
   },
   infobackground:{
     backgroundColor: 'white',
-    width: '80%',
+    width: '90%',
     alignSelf: 'center',
     marginTop: 15,
     borderRadius: 10,
+    borderColor: '#1E1E1E',
+    borderWidth: 0.4
   },
   textout:{
     color:'#1E1E1E',
-    fontSize: 20,
+    fontSize: 30,
     marginTop: 28,
     marginBottom: 5,
     alignSelf: 'center',
-  }
+  },
+  header:{
+    backgroundColor: '#1E1E1E',
+  },
+  linearGradient:{
+    width: '100%',
+    alignItems: 'center',
+  },
 });
