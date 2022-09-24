@@ -16,13 +16,15 @@ export default function Home() {
             style={styles.linearGradient}
             start={{ x: 0, y: 0.47 }}
             >   
-            <Image 
-              animation="flipInY"
-              source={require('../../assets/UpGrade_bg.png')}
-              style = {{ width:'40%', alignSelf: 'flex-start', marginLeft: 20, marginTop: 10}}
-              resizeMode = "contain"
-              />
-              <Text style={styles.bemVindo}> Bem Vindo, User! </Text>
+            <View style={{width: '100%', flexDirection: 'row' }}>
+              <Image 
+                animation="flipInY"
+                source={require('../../assets/UpGrade_bg.png')}
+                style = {{ width:'40%', alignSelf: 'flex-start', marginLeft: 20, marginTop: 10}}
+                resizeMode = "contain"
+                />
+              <Text style={styles.bemVindo}> Bem Vindo! </Text>
+            </View>
             <ScrollView style={styles.container3} horizontal={true} showsHorizontalScrollIndicator={false}>
               <TouchableOpacity style={styles.buttonslider}>
                 <Text style={styles.textslider}>Exemplo</Text>
@@ -170,7 +172,8 @@ const styles = StyleSheet.create({
   },
   bemVindo:{
     color: '#E6E6E6', 
-    alignSelf: 'auto', 
+    alignSelf: 'auto',
+    textAlignVertical: 'center', 
     fontSize: 25
   }
 });

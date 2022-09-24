@@ -50,11 +50,14 @@ export default function Ofertas(params) {
                                 <View key={index._id} style={styles.itemcontainer} >
                                     <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
                                         <Text style={styles.titletext}>{index.title}</Text>
-                                        <Image
-                                            source={require('../../assets/UpGrade.jpg')}
-                                            style={styles.Img}
-                                        />
-                                        <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                        <View style={styles.line}/>
+                                        <View style={{width: '100%', flexDirection: 'row' }}>
+                                            <Image
+                                                source={require('../../assets/UpGrade.jpg')}
+                                                style={styles.Img}
+                                            />
+                                            <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                        </View>
                                     </TouchableOpacity>  
                                 </View>  
                             );
@@ -63,16 +66,18 @@ export default function Ofertas(params) {
                             if(products.includes(filter)){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
-                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid}, })}>
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
                                             <Text style={styles.titletext}>{index.title}</Text>
                                             <View style={styles.line}/>
-                                            <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                            <View style={{width: '100%', flexDirection: 'row' }}>
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
+                                                <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                            </View>
                                         </TouchableOpacity>  
-                                    </View>  
+                                    </View> 
                                 );
                             }
                         }
@@ -146,7 +151,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#1E1E1E',
         alignSelf: 'flex-end',
-        paddingTop: 10,
+        paddingLeft: 15,
     },
     texttitle:{
         fontSize: 25,
@@ -219,7 +224,7 @@ const styles = StyleSheet.create({
     },
     line:{
         borderBottomColor: '#E7E7E7',
-        borderBottomWidth: 2,
+        borderBottomWidth: 5,
         marginTop: 10,
         marginBottom: 5,
     },
