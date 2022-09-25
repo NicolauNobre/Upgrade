@@ -112,6 +112,13 @@ export default function Perfil(params) {
         <Text style={styles.buttonText}>Sair</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate("Changepassword", {
+          params: {userid: userid},
+          })}>
+        <Text style={styles.buttonText}>Trocar Senha</Text>
+      </TouchableOpacity>
+
       <Text style={styles.textout}>Dados pessoais</Text>
       <View style={styles.infobackground}>
         <Text style={styles.text}>Nome: {nome}</Text>
