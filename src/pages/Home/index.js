@@ -174,6 +174,6 @@ const styles = StyleSheet.create({
     color: '#E6E6E6', 
     alignSelf: 'auto',
     textAlignVertical: 'center', 
-    fontSize: 25
+    fontSize: 35
   }
 });

@@ -210,9 +210,10 @@ export default function Cadastro() {
               style = {{ width:'100%'}}
               resizeMode = "contain"
             />
-          </View>
+        </View>
         <Text style={styles.Dados}>Dados Pessoais</Text>
         <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+
           <Text style={styles.msgerro}>{vcadaster}</Text>
           <Text style={styles.title}>Nome Completo *</Text>
           <TextInput
@@ -221,24 +222,33 @@ export default function Cadastro() {
             style={styles.TextSenha}
           />
           <Text style={styles.msgerro}>{vnome}</Text>
-          <Text style={styles.title}>CPF *</Text>
-          <TextInput
-            keyboardType = "number-pad"
-            placeholder="CPF..."
-            onChangeText={setCpf}
-            style={styles.TextSenha}
-          />
-          <Text style={styles.msgerro}>{vcpf}</Text>
-          <Text style={styles.title}>Telefone (DDD+número) *</Text>
-          <TextInput
-            keyboardType="phone-pad"
-            placeholder="Telefone..."
-            onChangeText={setPhone}
-            style={styles.TextSenha}
-          />
-          <Text style={styles.msgerro}>{vphone}</Text>
+
+          <View style={{flexDirection: 'row' }}>          
+            <Text style={styles.title}>CPF *</Text>
+            <Text style={styles.title}>Telefone (DDD+número) *</Text> 
+          </View>
+
+          <View style={{flexDirection: 'row' }}>
+            <TextInput 
+                keyboardType = "number-pad"
+                placeholder="CPF..."
+                onChangeText={setCpf}
+                style={styles.textHalf}
+              />
+            <TextInput
+                keyboardType="phone-pad"
+                placeholder="Telefone..."
+                onChangeText={setPhone}
+                style={styles.textTel}
+              />
+          </View>
+
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.msgerroHalf}>{vcpf}</Text>
+            <Text style={styles.msgerroTel}>{vphone}</Text>
+          </View>
+          
           <Text style={styles.title}>Data de Nascimento *</Text>
-        
           {/* <TextInput
           keyboardType="numbers-and-punctuation"
             placeholder="DD/MM/AAAA"
@@ -275,8 +285,9 @@ export default function Cadastro() {
             style={styles.TextSenha}
             secureTextEntry={true}
           />
-          <Text style={styles.Dados}>Endereço</Text>
           <Text style={styles.msgerro}>{vpassword}</Text>
+          <Text style={styles.Dados}>Endereço</Text>
+          
           <Text style={styles.title}>CEP (apenas os números) *</Text>
           <TextInput
             keyboardType="number-pad"
@@ -386,7 +397,6 @@ const styles = StyleSheet.create({
   title:{
     color: '#FF7851',
     fontSize: 16,
-    //fontFamily: 'Roboto'
   },
   containerHeader:{
     marginBottom: '8%',
@@ -412,6 +422,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 35,
     marginBottom: 5,
+    marginRight: 100
   },
   input:{
     backgroundColor: '#FFFFFF',
@@ -455,7 +466,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     borderRadius: 50,
-    width: '80%',
+    width: '85%',
     alignSelf: 'center',
     textAlign: 'center',
   },
@@ -474,7 +485,7 @@ const styles = StyleSheet.create({
   datebutton:{
     backgroundColor: 'white',
     borderRadius: 50,
-    width: '80%',
+    width: '85%',
     height: 30,
     alignSelf: 'center',
     textAlign: 'center'
@@ -495,5 +506,35 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '80%',
     alignSelf: 'center',
+  },
+  textHalf:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '35%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textTel:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '45%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 23,
+  },
+  msgerroHalf:{
+    color:"red",
+    fontSize: 20,
+    alignSelf:'flex-start',
+    marginLeft: 48,
+  },
+  msgerroTel:{
+    color:"red",
+    fontSize: 20,
+    alignSelf:'flex-start',
+    marginLeft: 68,
   }
 })
