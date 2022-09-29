@@ -49,12 +49,15 @@ export default function Car(params) {
                             <View key={index.productsInfo._id} style={styles.itemcontainer} >
                                 <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
                                     <Text style={styles.titletext}>{index.productsInfo.title}</Text>
-                                    <Image
-                                        source={require('../../assets/UpGrade.jpg')}
-                                        style={styles.Img}
-                                    />
-                                    <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
-                                    <Text style={styles.pricetext}> R$: {index.productsInfo.price}</Text>
+                                    <View style={styles.line}/>
+                                    <View style={{width: '100%', flexDirection: 'row' }}>
+                                        <Image
+                                            source={require('../../assets/UpGrade.jpg')}
+                                            style={styles.Img}
+                                        />
+                                        <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
+                                        <Text style={styles.pricetext}> R$: {index.productsInfo.price}</Text>
+                                    </View>
                                 </TouchableOpacity>  
                             </View>  
                         );
@@ -93,25 +96,25 @@ export default function Car(params) {
     }
 
     return (
-        <View style={{height: '100%'}}>
+        <View style={{height: '100%', width: '100%'}}>
             {loading()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
-                    <LinearGradient 
-                    colors={['#1E1E1E', '#E6E6E6']}
-                    style={styles.linearGradient}
-                    start={{ x: 0, y: 0.9 }}
-                    >
-                        <Text style={styles.header}>Meu Carrinho</Text>
-                        <View style={styles.containerForm}>
-                            <TextInput
-                                placeholder="Buscar Produto"
-                                onChangeText={value => setPesquisa(value)}
-                                style={styles.busca}
-                                />
-                        </View>
-                        {buscar()}
-                    </LinearGradient>
+                <LinearGradient 
+                colors={['#1E1E1E', '#E6E6E6']}
+                style={styles.linearGradient}
+                start={{ x: 0, y: 0.9 }}
+                >
+                    <Text style={styles.texttitle}>Meu Carrinho</Text>
+                    <View style={styles.containerForm}>
+                        <TextInput
+                            placeholder="Buscar Produto"
+                            onChangeText={value => setPesquisa(value)}
+                            style={styles.busca}
+                            />
+                    </View>
+                    {buscar()}
+                </LinearGradient>
                 </View>
             </ScrollView>
         </View>
@@ -119,30 +122,6 @@ export default function Car(params) {
 }
 
 const styles = StyleSheet.create({
-    text:{
-        color: 'white',
-        fontSize: 25,
-        fontWeight: 'bold'
-    },
-    header:{
-        color:'white',
-        alignSelf: 'center',
-        flexDirection: 'row',
-        marginVertical: '5%',
-        fontSize: 25,
-
-    },
-    line:{
-        borderBottomColor: 'white',
-        borderBottomWidth: 2,
-    },
-    itemtext:{
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#1E1E1E',
-        alignSelf: 'flex-end',
-        paddingTop: 10,
-    },
     container:{
         flex:1,
         justifyContent:'center',
@@ -167,13 +146,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#1E1E1E',
         alignSelf: 'flex-end',
-        paddingTop: 10,
     },
     texttitle:{
         fontSize: 25,
         fontWeight: 'bold',
         alignSelf: 'center',
-        color: 'white',
+        color: '#E6E6E6',
         padding: 10,
     },
     buttonRegister:{
@@ -187,15 +165,13 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         paddingBottom: 20,
-        margin: 10,
-        backgroundColor: '#E6E6E6'
+        marginTop: 10,
     },
     titletext:{
-        fontSize: 36,
+        fontSize: 25,
         fontWeight: 'bold',
         color: '#1E1E1E',
         alignSelf: 'flex-start',
-        paddingBottom: 10,
     },
     itembutton:{
         width: '90%',
@@ -204,7 +180,7 @@ const styles = StyleSheet.create({
         padding: 20,
         alignSelf: 'center',
         borderColor: '#1E1E1E',
-        borderWidth: 0.4  
+        borderWidth: 0.4
     },
     containerForm:{
         backgroundColor: 'white',
@@ -239,8 +215,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical: 'center',
     },
+    line:{
+        borderBottomColor: '#E7E7E7',
+        borderBottomWidth: 2,
+        marginTop: 2,
+        marginBottom: 7,
+    },
     linearGradient:{
         width: '100%',
         alignItems: 'center',
-      },
+    },
+    backPrice:{
+        backgroundColor: "#FF7851",
+        marginTop: 100,
+        marginLeft: 100,
+        borderRadius: 5,
+        paddingRight: 47,
+    }
 });

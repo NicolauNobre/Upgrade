@@ -56,7 +56,9 @@ export default function Ofertas(params) {
                                                 source={require('../../assets/UpGrade.jpg')}
                                                 style={styles.Img}
                                             />
-                                            <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                            <View style={styles.backPrice}>
+                                                <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                            </View>
                                         </View>
                                     </TouchableOpacity>  
                                 </View>  
@@ -109,7 +111,7 @@ export default function Ofertas(params) {
                 style={styles.linearGradient}
                 start={{ x: 0, y: 0.9 }}
                 >
-                    <Text style={styles.texttitle}>Produtos disponiveis:</Text>
+                    <Text style={styles.texttitle}>Produtos disponiveis</Text>
                     <View style={styles.containerForm}>
                         <TextInput
                             placeholder="Buscar Produto"
@@ -151,7 +153,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#1E1E1E',
         alignSelf: 'flex-end',
-        paddingLeft: 15,
     },
     texttitle:{
         fontSize: 25,
@@ -174,11 +175,10 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     titletext:{
-        fontSize: 36,
+        fontSize: 25,
         fontWeight: 'bold',
         color: '#1E1E1E',
         alignSelf: 'flex-start',
-        paddingBottom: 10,
     },
     itembutton:{
         width: '90%',
@@ -224,13 +224,19 @@ const styles = StyleSheet.create({
     },
     line:{
         borderBottomColor: '#E7E7E7',
-        borderBottomWidth: 5,
-        marginTop: 10,
-        marginBottom: 5,
+        borderBottomWidth: 2,
+        marginTop: 2,
+        marginBottom: 7,
     },
     linearGradient:{
         width: '100%',
-        // borderRadius: 3,
         alignItems: 'center',
-      },
+    },
+    backPrice:{
+        backgroundColor: "#FF7851",
+        marginTop: 100,
+        marginLeft: 100,
+        borderRadius: 5,
+        paddingRight: 47,
+    }
 });

@@ -122,13 +122,17 @@ export default function Perfil(params) {
       <Text style={styles.textout}>Dados pessoais</Text>
       <View style={styles.infobackground}>
         <Text style={styles.text}>Nome: {nome}</Text>
+        <View style={styles.line}/>
         <Text style={styles.text}>Email: {email}</Text>
+        <View style={styles.line}/>
         <Text style={styles.text}>Documento: {cpf}</Text>
+        <View style={styles.line}/>
         <Text style={styles.text}>Telefone: {phone}</Text>
       </View>
       <Text style={styles.textout}>Endereço</Text>
       <View style={styles.infobackground}>
         <Text style={styles.text}>Cidade: {city}, Rua: {street}</Text>
+        <View style={styles.line}/>
         <Text style={styles.text}>Número: {adress}, CEP: {zip} {complement}</Text>
       </View>
       <TouchableOpacity style={styles.buttonedit}
@@ -244,4 +248,8 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
+  line:{
+      borderBottomColor: '#E7E7E7',
+      borderBottomWidth: 2,
+  }
 });

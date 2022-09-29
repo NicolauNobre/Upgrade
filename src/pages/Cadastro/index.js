@@ -66,7 +66,7 @@ export default function Cadastro() {
     }
 
     if(password != password2 || password == ''){
-      setVpassword('senhas diferentes ou vazias')
+      setVpassword('senhas diferentes')
       error = true
     }
 
@@ -219,7 +219,7 @@ export default function Cadastro() {
           <TextInput
             placeholder="Nome Completo..."
             onChangeText={setNome}  
-            style={styles.TextSenha}
+            style={styles.TextNome}
           />
           <Text style={styles.msgerro}>{vnome}</Text>
 
@@ -248,44 +248,61 @@ export default function Cadastro() {
             <Text style={styles.msgerroTel}>{vphone}</Text>
           </View>
           
-          <Text style={styles.title}>Data de Nascimento *</Text>
+          <View style={{flexDirection: 'row' }}>
+            <Text style={styles.title}>E-mail *</Text>
+            <Text style={styles.titleData}>Data *</Text>
+          </View>
+          
           {/* <TextInput
           keyboardType="numbers-and-punctuation"
             placeholder="DD/MM/AAAA"
             onChangeText={setDate}
             style={styles.TextSenha}
           /> */}
-          <TouchableOpacity style={styles.datebutton}
-          onPress={showDatepicker}>
-            <Text style={styles.datetext}>Precione para escolher a data</Text>
-          </TouchableOpacity>
-          
-          <Text style={styles.msgerro}>{vdate}</Text>
-          
-          <Text style={styles.title}>E-mail *</Text>
+
+          <View style={{flexDirection: 'row' }}>
           <TextInput
             keyboardType="email-address"
             placeholder="E-mail..."
             onChangeText={setEmail}
-            style={styles.TextSenha}
+            style={styles.textEmail}
           />
-          <Text style={styles.msgerro}>{vemail}</Text>
-          <Text style={styles.title}>Senha *</Text>
+          <TouchableOpacity style={styles.datebutton}
+          onPress={showDatepicker}>
+            <Text style={styles.datetext}>D / M / A</Text>
+          </TouchableOpacity>
+          </View>
+          
+          <View style={{flexDirection: 'row' }}>
+            <Text style={styles.msgerro}>{vdate}</Text>
+            <Text style={styles.msgerroEmail}>{vemail}</Text>
+          </View>
+
+          <View style={{flexDirection: 'row' }}>
+            <Text style={styles.title}>Senha *</Text>
+            <Text style={styles.titleSenha}>Confirmar Senha *</Text>
+          </View>
+
+          <View style={{flexDirection: 'row' }}>
           <TextInput
             placeholder="Senha..."
             onChangeText={setPassword}
-            style={styles.TextSenha}
+            style={styles.textSenha}
             secureTextEntry={true}
           />
-          <Text style={styles.msgerro}>{vpassword}</Text>
-          <Text style={styles.title}>Confirmar Senha *</Text>
           <TextInput
             placeholder="Senha..."
             onChangeText={setPassword2}
-            style={styles.TextSenha}
+            style={styles.textSenha}
             secureTextEntry={true}
           />
-          <Text style={styles.msgerro}>{vpassword}</Text>
+          </View>
+
+          <View style={{flexDirection: 'row' }}>
+            <Text style={styles.msgerroSenha}>{vpassword}</Text>
+            <Text style={styles.msgerroSenha}>{vpassword}</Text>
+          </View>
+
           <Text style={styles.Dados}>Endereço</Text>
           
           <Text style={styles.title}>CEP (apenas os números) *</Text>
@@ -462,7 +479,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center'
   },
-  TextSenha:{
+  TextNome:{
     backgroundColor: 'white',
     color: 'black',
     borderRadius: 50,
@@ -485,21 +502,30 @@ const styles = StyleSheet.create({
   datebutton:{
     backgroundColor: 'white',
     borderRadius: 50,
-    width: '85%',
+    width: '20%',
     height: 30,
-    alignSelf: 'center',
-    textAlign: 'center'
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 23
+  },
+  titleData: {
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 130,
+    marginBottom: 5,
+    marginRight: 100
   },
   datetext:{
     backgroundColor: 'white',
-    color: 'black',
+    color: 'gray',
     height: 30,
     textAlignVertical: 'center',
     borderRadius: 50,
     width: '100%',
     fontSize: 15,
     alignSelf: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   pickercontainer:{
     backgroundColor: 'white',
@@ -525,6 +551,41 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 23,
   },
+  textEmail:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '60%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textSenha:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '39%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  TextSenha:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '39%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  titleSenha: {
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 47,
+    marginBottom: 5,
+    marginRight: 100
+  },
   msgerroHalf:{
     color:"red",
     fontSize: 20,
@@ -535,6 +596,18 @@ const styles = StyleSheet.create({
     color:"red",
     fontSize: 20,
     alignSelf:'flex-start',
-    marginLeft: 68,
+    marginLeft: 70,
+  },
+  msgerroEmail:{
+    color:"red",
+    fontSize: 20,
+    alignSelf:'flex-start',
+    marginLeft: 100,
+  },
+  msgerroSenha:{
+    color:"red",
+    fontSize: 20,
+    alignSelf:'flex-start',
+    marginLeft: 37,
   }
 })
