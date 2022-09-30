@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     buttonText:{
-      color: '#1E1E1E',
+      color: 'white',
       fontSize: 18,
     },
     buttonRegister:{

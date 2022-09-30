@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
     buttonText:{
       flexDirection:'row',
-      color: '#1E1E1E',
+      color: 'white',
       fontSize: 18,
     },
     buttonRegister:{

@@ -4,6 +4,7 @@ import 'react-native-gesture-handler';
 import {Feather} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker';
 import {Picker} from '@react-native-picker/picker';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import {useNavigation} from '@react-navigation/native'
 
@@ -120,10 +121,16 @@ export default function Registro(params) {
     return (
         <ScrollView style={styles.container}>
           <View style={styles.containerview}>
-            <TouchableOpacity style={styles.goback} onPress={() => navigation.goBack()}>
-              <Feather name="arrow-left" size={35} color="#FF7851"/>
-            </TouchableOpacity>
-            <Text style={styles.title}> Registrar item para a Venda</Text>
+          <LinearGradient 
+            colors={['#1E1E1E', '#E6E6E6']}
+            style={styles.linearGradient}
+            start={{ x: 0, y: 0.9 }}
+            >
+              <TouchableOpacity style={styles.goback} onPress={() => navigation.goBack()}>
+                <Feather name="arrow-left" size={35} color="#FF7851"/>
+              </TouchableOpacity>
+              <Text style={styles.title}> Registrar item para a Venda</Text>
+            </LinearGradient> 
           </View>
           <View style={styles.containerLogo}>
             <Text style={styles.title1}>Informações do Item</Text>
@@ -142,21 +149,31 @@ export default function Registro(params) {
                 style={styles.TextSenha}
             />
             <Text style={styles.msgerro}>{vdescricao}</Text>
-            <Text style={styles.title2}>Valor Do Item *</Text>
-            <TextInput
+
+            <View style={{flexDirection: 'row' }}>
+              <Text style={styles.titleValor}>Valor Do Item *</Text>
+              <Text style={styles.titleEst}>Estado Do Item *</Text>
+            </View>
+
+            <View style={{flexDirection: 'row' }}>
+              <TextInput
                 keyboardType="number-pad"
                 placeholder="Valor do Item"
                 onChangeText={setValor}
-                style={styles.TextSenha}
+                style={styles.TextValor}
             />
-            <Text style={styles.msgerro}>{vvalor}</Text>
-            <Text style={styles.title2}>Estado Do Item *</Text>
             <TextInput
                 placeholder="Estado do Item"
                 onChangeText={setEstado}
-                style={styles.TextSenha}
+                style={styles.TextEst}
             />
-            <Text style={styles.msgerro}>{vestado}</Text>
+            </View>
+            
+            <View style={{flexDirection: 'row' }}>
+              <Text style={styles.msgerro}>{vvalor}</Text>
+              <Text style={styles.msgerro}>{vestado}</Text>
+            </View>
+
             <Text style={styles.title2}>Categoria Do Item *</Text>
             <View style={styles.pickercontainer}>
             <Picker
@@ -209,14 +226,13 @@ const styles = StyleSheet.create({
       backgroundColor: "#1E1E1E",
       paddingTop: statusbarHeight,
       flexDirection: 'row',
-      paddingStart: 16,
-      paddingBottom: 18,
     },
     title:{
-      color: '#FF7851',
-      fontSize: 20 ,
-      marginLeft: 20,
+      color: 'white',
+      fontSize: 25,
+      fontWeight: 'bold',
       alignSelf: 'center',
+      marginBottom: 18
     },
     username:{
         fontSize: 18,
@@ -270,10 +286,23 @@ const styles = StyleSheet.create({
     },
     title2:{
       backgroundColor: '#E6E6E6',
-      color: '#FF7851',
+      color: 'black',
       marginTop: 10,
       fontSize: 20,
       borderRadius: 20,
+    },
+    titleValor:{
+      backgroundColor: '#E6E6E6',
+      color: 'black',
+      marginTop: 10,
+      fontSize: 20,
+      width: '45%'
+    },
+    titleEst:{
+      backgroundColor: '#E6E6E6',
+      color: 'black',
+      marginTop: 10,
+      fontSize: 20,
     },
     TextSenha:{
       backgroundColor: 'white',
@@ -281,14 +310,33 @@ const styles = StyleSheet.create({
       color: 'black',
       borderRadius: 50,
       width: '80%',
-      fontSize: 20,
+      fontSize: 16,
       // height: 60,
       alignSelf: 'center',
       textAlign: 'center'
     },
+    TextValor:{
+      backgroundColor: 'white',
+      padding: 5,
+      color: 'black',
+      borderRadius: 50,
+      width: '40%',
+      fontSize: 16,
+      alignSelf: 'flex-start',
+      textAlign: 'center',
+    },
+    TextEst:{
+      backgroundColor: 'white',
+      color: 'black',
+      borderRadius: 50,
+      width: '30%',
+      fontSize: 16,
+      textAlign: 'center',
+      marginLeft: 40
+    },
     title1:{
       backgroundColor: '#E6E6E6',
-      color: '#FF7851',
+      color: 'black',
       fontSize: 30,
       fontWeight: '400'
     },
@@ -298,5 +346,8 @@ const styles = StyleSheet.create({
       width: '80%',
       alignSelf: 'center',
       fontSize: 10,
+    },
+    linearGradient:{
+      width: '100%',
     }
 });
