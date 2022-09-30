@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView} from 'react-native';
 import 'react-native-gesture-handler';
+import {Feather} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker';
 import {Picker} from '@react-native-picker/picker';
 
@@ -119,87 +120,83 @@ export default function Registro(params) {
     return (
         <ScrollView style={styles.container}>
           <View style={styles.containerview}>
-            <View style={styles.content}>
-              {/* <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
-                <Feather name="menu" size={27} color="#FF7851"/>
-              </TouchableOpacity> */}
-              <View style={styles.containerForm}>
-                <Text style={styles.title}> Registrar item para a Venda</Text>
-              </View>      
-            </View>
+            <TouchableOpacity style={styles.goback} onPress={() => navigation.goBack()}>
+              <Feather name="arrow-left" size={35} color="#FF7851"/>
+            </TouchableOpacity>
+            <Text style={styles.title}> Registrar item para a Venda</Text>
           </View>
           <View style={styles.containerLogo}>
-        <Text style={styles.title1}>Informações do Item</Text>
-        <Text style={styles.msgerro}>{vregistro}</Text>
-        <Text style={styles.title2}>Nome do Item *</Text>
-        <TextInput
-            placeholder="Nome do Item"
-            onChangeText={setNome}
-            style={styles.TextSenha}
-        />
-        <Text style={styles.msgerro}>{vnome}</Text>
-        <Text style={styles.title2}>Descrição do Item *</Text>
-        <TextInput
-            placeholder="Descrição do Item"
-            onChangeText={setDescricao}
-            style={styles.TextSenha}
-        />
-        <Text style={styles.msgerro}>{vdescricao}</Text>
-        <Text style={styles.title2}>Valor Do Item *</Text>
-        <TextInput
-            keyboardType="number-pad"
-            placeholder="Valor do Item"
-            onChangeText={setValor}
-            style={styles.TextSenha}
-        />
-        <Text style={styles.msgerro}>{vvalor}</Text>
-        <Text style={styles.title2}>Estado Do Item *</Text>
-        <TextInput
-            placeholder="Estado do Item"
-            onChangeText={setEstado}
-            style={styles.TextSenha}
-        />
-        <Text style={styles.msgerro}>{vestado}</Text>
-        <Text style={styles.title2}>Categoria Do Item *</Text>
-        <View style={styles.pickercontainer}>
-        <Picker
-          style={styles.TextSenha}
-          selectedValue={categoria}
-          onValueChange={(itemValue, itemIndex) =>setCategoria(itemValue)}
-          itemStyle={styles.TextSenha}
-        >
-          
-          <Picker.Item label="Memória Ram" value="memoria ram" />
-          <Picker.Item label="HD" value="HD" />
-          <Picker.Item label="SSD" value="SSD" />
-          <Picker.Item label="placa de video" value="placa de video" />
-          <Picker.Item label="placa Mãe" value="placa mae" />
-          <Picker.Item label="Monitor" value="monitor" />
-          <Picker.Item label="Gabinete" value="gabinete" />
-          <Picker.Item label="Periférico" value="periférico" />
-          <Picker.Item label="Processador" value="processador" />
-          <Picker.Item label="Cooler" value="Cooler" />
-        </Picker>
-        </View>
-        <Text style={styles.msgerro}>{vcategoria}</Text>
-        <Text style={styles.title2}>Quantidade *</Text>
-        <TextInput
-            keyboardType="number-pad"
-            placeholder="Quantidade"
-            onChangeText={setQuantidade}
-            style={styles.TextSenha}
-        />
-        <Text style={styles.msgerro}>{vquantidade}</Text>
-        <TouchableOpacity style = {styles.buttonPick}onPress={pickImage} >
-        <Text style={styles.buttonText}>Escolha a imagem do item</Text>
-        </TouchableOpacity>
+            <Text style={styles.title1}>Informações do Item</Text>
+            <Text style={styles.msgerro}>{vregistro}</Text>
+            <Text style={styles.title2}>Nome do Item *</Text>
+            <TextInput
+                placeholder="Nome do Item"
+                onChangeText={setNome}
+                style={styles.TextSenha}
+            />
+            <Text style={styles.msgerro}>{vnome}</Text>
+            <Text style={styles.title2}>Descrição do Item *</Text>
+            <TextInput
+                placeholder="Descrição do Item"
+                onChangeText={setDescricao}
+                style={styles.TextSenha}
+            />
+            <Text style={styles.msgerro}>{vdescricao}</Text>
+            <Text style={styles.title2}>Valor Do Item *</Text>
+            <TextInput
+                keyboardType="number-pad"
+                placeholder="Valor do Item"
+                onChangeText={setValor}
+                style={styles.TextSenha}
+            />
+            <Text style={styles.msgerro}>{vvalor}</Text>
+            <Text style={styles.title2}>Estado Do Item *</Text>
+            <TextInput
+                placeholder="Estado do Item"
+                onChangeText={setEstado}
+                style={styles.TextSenha}
+            />
+            <Text style={styles.msgerro}>{vestado}</Text>
+            <Text style={styles.title2}>Categoria Do Item *</Text>
+            <View style={styles.pickercontainer}>
+            <Picker
+              style={styles.TextSenha}
+              selectedValue={categoria}
+              onValueChange={(itemValue, itemIndex) =>setCategoria(itemValue)}
+              itemStyle={styles.TextSenha}
+            >
+              
+              <Picker.Item label="Memória Ram" value="memoria ram" />
+              <Picker.Item label="HD" value="HD" />
+              <Picker.Item label="SSD" value="SSD" />
+              <Picker.Item label="placa de video" value="placa de video" />
+              <Picker.Item label="placa Mãe" value="placa mae" />
+              <Picker.Item label="Monitor" value="monitor" />
+              <Picker.Item label="Gabinete" value="gabinete" />
+              <Picker.Item label="Periférico" value="periférico" />
+              <Picker.Item label="Processador" value="processador" />
+              <Picker.Item label="Cooler" value="Cooler" />
+            </Picker>
+            </View>
+            <Text style={styles.msgerro}>{vcategoria}</Text>
+            <Text style={styles.title2}>Quantidade *</Text>
+            <TextInput
+                keyboardType="number-pad"
+                placeholder="Quantidade"
+                onChangeText={setQuantidade}
+                style={styles.TextSenha}
+            />
+            <Text style={styles.msgerro}>{vquantidade}</Text>
+            <TouchableOpacity style = {styles.buttonPick}onPress={pickImage} >
+            <Text style={styles.buttonText}>Escolha a imagem do item</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonRegister} onPress={() => salvar()}>
-        <Text style={styles.buttonText}>Registrar item</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonRegister} onPress={() => salvar()}>
+            <Text style={styles.buttonText}>Registrar item</Text>
+            </TouchableOpacity>
 
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
     );
 }
   
@@ -213,20 +210,14 @@ const styles = StyleSheet.create({
       paddingTop: statusbarHeight,
       flexDirection: 'row',
       paddingStart: 16,
-      paddingEnd: 16,
       paddingBottom: 18,
     },
-    content:{
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
     title:{
-        color: '#FF7851',
-        fontSize: 20 ,
-        alignSelf: 'center'
-      },
+      color: '#FF7851',
+      fontSize: 20 ,
+      marginLeft: 20,
+      alignSelf: 'center',
+    },
     username:{
         fontSize: 18,
         color: '#FFF',
@@ -250,7 +241,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#E6E6E6',
       justifyContent: 'center',
       alignItems: 'center',
-  
     },
     msgerro:{
       color:"red",

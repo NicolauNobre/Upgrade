@@ -24,6 +24,7 @@ export default function Cadastro() {
   const [vphone, setVphone] = useState('');
   const [date, setDate] = useState(new Date());
   const [vdate, setVdate] = useState('');
+  const [label, setLabel] = useState('D/M/A');
   const [zip, setZip] = useState('');
   const [vzip, setVzip] = useState('');
   const [country, setCountry] = useState('');
@@ -166,15 +167,17 @@ export default function Cadastro() {
   // função para o data picker
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
+    setLabel((selectedDate.getDate())+'/'+(selectedDate.getMonth()+1)+'/'+selectedDate.getFullYear());
     setDate(currentDate);
+    // event.preventDefault();
   };
   // função para modal do data picker
   const showMode = (currentMode) => {
     DateTimePickerAndroid.open({
       value: date,
-      onChange,
       mode: currentMode,
       is24Hour: true,
+      onChange,
     });
   };
   // função para mostrar a modal do datapicker
@@ -195,7 +198,6 @@ export default function Cadastro() {
       )
     }
   }
-
 
  return (
    <KeyboardAvoidingView style={styles.container}>
@@ -269,7 +271,7 @@ export default function Cadastro() {
           />
           <TouchableOpacity style={styles.datebutton}
           onPress={showDatepicker}>
-            <Text style={styles.datetext}>D / M / A</Text>
+            <Text style={styles.datetext}>{label}</Text>
           </TouchableOpacity>
           </View>
           
@@ -321,33 +323,33 @@ export default function Cadastro() {
                 onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
                 itemStyle={styles.TextSenha}
               >
-                <Picker.Item label="Acre" value="Acre" />
-                <Picker.Item label="Alagoas" value="Alagoas" />
-                <Picker.Item label="Amapá" value="Amapá" />
-                <Picker.Item label="Amazonas" value="Amazonas" />
-                <Picker.Item label="Bahia" value="Bahia" />
-                <Picker.Item label="Ceara" value="Ceara" />
-                <Picker.Item label="Distrito Federal" value="Distrito Federal" />
-                <Picker.Item label="Espírito Santo" value="Espírito Santo" />
-                <Picker.Item label="Goiás" value="Goiás" />
-                <Picker.Item label="Maranhão" value="Maranhão" />
-                <Picker.Item label="Mato Grosso" value="Mato Grosso" />
-                <Picker.Item label="Mato Grosso do Sul" value="Mato Grosso do Sul" />
-                <Picker.Item label="Minas Gerais" value="Minas Gerais" />
-                <Picker.Item label="Pará" value="Pará" />
-                <Picker.Item label="Paraíba" value="Paraíba" />
-                <Picker.Item label="Paraná" value="Paraná" />
-                <Picker.Item label="Pernambuco" value="Pernambuco" />
-                <Picker.Item label="Piauí" value="Piauí" />
-                <Picker.Item label="Rio de Janeiro" value="Rio de Janeiro" />
-                <Picker.Item label="Rio Grande do Norte" value="Rio Grande do Norte" />
-                <Picker.Item label="Rio Grande do Sul" value="Rio Grande do Sul" />
-                <Picker.Item label="Rondônia" value="Rondônia" />
-                <Picker.Item label="Roraima" value="Roraima" />
-                <Picker.Item label="Santa Catarina" value="Santa Catarina" />
-                <Picker.Item label="São Paulo" value="São Paulo" />
-                <Picker.Item label="Sergipe" value="Sergipe" />
-                <Picker.Item label="Tocantins" value="Tocantins" />
+                <Picker.Item label="AC" value="Acre" />
+                <Picker.Item label="AL" value="Alagoas" />
+                <Picker.Item label="AP" value="Amapá" />
+                <Picker.Item label="AM" value="Amazonas" />
+                <Picker.Item label="BA" value="Bahia" />
+                <Picker.Item label="CE" value="Ceara" />
+                <Picker.Item label="DF" value="Distrito Federal" />
+                <Picker.Item label="ES" value="Espírito Santo" />
+                <Picker.Item label="GO" value="Goiás" />
+                <Picker.Item label="MA" value="Maranhão" />
+                <Picker.Item label="MG" value="Mato Grosso" />
+                <Picker.Item label="MS" value="Mato Grosso do Sul" />
+                <Picker.Item label="MG" value="Minas Gerais" />
+                <Picker.Item label="PA" value="Pará" />
+                <Picker.Item label="PB" value="Paraíba" />
+                <Picker.Item label="PR" value="Paraná" />
+                <Picker.Item label="PE" value="Pernambuco" />
+                <Picker.Item label="PI" value="Piauí" />
+                <Picker.Item label="RJ" value="Rio de Janeiro" />
+                <Picker.Item label="RN" value="Rio Grande do Norte" />
+                <Picker.Item label="RS" value="Rio Grande do Sul" />
+                <Picker.Item label="RO" value="Rondônia" />
+                <Picker.Item label="RR" value="Roraima" />
+                <Picker.Item label="SC" value="Santa Catarina" />
+                <Picker.Item label="SP" value="São Paulo" />
+                <Picker.Item label="SE" value="Sergipe" />
+                <Picker.Item label="TO" value="Tocantins" />
               </Picker>
             </View>
           {/* <TextInput

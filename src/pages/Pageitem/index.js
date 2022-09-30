@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {Feather} from '@expo/vector-icons'
 
 export default function Pageitem(params) {
     const navigation = useNavigation();
@@ -52,7 +53,12 @@ export default function Pageitem(params) {
 
  return (
     <View style={styles.container}>
-        <Text style={styles.prod}>Informações Sobre o Produto</Text>
+        <View style={{width: '100%', flexDirection: 'row' }}>
+            <TouchableOpacity style={styles.goback} onPress={() => navigation.goBack()}>
+                <Feather name="arrow-left" size={35} color="#FF7851"/>
+            </TouchableOpacity>
+            <Text style={styles.prod}>Informações Sobre o Produto</Text>
+        </View>
         <View style={styles.line}/>
         <ScrollView style={styles.scrollcontainer}>
             <View style={styles.itemcontainer}>
@@ -90,6 +96,10 @@ const styles = StyleSheet.create({
     scrollcontainer:{
         flex:1,
         backgroundColor: '#E6E6E6',
+    },
+    goback:{
+        marginTop: 22,
+        justifyContent: 'center',
     },
     text:{
         fontSize: 25,

@@ -51,14 +51,12 @@ export default function Ofertas(params) {
                                     <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
                                         <Text style={styles.titletext}>{index.title}</Text>
                                         <View style={styles.line}/>
-                                        <View style={{width: '100%', flexDirection: 'row' }}>
+                                        <View style={{width: '60%', flexDirection: 'row' }}>
                                             <Image
                                                 source={require('../../assets/UpGrade.jpg')}
                                                 style={styles.Img}
                                             />
-                                            <View style={styles.backPrice}>
-                                                <Text style={styles.pricetext}> R$: {index.price}</Text>
-                                            </View>
+                                            <Text style={styles.pricetext}> R$ {index.price}</Text>
                                         </View>
                                     </TouchableOpacity>  
                                 </View>  
@@ -76,7 +74,7 @@ export default function Ofertas(params) {
                                                     source={require('../../assets/UpGrade.jpg')}
                                                     style={styles.Img}
                                                 />
-                                                <Text style={styles.pricetext}> R$: {index.price}</Text>
+                                                <Text style={styles.pricetext}> R$ {index.price}</Text>
                                             </View>
                                         </TouchableOpacity>  
                                     </View> 
@@ -150,9 +148,16 @@ const styles = StyleSheet.create({
     },
     pricetext:{
         fontSize: 25,
+        padding: 5,
+        paddingRight: 10,
         fontWeight: 'bold',
         color: '#1E1E1E',
+        justifyContent: 'flex-start',
         alignSelf: 'flex-end',
+        backgroundColor: "#FF7851",
+        borderRadius: 5,
+        marginRight: 10,
+        marginLeft: 45,
     },
     texttitle:{
         fontSize: 25,
@@ -232,11 +237,4 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
     },
-    backPrice:{
-        backgroundColor: "#FF7851",
-        marginTop: 100,
-        marginLeft: 100,
-        borderRadius: 5,
-        paddingRight: 47,
-    }
 });
