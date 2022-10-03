@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     },
     TextInput:{
       backgroundColor: 'white',
-      color: '#A3A3A3',
+      color: 'black',
       borderRadius: 50,
       width: '80%',
       alignSelf: 'center',
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     },
     TextSenha:{
       backgroundColor: 'white',
-      color: '#A3A3A3',
+      color: 'black',
       borderRadius: 50,
       width: '80%',
       alignSelf: 'center',

@@ -170,8 +170,8 @@ export default function Registro(params) {
             </View>
             
             <View style={{flexDirection: 'row' }}>
-              <Text style={styles.msgerro}>{vvalor}</Text>
-              <Text style={styles.msgerro}>{vestado}</Text>
+              <Text style={styles.msgerroValor}>{vvalor}</Text>
+              <Text style={styles.msgerroEstado}>{vestado}</Text>
             </View>
 
             <Text style={styles.title2}>Categoria Do Item *</Text>
@@ -262,6 +262,18 @@ const styles = StyleSheet.create({
       color:"red",
       fontSize: 16,
       alignSelf:'center',
+    },
+    msgerroValor:{
+      color:"red",
+      fontSize: 16,
+      alignSelf:'flex-start',
+      marginRight: 20
+    },
+    msgerroEstado:{
+      color:"red",
+      fontSize: 16,
+      alignSelf:'flex-start',
+      marginLeft: 20
     },
     buttonRegister:{
       backgroundColor: '#1E1E1E',
