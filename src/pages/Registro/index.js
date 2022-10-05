@@ -48,6 +48,7 @@ export default function Registro(params) {
       setVnome('')
       setVdescricao('')
       setVvalor('')
+      setVcategoria('')
       setVestado('')
       setVquantidade('')
       let error = false
@@ -182,7 +183,7 @@ export default function Registro(params) {
               onValueChange={(itemValue, itemIndex) =>setCategoria(itemValue)}
               itemStyle={styles.TextSenha}
             >
-              
+              <Picker.Item label="Selecione a categoria" value='' />
               <Picker.Item label="Memória Ram" value="memoria ram" />
               <Picker.Item label="HD" value="HD" />
               <Picker.Item label="SSD" value="SSD" />
