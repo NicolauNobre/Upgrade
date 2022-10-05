@@ -4,10 +4,10 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 
 
-export default function Password() {
+export default function Password2() {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [vemail, setVemail] = useState('');
@@ -20,7 +20,7 @@ export default function Password() {
     const response = await fetch('ROTA',{
       method: 'POST',
       body: JSON.stringify({
-        "email" : email,
+        'code': code,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
@@ -31,21 +31,8 @@ export default function Password() {
 
   // função para validar os formularios (precisa de melhorias)
   const validar = () =>{
-    setVemail('')
     setVpassword('')
     setVpassword2("")
-    let error = false
-    let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-    let match = regex.test(email)
-    if (match){
-    } else{
-      if(email== ''){
-        setVemail("Preencha o Email")
-        error = true
-      }else
-        setVemail("Preencha o Email corretamente")
-        error = true
-    }
     if(password == ''){
       setVpassword("Preencha a Senha")
       error = true
@@ -75,7 +62,7 @@ export default function Password() {
         if(teste.confirm){
           // console.log("enviou")
           setIsLoading(false)
-          navigation.navigate('Password2', {
+          navigation.navigate('Initial', {
             params: {userid: userid, password: password},
           })
         }else{
@@ -114,26 +101,38 @@ export default function Password() {
             />
           </View>
           <Text style={styles.msgerro}>{send}</Text>
-          <Text style={styles.Dados}>Um código de confirmação será enviado para o seu email</Text>
+          <Text style={styles.Dados}>Digite o código de confirmação que você recebeu por email</Text>
           <Text style={styles.msgerro}></Text>
-          <Text style={styles.title}>E-mail *</Text>
+          <Text style={styles.title}>Código *</Text>
           <TextInput
-            keyboardType="email-address"
-            placeholder="E-mail..."
-            onChangeText={setEmail}
+            placeholder="Código..."
+            onChangeText={setCode}
             style={styles.TextInput}
           />
           <Text style={styles.msgerro}>{vemail}</Text>
+
+          <Text style={styles.title}>Senha *</Text>
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={setPassword}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword}</Text>
+          <Text style={styles.title}>Confirmar Senha *</Text>
+
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={setPassword2}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword2}</Text>
 
           <TouchableOpacity style={styles.buttonback}
             onPress={() => navigation.goBack()}>
             <Text style={styles.buttonText}>Voltar</Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity style={styles.buttonback}
-            onPress={() => navigation.navigate('Password2')}>
-            <Text style={styles.buttonText}>Próxima página</Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity style={styles.button}
             onPress={() => enviar()}>

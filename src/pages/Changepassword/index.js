@@ -14,7 +14,7 @@ export default function Changepassword(params) {
     const [oldpassword, setOldpassword] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-    const [vemail, setVemail] = useState('');
+    const [voldpassword, setVoldpassword] = useState('');
     const [vpassword, setVpassword] = useState('');
     const [vpassword2, setVpassword2] = useState('');
     const [send, setSend] = useState('');
@@ -24,7 +24,8 @@ export default function Changepassword(params) {
         const response = await fetch('ROTA',{
         method: 'POST',
         body: JSON.stringify({
-            "newpassword" : password,
+          "oldpassword" : oldpassword,
+          "newpassword" : password,
         }),
         headers: { 'Content-Type': 'application/json' },
         });
@@ -33,39 +34,33 @@ export default function Changepassword(params) {
         return teste;
     }
 
-    async function fetchMoviesJSON2() {
-        const response2 = await fetch('ROTA',{
-        method: 'POST',
-        body: JSON.stringify({
-            "userid" : userid,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-        });
-        // console.log("espera reposta");
-        const verificacao = await response2.json();
-        return verificacao;
-    }
-
     // useEffect( () => {
     //     fetchMoviesJSON2();
     // }, []);
 
     // função para validar os formularios (precisa de melhorias)
     const validar = () =>{
-        setVemail('')
+        setVoldpassword('')
         setVpassword('')
         setVpassword2("")
         let error = false
-        if(password == ''){
+        if(oldpassword == ''){
+          setVoldpassword("Preencha sua senha antiga")
+          error = true
+        }else{
+          if(password == ''){
             setVpassword("Preencha a Senha")
             error = true
-        }else{
+          }else{
             if(password == password2){
-                setVpassword2("")
+              setVpassword2("")
+              setVpassword("")
             }else{
-                error = true
-                setVpassword2("Ambas a senhas devem ser iguais")
+              error = true
+              setVpassword("Ambas a senhas devem ser iguais")
+              setVpassword2("Ambas a senhas devem ser iguais")
             }
+          }
         }
         // if(oldpassword != verificacao){
         //     error= true
@@ -133,7 +128,7 @@ export default function Changepassword(params) {
                 style={styles.TextInput}
                 secureTextEntry={true}
             />
-            <Text style={styles.msgerro}>{vemail}</Text>
+            <Text style={styles.msgerro}>{voldpassword}</Text>
 
             <Text style={styles.title}>Nova Senha *</Text>
             <TextInput

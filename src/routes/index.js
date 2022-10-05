@@ -7,6 +7,7 @@ import Initial from '../pages/Initial'
 import Registro from '../pages/Registro'
 import Shopping from '../pages/Shopping'
 import Password from '../pages/Password'
+import Password2 from '../pages/Password2'
 import Sales from '../pages/Sales'
 import Purchases from '../pages/Purchases'
 import Itens from '../pages/Itens'
@@ -52,6 +53,11 @@ export default function Routes(){
             <Stack.Screen
                 name='Password'
                 component={Password}
+                options={{headerShown: false}}                            
+            />
+            <Stack.Screen
+                name='Password2'
+                component={Password2}
                 options={{headerShown: false}}                            
             />
             <Stack.Screen

@@ -6,8 +6,6 @@ import {useNavigation} from '@react-navigation/native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 
-//Font.loadAsync('fontFamilyOrFontMap');
-//console.log(Font)
 export default function Cadastro() {
   const navigation = useNavigation();
 
@@ -326,6 +324,7 @@ export default function Cadastro() {
                   onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
                   itemStyle={styles.textEst}
                 >
+                  <Picker.Item label="UF" value=''/>
                   <Picker.Item label="AC" value="Acre" />
                   <Picker.Item label="AL" value="Alagoas" />
                   <Picker.Item label="AP" value="Amapá" />
@@ -712,7 +711,7 @@ const styles = StyleSheet.create({
   textEst:{
     backgroundColor: 'white',
     color: 'black',
-    width: '50%',
+    width: '65%',
     alignSelf: 'center',
     textAlign: 'center'
   },
