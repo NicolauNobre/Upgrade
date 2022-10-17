@@ -4,33 +4,31 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 
 
-export default function Changepassword(params) {
+export default function Changepassword2(params) {
     const navigation = useNavigation();
-
     const userid = params.route.params.params.userid;
     // console.log (userid)
 
     const [isLoading, setIsLoading] = useState(false);
-    const [oldpassword, setOldpassword] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-    const [voldpassword, setVoldpassword] = useState('');
     const [vpassword, setVpassword] = useState('');
     const [vpassword2, setVpassword2] = useState('');
     const [send, setSend] = useState('');
 
     // função para enviar os formularios para o back
     async function fetchMoviesJSON() {
-        const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/verify-password',{
-        method: 'POST',
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/change-password',{
+        method: 'PUT',
         body: JSON.stringify({
           "user_id" : userid,
-          "current_password" : oldpassword,
+          "new_password" : password,
         }),
         headers: { 'Content-Type': 'application/json' },
         });
         // console.log("espera reposta");
         const teste = await response.json();
+        // console.log(teste.message)
         return teste;
     }
 
@@ -40,20 +38,19 @@ export default function Changepassword(params) {
 
     // função para validar os formularios (precisa de melhorias)
     const validar = () =>{
-        setVoldpassword('')
         setVpassword('')
         setVpassword2("")
         let error = false
-        if(oldpassword == ''){
-          setVoldpassword("Preencha sua senha antiga")
+        if(password == ''){
+          setVpassword("Preencha sua senha")
           error = true
         }else{
-          
+            if(password != password2){
+                setVpassword("as senhas devem ser iguais")
+                setVpassword2("as senhas devem ser iguais")
+                error = true
+            }
         }
-        // if(oldpassword != verificacao){
-        //     error= true
-        //     setVpassword("Senha errada!!")
-        // }
         return !error
     }
 
@@ -69,9 +66,9 @@ export default function Changepassword(params) {
             if(teste.confirm){
             // console.log("enviou")
             setIsLoading(false)
-            // alert("Senha alterada com sucesso!")
-            navigation.navigate("Changepassword2", {
-              params: {userid: userid},
+            alert("Senha alterada com sucesso!")
+            navigation.navigate('Initial', {
+                params: {userid: id},
             })
             }else{
             setSend(teste.message)
@@ -110,17 +107,7 @@ export default function Changepassword(params) {
             </View>
             <Text style={styles.msgerro}>{send}</Text>
             <Text style={styles.Dados}>Confirme sua senha</Text>
-            <Text style={styles.msgerro}></Text>
-            <Text style={styles.title}>Senha antiga *</Text>
-            <TextInput
-                placeholder="Antiga senha..."
-                onChangeText={setOldpassword}
-                style={styles.TextInput}
-                secureTextEntry={true}
-            />
-            <Text style={styles.msgerro}>{voldpassword}</Text>
-
-            {/* <Text style={styles.title}>Nova Senha *</Text>
+            <Text style={styles.title}>Nova Senha *</Text>
             <TextInput
                 placeholder="Nova Senha..."
                 onChangeText={setPassword}
@@ -136,7 +123,7 @@ export default function Changepassword(params) {
                 style={styles.TextSenha}
                 secureTextEntry={true}
             />
-            <Text style={styles.msgerro}>{vpassword2}</Text> */}
+            <Text style={styles.msgerro}>{vpassword2}</Text>
 
             <TouchableOpacity style={styles.buttonback}
                 onPress={() => navigation.goBack()}>

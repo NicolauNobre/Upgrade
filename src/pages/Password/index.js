@@ -130,10 +130,10 @@ export default function Password() {
             <Text style={styles.buttonText}>Voltar</Text>
           </TouchableOpacity>
 
-          {/* <TouchableOpacity style={styles.buttonback}
+          <TouchableOpacity style={styles.buttonback}
             onPress={() => navigation.navigate('Password2')}>
             <Text style={styles.buttonText}>Próxima página</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.button}
             onPress={() => enviar()}>

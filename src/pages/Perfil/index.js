@@ -18,6 +18,7 @@ export default function Perfil(params) {
     const [street, setStreet] = useState('');
     const [adress, setAdress] = useState('');
     const [complement, setComplement] = useState('');
+    const [dados, setDados] = useState('');
 
     // função para busca de dados do usuário
     async function fetchMoviesJSON() {
@@ -42,6 +43,7 @@ export default function Perfil(params) {
       setStreet(teste.street)
       setAdress(teste.address_number)
       setComplement(teste.address_complement)
+      setDados(teste)
     }
 
     useEffect( () => {
@@ -137,7 +139,7 @@ export default function Perfil(params) {
       </View>
       <TouchableOpacity style={styles.buttonedit}
         onPress={() => navigation.navigate("Editcadastro", {
-        params: {userid: userid},
+        params: {userid: userid, data: dados},
         })}
         >
         <Text style={styles.buttonText}>Editar dados</Text>

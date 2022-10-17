@@ -8,81 +8,71 @@ import {Picker} from '@react-native-picker/picker';
 export default function Editcadastro(params) {
     //console.log(params.route.params.params.userid)
     const userid = params.route.params.params.userid
+    const dados = params.route.params.params.data
+    // console.log(dados)
     const navigation = useNavigation();
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(dados.email);
     const [vemail, setVemail] = useState('');
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useState(dados.phone);
     const [vphone, setVphone] = useState('');
-    const [zip, setZip] = useState('');
+    const [zip, setZip] = useState(dados.zipcode);
     const [vzip, setVzip] = useState('');
-    const [country, setCountry] = useState('');
-    const [vcountry, setVcountry] = useState('');
-    const [city, setCity] = useState('');
-    const [vcity, setVcity] = useState('');
-    const [street, setStreet] = useState('');
-    const [vstreet, setVstreet] = useState('');
-    const [adress, setAdress] = useState('');
-    const [vadress, setVadress] = useState('');
-    const [complement, setComplement] = useState('');
+    const [country, setCountry] = useState(dados.country_state);
+    const [city, setCity] = useState(dados.city);
+    const [street, setStreet] = useState(dados.street);
+    const [adress, setAdress] = useState(dados.address_number);
+    const [complement, setComplement] = useState(dados.address_complement);
     const [vcadaster, setVcadaster] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
     
     // função para validar os formulários (precisa de melhorias)
     const validar = () =>{
-        setVemail('')
-        setVphone('')
-        setVzip('')
-        setVadress('')
-        setVcountry('')
-        setVcity('')
-        setVstreet('')
-        let error = false
-        let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+      setVemail('')
+      setVphone('')
+      setVzip('')
+      let error = false
+      let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+      if( email == ''){
+
+      }else{
         let match = regex.test(email)
         if (match){
         } else{
             setVemail("Email inválido")
             error = true
         }
+      }
+      if (phone == null){
 
-        if (phone == '' || phone.length > 12 || phone.length < 10){
+      }else if(phone.length > 12 || phone.length < 10){
         setVphone("telefone inválido")
         error = true
-        }
-
-        if (zip== '' || zip.length > 8 || zip.length < 8){
+      }
+      if (zip== null){
+        
+      }else if(zip.length > 8 || zip.length < 8){
         setVzip("CEP inválido")
         error = true
-        }
-
-        if(adress == '' || adress.length>5){
-        setVadress("número invalido")
-        error = true
-        }
-
-        if(country == ''){
-        setVcountry("Preencha o campo estado")
-        error = true
-        }
-
-        if(city == ''){
-        setVcity("preencha o campo Cidade")
-        error = true
-        }
-
-        if(street == ''){
-        setVstreet("preencha o campo Rua")
-        error = true
-        }
-        return !error
+      }
+      return !error
     }
 
     // função para enviar os formularios para o back
-    async function fetchMoviesJSON(temp) {
-        const response = await fetch('Rota',{
-        method: 'POST',
+    async function fetchMoviesJSON() {
+        // console.log(email)
+        // console.log(phone)
+        // console.log(zip)
+        // console.log(country)
+        // console.log(city)
+        // console.log(street)
+        // console.log(adress)
+        // console.log(complement)
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/update-cadaster',{
+        method: 'PUT',
         body: JSON.stringify({
+            "user_id": userid,
             "email" : email,
             "phone" : phone,
             "zipcode" : zip,
@@ -95,6 +85,7 @@ export default function Editcadastro(params) {
         headers: { 'Content-Type': 'application/json' },
         });
         const teste = await response.json();
+        console.log(teste)
         return teste;
     }
 
@@ -104,7 +95,7 @@ export default function Editcadastro(params) {
         if (validar()){
         setVcadaster('')
         // console.log("manda pro back")
-        fetchMoviesJSON(temp).then(teste => {
+        fetchMoviesJSON().then(teste => {
             // console.log(teste)
             // console.log("pegou resposta")
             if(teste.confirm){
@@ -191,6 +182,7 @@ export default function Editcadastro(params) {
                         onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
                         itemStyle={styles.TextSenha}
                     >
+                        <Picker.Item label="UF" value="" />
                         <Picker.Item label="Acre" value="Acre" />
                         <Picker.Item label="Alagoas" value="Alagoas" />
                         <Picker.Item label="Amapá" value="Amapá" />
@@ -225,21 +217,18 @@ export default function Editcadastro(params) {
                     onChangeText={setCountry}
                     style={styles.TextSenha}
                 /> */}
-                <Text style={styles.msgerro}>{vcountry}</Text>
                 <Text style={styles.title}>Cidade *</Text>
                 <TextInput
                     placeholder="Cidade..."
                     onChangeText={setCity}
                     style={styles.TextSenha}
                 />
-                <Text style={styles.msgerro}>{vcity}</Text>
                 <Text style={styles.title}>Rua *</Text>
                 <TextInput
                     placeholder="Rua..."
                     onChangeText={setStreet}
                     style={styles.TextSenha}
                 />
-                <Text style={styles.msgerro}>{vstreet}</Text>
                 <Text style={styles.title}>Número *</Text>
                 <TextInput
                     keyboardType="number-pad"
@@ -247,7 +236,6 @@ export default function Editcadastro(params) {
                     onChangeText={setAdress}
                     style={styles.TextSenha}
                 />
-                <Text style={styles.msgerro}>{vadress}</Text>
                 <Text style={styles.title}>Complemento</Text>
                 <TextInput
                     placeholder="Complemento..."
