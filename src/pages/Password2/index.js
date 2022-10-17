@@ -4,13 +4,16 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 
 
-export default function Password2() {
+export default function Password2(params) {
+  const email = params.route.params.params.email;
+  const cod = params.route.params.params.codigo;
+  // console.log(email)
+  // console.log(cod)
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const [vemail, setVemail] = useState('');
   const [vpassword, setVpassword] = useState('');
   const [vpassword2, setVpassword2] = useState('');
   const [send, setSend] = useState('');
@@ -20,7 +23,8 @@ export default function Password2() {
     const response = await fetch('ROTA',{
       method: 'POST',
       body: JSON.stringify({
-        'code': code,
+        'email': email,
+        'password': password,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
@@ -31,20 +35,28 @@ export default function Password2() {
 
   // função para validar os formularios (precisa de melhorias)
   const validar = () =>{
-    setVpassword('')
-    setVpassword2("")
-    if(password == ''){
-      setVpassword("Preencha a Senha")
+    setSend('')
+    let error = false
+    if(cod != code){
+      setSend("Código inválido")
       error = true
     }else{
-      if(password == password2){
-        error = false
-        setVpassword2("")
-      }else{
+      setVpassword('')
+      setVpassword2("")
+      if(password == ''){
+        setVpassword("Preencha a Senha")
         error = true
-        setVpassword2("Ambas a senhas devem ser iguais")
+      }else{
+        if(password == password2){
+          error = false
+          setVpassword2("")
+        }else{
+          error = true
+          setVpassword2("Ambas a senhas devem ser iguais")
+        }
       }
     }
+    
     return !error
   }
 
@@ -109,7 +121,6 @@ export default function Password2() {
             onChangeText={setCode}
             style={styles.TextInput}
           />
-          <Text style={styles.msgerro}>{vemail}</Text>
 
           <Text style={styles.title}>Senha *</Text>
           <TextInput

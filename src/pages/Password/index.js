@@ -8,16 +8,12 @@ export default function Password() {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
   const [vemail, setVemail] = useState('');
-  const [vpassword, setVpassword] = useState('');
-  const [vpassword2, setVpassword2] = useState('');
   const [send, setSend] = useState('');
 
   // função para enviar os formularios para o back
   async function fetchMoviesJSON() {
-    const response = await fetch('ROTA',{
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/password-recovery',{
       method: 'POST',
       body: JSON.stringify({
         "email" : email,
@@ -26,14 +22,13 @@ export default function Password() {
     });
     // console.log("espera reposta");
     const teste = await response.json();
+    console.log(teste)
     return teste;
   }
 
   // função para validar os formularios (precisa de melhorias)
   const validar = () =>{
     setVemail('')
-    setVpassword('')
-    setVpassword2("")
     let error = false
     let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
     let match = regex.test(email)
@@ -46,18 +41,18 @@ export default function Password() {
         setVemail("Preencha o Email corretamente")
         error = true
     }
-    if(password == ''){
-      setVpassword("Preencha a Senha")
-      error = true
-    }else{
-      if(password == password2){
-        error = false
-        setVpassword2("")
-      }else{
-        error = true
-        setVpassword2("Ambas a senhas devem ser iguais")
-      }
-    }
+    // if(password == ''){
+    //   setVpassword("Preencha a Senha")
+    //   error = true
+    // }else{
+    //   if(password == password2){
+    //     error = false
+    //     setVpassword2("")
+    //   }else{
+    //     error = true
+    //     setVpassword2("Ambas a senhas devem ser iguais")
+    //   }
+    // }
     return !error
   }
 
@@ -70,13 +65,12 @@ export default function Password() {
       fetchMoviesJSON().then(teste => {
         // console.log(teste)
         // console.log("pegou resposta")
-        const userid = teste.user_id
         
         if(teste.confirm){
           // console.log("enviou")
           setIsLoading(false)
           navigation.navigate('Password2', {
-            params: {userid: userid, password: password},
+            params: {email: email, codigo: teste.cod},
           })
         }else{
           setSend("Email não registrado")
@@ -130,10 +124,10 @@ export default function Password() {
             <Text style={styles.buttonText}>Voltar</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttonback}
+          {/* <TouchableOpacity style={styles.buttonback}
             onPress={() => navigation.navigate('Password2')}>
             <Text style={styles.buttonText}>Próxima página</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity style={styles.button}
             onPress={() => enviar()}>

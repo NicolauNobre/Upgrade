@@ -68,7 +68,7 @@ export default function Changepassword2(params) {
             setIsLoading(false)
             alert("Senha alterada com sucesso!")
             navigation.navigate('Initial', {
-                params: {userid: id},
+                params: {userid: userid},
             })
             }else{
             setSend(teste.message)

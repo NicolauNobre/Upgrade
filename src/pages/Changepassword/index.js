@@ -12,11 +12,7 @@ export default function Changepassword(params) {
 
     const [isLoading, setIsLoading] = useState(false);
     const [oldpassword, setOldpassword] = useState('');
-    const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
     const [voldpassword, setVoldpassword] = useState('');
-    const [vpassword, setVpassword] = useState('');
-    const [vpassword2, setVpassword2] = useState('');
     const [send, setSend] = useState('');
 
     // função para enviar os formularios para o back
@@ -41,19 +37,11 @@ export default function Changepassword(params) {
     // função para validar os formularios (precisa de melhorias)
     const validar = () =>{
         setVoldpassword('')
-        setVpassword('')
-        setVpassword2("")
         let error = false
         if(oldpassword == ''){
           setVoldpassword("Preencha sua senha antiga")
           error = true
-        }else{
-          
         }
-        // if(oldpassword != verificacao){
-        //     error= true
-        //     setVpassword("Senha errada!!")
-        // }
         return !error
     }
 
@@ -119,24 +107,6 @@ export default function Changepassword(params) {
                 secureTextEntry={true}
             />
             <Text style={styles.msgerro}>{voldpassword}</Text>
-
-            {/* <Text style={styles.title}>Nova Senha *</Text>
-            <TextInput
-                placeholder="Nova Senha..."
-                onChangeText={setPassword}
-                style={styles.TextSenha}
-                secureTextEntry={true}
-            />
-            <Text style={styles.msgerro}>{vpassword}</Text>
-            <Text style={styles.title}>Confirmar Nova Senha *</Text>
-
-            <TextInput
-                placeholder="Nova Senha..."
-                onChangeText={setPassword2}
-                style={styles.TextSenha}
-                secureTextEntry={true}
-            />
-            <Text style={styles.msgerro}>{vpassword2}</Text> */}
 
             <TouchableOpacity style={styles.buttonback}
                 onPress={() => navigation.goBack()}>

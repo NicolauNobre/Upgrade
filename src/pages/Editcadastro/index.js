@@ -85,7 +85,7 @@ export default function Editcadastro(params) {
         headers: { 'Content-Type': 'application/json' },
         });
         const teste = await response.json();
-        console.log(teste)
+        // console.log(teste)
         return teste;
     }
 
@@ -99,20 +99,20 @@ export default function Editcadastro(params) {
             // console.log(teste)
             // console.log("pegou resposta")
             if(teste.confirm){
-            // console.log("cadastrou")
-            setIsLoading(false)
-            alert("Cadastro Atualizado")
-            navigation.goBack()
+              // console.log("cadastrou")
+              setIsLoading(false)
+              alert("Cadastro Atualizado")
+              navigation.goBack()
             }else{
-            setIsLoading(false)
-            setVcadaster("Erro ao cadastrar, verifique seus dados")
-            // console.log("não cadastro")
-            alert("Verifique seus dados e tente novamente")
+              setIsLoading(false)
+              setVcadaster("Erro ao cadastrar, verifique seus dados")
+              // console.log("não cadastro")
+              alert("Verifique seus dados e tente novamente")
             }
             
         });
         }else{
-        setIsLoading(false)
+          setIsLoading(false)
         }
     }
 
@@ -175,7 +175,7 @@ export default function Editcadastro(params) {
                 />
                 <Text style={styles.msgerro}>{vzip}</Text>
                 <Text style={styles.title}>Estado *</Text>
-                <View style={styles.pickercontainer}>
+                  <View style={styles.pickercontainer}>
                     <Picker
                         style={styles.TextSenha}
                         selectedValue={country}
@@ -211,12 +211,7 @@ export default function Editcadastro(params) {
                         <Picker.Item label="Sergipe" value="Sergipe" />
                         <Picker.Item label="Tocantins" value="Tocantins" />
                     </Picker>
-                    </View>
-                {/* <TextInput
-                    placeholder="Estado..."
-                    onChangeText={setCountry}
-                    style={styles.TextSenha}
-                /> */}
+                  </View>
                 <Text style={styles.title}>Cidade *</Text>
                 <TextInput
                     placeholder="Cidade..."
