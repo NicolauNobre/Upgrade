@@ -22,7 +22,7 @@ export default function Password() {
     });
     // console.log("espera reposta");
     const teste = await response.json();
-    console.log(teste)
+    // console.log(teste)
     return teste;
   }
 

@@ -20,11 +20,11 @@ export default function Password2(params) {
 
   // função para enviar os formularios para o back
   async function fetchMoviesJSON() {
-    const response = await fetch('ROTA',{
-      method: 'POST',
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/change-password-email',{
+      method: 'PUT',
       body: JSON.stringify({
-        'email': email,
-        'password': password,
+        'user_mail': email,
+        'new_password': password,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
@@ -74,9 +74,8 @@ export default function Password2(params) {
         if(teste.confirm){
           // console.log("enviou")
           setIsLoading(false)
-          navigation.navigate('Initial', {
-            params: {userid: userid, password: password},
-          })
+          alert("Senha alterada com sucesso!")
+          navigation.navigate('SignIn')
         }else{
           setSend("Email não registrado")
           // console.log("não enviou")
