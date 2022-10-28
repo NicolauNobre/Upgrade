@@ -4,15 +4,18 @@ import {useNavigation} from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-export default function Ofertas(params) {
+export default function Classpage(params) {
     const navigation = useNavigation();
+
 
     // variaveis utilizadas
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [item, setItem] = useState([]);
-    const userid = params.route.params.id;
+    const userid = params.route.params.params.userid;
+    const categoria = params.route.params.params.category;
+    // console.log(categoria);
     // console.log(userid);
 
     // função do request de produtos ao back
@@ -27,11 +30,9 @@ export default function Ofertas(params) {
         setIsLoading(false);
     }
 
-
     useEffect( () => {
-    fetchMoviesJSON();
+        fetchMoviesJSON();
     }, []);
-
 
     //função para retornar os itens na view
     const buscar = ()=> {
@@ -47,24 +48,26 @@ export default function Ofertas(params) {
                         let filter = pesquisa.toUpperCase();
                         let products = index.title.toUpperCase();
                         if(pesquisa == ''){
-                            return(
-                                <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                        <Text style={styles.titletext}>{index.title}</Text>
-                                        <View style={styles.line}/>
-                                        <View style={{width: '60%', flexDirection: 'row' }}>
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
-                                            <Text style={styles.pricetext}> R$ {index.price}</Text>
-                                        </View>
-                                    </TouchableOpacity>  
-                                </View>  
-                            );
+                            if(index.class == categoria){
+                                return(
+                                    <View key={index._id} style={styles.itemcontainer} >
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
+                                            <Text style={styles.titletext}>{index.title}</Text>
+                                            <View style={styles.line}/>
+                                            <View style={{width: '60%', flexDirection: 'row' }}>
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
+                                                <Text style={styles.pricetext}> R$ {index.price}</Text>
+                                            </View>
+                                        </TouchableOpacity>  
+                                    </View>  
+                                );
+                            }
                         }else{
                             // console.log("produto: ", products, "pesquisa", filter)
-                            if(products.includes(filter)){
+                            if(products.includes(filter) && index.class == categoria){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
                                         <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
@@ -110,7 +113,7 @@ export default function Ofertas(params) {
                 style={styles.linearGradient}
                 start={{ x: 0, y: 0.9 }}
                 >
-                    <Text style={styles.texttitle}>Produtos disponiveis</Text>
+                    <Text style={styles.texttitle}>{categoria}</Text>
                     <View style={styles.containerForm}>
                         <TextInput
                             placeholder="Buscar Produto"

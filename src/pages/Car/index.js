@@ -5,7 +5,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Car(params) {
     const navigation = useNavigation();
-    const userid = params.route.params.id
+    const userid = params.route.params.id;
+    const reload = params.route.params.reload;
+    // console.log(reload);
     // console.log(userid)
     const [pesquisa, setPesquisa] = useState('');
     const [resp, setResp] = useState(false);
@@ -29,10 +31,11 @@ export default function Car(params) {
         setIsLoading(false);
     }
 
-    useEffect( () => {
-        fetchMoviesJSON();
-    }, []);
-
+    if(reload){
+        useEffect( () => {
+            fetchMoviesJSON();
+        }, []);
+    }
     //função para retornar os itens na view
     const buscar = ()=> {
 
