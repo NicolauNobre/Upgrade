@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
       marginLeft: 20
     },
     buttonRegister:{
-      backgroundColor: '#1E1E1E',
+      backgroundColor: '#FF7851',
       marginTop: 30,
       padding: 10,
       borderRadius: 50,
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     },
     buttonPick:{
       padding: 5,
-      backgroundColor: '#FF7851',
+      backgroundColor: '#1E1E1E',
       marginTop: 10,
       borderRadius: 50,
       width: '80%',
