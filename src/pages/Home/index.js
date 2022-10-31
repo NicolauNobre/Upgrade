@@ -1,13 +1,18 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity,SafeAreaView } from 'react-native';
 import 'react-native-gesture-handler';
 import {Feather} from '@expo/vector-icons'
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { styleProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
-import { RollInRight } from 'react-native-reanimated';
+import {useNavigation} from '@react-navigation/native';
 
-export default function Home() {
+export default function Home(params) {
+  const navigation = useNavigation();
+  // console.log(params);
+  const userid = params.route.params.id;
+  const reload = params.route.params.reload;
+  // console.log(reload);
+  // console.log(userid);
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.containerLogo}>
@@ -49,7 +54,8 @@ export default function Home() {
         </View>
 
         <ScrollView style={styles.container2} horizontal={true} showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Classpage', {
+                                                                              params: {userid: userid, category: 'monitor'},})}>
             <View style={styles.areaButton}>
               <Feather name="monitor" size={27} color="#FF7851"/>
             </View>

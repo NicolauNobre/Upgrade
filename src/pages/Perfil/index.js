@@ -9,6 +9,8 @@ export default function Perfil(params) {
     const [isLoading, setIsLoading] = useState(false);
     // console.log(params.route.params.id);
     const userid = params.route.params.id
+    const reload = params.route.params.reload;
+    // console.log(reload);
     const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
@@ -46,9 +48,11 @@ export default function Perfil(params) {
       setDados(teste)
     }
 
-    useEffect( () => {
-      fetchMoviesJSON();
-    }, []);
+    if(reload){
+      useEffect( () => {
+        fetchMoviesJSON();
+      }, []);
+    }
 
     // função para tela de carregamento enquanto busca dados do usuário
     const loading = () =>{
