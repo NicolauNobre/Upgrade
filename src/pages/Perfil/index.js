@@ -76,12 +76,12 @@ export default function Perfil(params) {
           start={{ x: 0, y: 0.8 }}
           >
 
-          <TouchableOpacity style={styles.button}
+          {/* <TouchableOpacity style={styles.button}
             onPress={() => navigation.navigate("Registro", {
             params: {userid: userid},
             })}>
             <Text style={styles.buttonText}>Vender</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           
           <TouchableOpacity style={styles.button}
             onPress={() => navigation.navigate("Itens", {

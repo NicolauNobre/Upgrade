@@ -127,9 +127,9 @@ export default function Registro(params) {
             style={styles.linearGradient}
             start={{ x: 0, y: 0.9 }}
             >
-              <TouchableOpacity style={styles.goback} onPress={() => navigation.goBack()}>
+              {/* <TouchableOpacity style={styles.goback} onPress={() => navigation.goBack()}>
                 <Feather name="arrow-left" size={35} color="#FF7851"/>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <Text style={styles.title}> Registrar item para a Venda</Text>
             </LinearGradient> 
           </View>

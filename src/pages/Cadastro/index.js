@@ -53,13 +53,29 @@ export default function Cadastro() {
     let error = false
     let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
     let match = regex.test(email)
-    if (match){
-    } else{
+    if (email == ''){
+      setVemail("Email inválido")
+      error = true
+    }else if (match){
+      setEmail(toString(email))
+    }else{
         setVemail("Email inválido")
         error = true
     }
 
-    if (cpf == '' || cpf.length != 11){
+    var digitoscpf = 0
+    var confirma = true
+    for(let i=0; i<cpf.length; i++){
+      digitoscpf= digitoscpf + parseInt(cpf[i])
+      // console.log(cpf[i])
+    }
+    // console.log(digitoscpf)
+    if( digitoscpf == 33 || digitoscpf == 44 || digitoscpf == 55 || digitoscpf == 66){
+      confirma = false
+    }
+
+
+    if (cpf == '' || cpf.length != 11 || confirma){
       setVcpf("CPF inválido")
       error = true
     }
@@ -67,6 +83,8 @@ export default function Cadastro() {
     if(password != password2 || password == ''){
       setVpassword('senhas diferentes')
       error = true
+    }else{
+      setPassword(toString(password))
     }
 
     if (phone == '' || phone.length > 12 || phone.length < 10){
@@ -82,7 +100,10 @@ export default function Cadastro() {
     if(adress == '' || adress.length>5){
       setVadress("número invalido")
       error = true
+    }else{
+      setAdress(toString(adress))
     }
+
     if(date == ''){
       setVdate("Preencha a data")
       error = true
@@ -91,21 +112,33 @@ export default function Cadastro() {
     if(nome == ''){
       setVnome("Preencha o campo nome")
       error = true
+    }else{
+      setNome(toString(nome))
     }
 
     if(country == ''){
       setVcountry("Escolha um estado")
       error = true
+    }else{
+      setCountry(toString(country))
     }
 
     if(city == ''){
       setVcity("preencha o campo Cidade")
       error = true
+    }else{
+      setCity(toString(city))
     }
 
     if(street == ''){
       setVstreet("preencha o campo Rua")
       error = true
+    }else{
+      setStreet(toString(street))
+    }
+
+    if(complement){
+      setComplement(toString(complement))
     }
     return !error
   }

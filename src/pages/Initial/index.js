@@ -6,6 +6,7 @@ import Home from '../Home';
 import Perfil from '../Perfil';
 import Ofertas from '../Ofertas';
 import Car from '../Car';
+import Registro from '../Registro';
 import {Feather} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -31,14 +32,14 @@ export default function Initial(userid) {
             name="Home" 
             component={Home} 
             initialParams={
-                {id: id, reload: false}
+                {id: id, reload: true}
             }
-            listeners={{
-                tabPress: (e) => {
-                    e.preventDefault;
-                    navigation.navigate('Home', {reload:true})
-                },
-            }}
+            // listeners={{
+            //     tabPress: (e) => {
+            //         e.preventDefault;
+            //         navigation.navigate('Home')
+            //     },
+            // }}
             options={{
                 // tabBarBadge: 3,
                 tabBarIcon:({size,color}) => (
@@ -51,14 +52,21 @@ export default function Initial(userid) {
             name="Ofertas" 
             component={Ofertas} 
             initialParams={
-                {id: id, reload: false}
+                {id: id, reload: true}
             }
-            listeners={{
-                tabPress: (e) => {
-                    e.preventDefault;
-                    navigation.navigate('Ofertas', {reload:true})
-                },
+            options={{ 
+                tabBarIcon:({size,color}) => (
+                    <Feather name="key" size={size} color={color}/>
+                )   
             }}
+            />
+
+            <Tab.Screen 
+            name="Vender" 
+            component={Registro} 
+            initialParams={
+                {id: id, reload: true}
+            }
             options={{ 
                 tabBarIcon:({size,color}) => (
                     <Feather name="key" size={size} color={color}/>
@@ -69,14 +77,8 @@ export default function Initial(userid) {
             <Tab.Screen 
             name="Car"
             initialParams={
-                {id: id, reload: false}
+                {id: id, reload: true}
             }
-            listeners={{
-                tabPress: (e) => {
-                    e.preventDefault;
-                    navigation.navigate('Car', {reload:true})
-                },
-            }}
             component={Car} 
             options={{
                 tabBarIcon:({size,color}) => (
@@ -89,14 +91,8 @@ export default function Initial(userid) {
             name="Perfil" 
             component={Perfil} 
             initialParams={
-                {id: id, reload: false}
+                {id: id, reload: true}
             }
-            listeners={{
-                tabPress: (e) => {
-                    e.preventDefault;
-                    navigation.navigate('Perfil', {reload:true})
-                },
-            }}
             options={{
                 tabBarIcon:({size,color}) => (
                     <Feather name="user" size={size} color={color}/>
