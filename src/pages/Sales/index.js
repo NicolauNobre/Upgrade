@@ -45,10 +45,11 @@ export default function Sales(params) {
             return (
                 // percorre o array de itens
                 item.map(index =>{
+                    console.log('teste')
                     console.log(index)
                     if(index.title == undefined){
                         setResp(false);
-                    }else{
+                    }else if(index.sell){
                         let filter = pesquisa.toUpperCase();
                         let products = index.title.toUpperCase();
                         if(pesquisa == ''){

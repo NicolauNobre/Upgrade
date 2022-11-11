@@ -59,7 +59,7 @@ export default function Car(params) {
                                             style={styles.Img}
                                         />
                                         <View>
-                                            <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
+                                            <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
                                             <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                         </View>
                                     </View>
