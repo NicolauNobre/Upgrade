@@ -22,11 +22,19 @@ export default function Classpage(params) {
     async function fetchMoviesJSON() {
         setIsLoading(true);
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
-          method: 'Get',
+            method: 'Post',
+            body: JSON.stringify({
+              "user_id" : userid,
+            }),
+            headers: { 'Content-Type': 'application/json' },
         });
         const teste = await response.json();
         setItem (teste);
-        setResp(true);
+        if(teste[0]){
+            setResp(true);
+        }else{
+            setResp(false)
+        }
         setIsLoading(false);
     }
 
@@ -88,6 +96,12 @@ export default function Classpage(params) {
                     }
                 })
             );
+        }else{
+            return(
+                <View>
+                    <Text style={styles.semitems}>nenhum item a venda nessa categoria</Text>
+                </View>
+            )
         }
     }
 
@@ -240,5 +254,8 @@ const styles = StyleSheet.create({
     linearGradient:{
         width: '100%',
         alignItems: 'center',
+    },
+    semitems:{
+        textAlign: 'center',
     },
 });
