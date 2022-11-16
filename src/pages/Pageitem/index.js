@@ -76,11 +76,21 @@ export default function Pageitem(params) {
                     <View style={{flexDirection: 'row' }}>
                         <Text style={styles.titletext}>{index.title}</Text>
                         <Text style={styles.quantitytext}>Quantidade</Text>   
+                        <Text style={styles.quantityitem}>{index.amount}</Text>
                     </View>
-                    <Text style={styles.quantityitem}>{index.amount}</Text>
                     <View style={styles.line}/>
                     <Text style={styles.descriptiontext}>Descrição</Text>
                     <Text style={styles.descriptioncontent}>{index.description}</Text>
+
+
+
+                    <Text style={styles.pricetext}>{index.city}</Text>
+                    <Text style={styles.pricetext}>{index.country_state}</Text>
+                    <Text style={styles.pricetext}>{index.name}</Text>
+                    <Text style={styles.pricetext}>{index.phone}</Text>
+
+
+
                     <View style={styles.line}/>
                     <View style={{flexDirection: 'row', alignSelf: 'center'}}>
                         <Text style={styles.infos}>Condição: {index.condition}</Text>
