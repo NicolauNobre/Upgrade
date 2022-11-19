@@ -73,29 +73,27 @@ export default function Pageitem(params) {
                     style={styles.Img}
                 />
                 <View style={styles.infobackground}>
-                    <View style={{flexDirection: 'row' }}>
+                    <View style={{flexDirection: 'row'}}>
                         <Text style={styles.titletext}>{index.title}</Text>
-                        <Text style={styles.quantitytext}>Quantidade</Text>   
-                        <Text style={styles.quantityitem}>{index.amount}</Text>
+                        {/* <Text style={styles.quantityitem}>{index.amount}</Text> */}
                     </View>
-                    <View style={styles.line}/>
-                    <Text style={styles.descriptiontext}>Descrição</Text>
-                    <Text style={styles.descriptioncontent}>{index.description}</Text>
-
-
-
-                    <Text style={styles.pricetext}>{index.city}</Text>
-                    <Text style={styles.pricetext}>{index.country_state}</Text>
-                    <Text style={styles.pricetext}>{index.name}</Text>
-                    <Text style={styles.pricetext}>{index.phone}</Text>
-
-
-
                     <View style={styles.line}/>
                     <View style={{flexDirection: 'row', alignSelf: 'center'}}>
                         <Text style={styles.infos}>Condição: {index.condition}</Text>
+                        <Text style={styles.quantitytext}>Em estoque: {index.amount}</Text>
                         <Text style={styles.infos}>Categoria: {index.class}</Text>
                     </View>
+                    <Text style={styles.descriptiontext}>Descrição</Text>
+                    <Text style={styles.descriptioncontent}>{index.description}</Text>
+                    <View style={styles.line}/>
+                    <Text style={styles.descriptiontext}>Informações do Vendedor</Text>
+
+                    <Text style={styles.descriptioncontent}>Nome do Vendedor: {index.name}</Text>
+                    <Text style={styles.descriptioncontent}>Cidade: {index.city}</Text>
+                    <Text style={styles.descriptioncontent}>Estado: {index.country_state}</Text>
+                    <Text style={styles.descriptioncontent}>Telefone Para Contato: {index.phone}</Text>
+
+                    <View style={styles.line}/>
                     <Text style={styles.pricetext}>R$ {index.price}</Text>
                     
                 </View>
@@ -138,9 +136,13 @@ const styles = StyleSheet.create({
     },
     quantitytext:{
         fontSize: 15,
-        fontWeight: 'bold',
-        color: '#1E1E1E',
+        color: 'white',
         alignSelf: 'center',
+        textAlign: 'center',
+        backgroundColor: '#1E1E1E',
+        borderRadius: 5,
+        padding: 5,
+        marginTop: 3
     },
     error:{
         fontSize: 25,
@@ -166,7 +168,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#1E1E1E',
         alignSelf: 'center',
-        paddingTop: 10,
+        padding: 5,
+        backgroundColor: '#3DEB91',
+        borderRadius: 5,
+        margin: 5
     },
     button:{
         backgroundColor: '#FF7851',
@@ -236,10 +241,11 @@ const styles = StyleSheet.create({
         borderWidth: 0.4
     },
     quantityitem:{
-        alignSelf: 'flex-end',
-        marginRight: 55,
-        paddingBottom: 10,
-        fontSize: 20
+        alignSelf: 'center',
+        marginLeft: 5,
+        fontSize: 20,
+        color: 'white',
+        textAlign: 'center',
     },
     descriptioncontent:{
         marginLeft: 30,
