@@ -13,6 +13,7 @@ export default function Ofertas(params) {
     const [isLoading, setIsLoading] = useState(false);
     const [item, setItem] = useState([]);
     const userid = params.route.params.id;
+    // console.log(params.route.params.reload);
     // console.log(userid);
 
     // função do request de produtos ao back

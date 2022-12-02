@@ -37,7 +37,9 @@ export default function Initial(userid) {
             // listeners={{
             //     tabPress: (e) => {
             //         e.preventDefault;
-            //         navigation.navigate('Home')
+            //         navigation.navigate('Home', {
+            //             params: {reload: 'true'},
+            //           })
             //     },
             // }}
             options={{
@@ -54,6 +56,11 @@ export default function Initial(userid) {
             initialParams={
                 {id: id, reload: true}
             }
+            // listeners={{
+            //     tabPress: (e) => {
+            //         e.preventDefault;
+            //     },
+            // }}
             options={{ 
                 tabBarIcon:({size,color}) => (
                     <Feather name="key" size={size} color={color}/>

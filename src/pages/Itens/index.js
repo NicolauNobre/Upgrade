@@ -28,6 +28,7 @@ export default function Itens(params) {
         });
         const teste = await response.json();
         setItem (teste);
+        console.log(teste)
         setResp(true);
         setIsLoading(false);
     }

@@ -25,6 +25,7 @@ export default function Classpage(params) {
             method: 'Post',
             body: JSON.stringify({
               "user_id" : userid,
+            //   "class" : class,
             }),
             headers: { 'Content-Type': 'application/json' },
         });

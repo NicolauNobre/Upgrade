@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function Cadastro() {
   const navigation = useNavigation();
@@ -36,6 +37,7 @@ export default function Cadastro() {
   const [complement, setComplement] = useState('');
   const [vcadaster, setVcadaster] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false)
   
   // função para validar os formulários (precisa de melhorias)
   const validar = () =>{
@@ -87,7 +89,10 @@ export default function Cadastro() {
       setPassword(toString(password))
     }
 
-    if (phone == '' || phone.length > 12 || phone.length < 10){
+    var regexphone = new RegExp('^((1[1-9])|([2-9][0-9]))((3[0-9]{3}[0-9]{4})|(9[0-9]{3}[0-9]{5}))$');
+    let cphone = regexphone.test(phone);
+
+    if (phone == '' || !cphone){
       setVphone("telefone inválido")
       error = true
     }
@@ -229,6 +234,7 @@ export default function Cadastro() {
       )
     }
   }
+  console.log(toggleCheckBox)
 
  return (
    <KeyboardAvoidingView style={styles.container}>
@@ -274,6 +280,11 @@ export default function Cadastro() {
                 onChangeText={setPhone}
                 style={styles.textTel}
               />
+            <BouncyCheckbox fillColor="#FF7851"
+              unfillColor="#FFFFFF"
+              iconStyle={{ borderColor: "#FF7851" }}
+              innerIconStyle={{ borderWidth: 2 }}
+              onPress={() => setToggleCheckBox(!toggleCheckBox)} />
           </View>
 
           <View style={{flexDirection: 'row'}}>
@@ -345,6 +356,7 @@ export default function Cadastro() {
 
           <View style={{flexDirection: 'row' }}>
             <TextInput
+              // editable = {false}
               keyboardType="number-pad"
               placeholder="CEP..."
               onChangeText={setZip}
