@@ -238,7 +238,6 @@ export default function Cadastro() {
       )
     }
   }
-  console.log(toggleCheckBox)
 
  return (
    <KeyboardAvoidingView style={styles.container}>
