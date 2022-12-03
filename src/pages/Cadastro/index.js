@@ -194,6 +194,10 @@ export default function Cadastro() {
           alert("Verifique seus dados e tente novamente")
         }
         
+      }).catch(e=>{
+        setIsLoading(false)
+        setVcadaster("Sem conexão com o servidor")
+        // console.log(e)
       });
     }else{
       setIsLoading(false)

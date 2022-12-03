@@ -66,6 +66,10 @@ export default function Changepassword(params) {
             // console.log("não enviou")
             setIsLoading(false)
             }
+        }).catch(e=>{
+          setIsLoading(false)
+          setSend("Sem conexão com o servidor")
+          // console.log(e)
         });
         }else{
         setIsLoading(false)

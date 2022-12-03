@@ -115,7 +115,11 @@ export default function Registro(params) {
             alert("Item Não Registrado")
             setVregistro("Não registrou")
           }
-        });
+        }).catch(e=>{
+          setIsLoading(false)
+          setVregistro("Sem conexão com o servidor")
+          // console.log(e)
+        });;
       }
     }
     

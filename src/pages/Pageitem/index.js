@@ -48,6 +48,12 @@ export default function Pageitem(params) {
                     alert("compra não registrada")
                 }
         
+            }).catch(e=>{
+
+                setIsLoading(false)
+                alert("Sem conexão com o servidor")
+                // console.log(e)
+
             });
         }
     }
