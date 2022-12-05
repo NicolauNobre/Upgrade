@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     borderRadius: 50,
-    width: '45%',
+    width: '39%',
     alignSelf: 'flex-start',
     textAlign: 'center',
     marginLeft: 23,
