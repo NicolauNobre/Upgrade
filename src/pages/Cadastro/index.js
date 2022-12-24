@@ -38,6 +38,7 @@ export default function Cadastro() {
   const [vadress, setVadress] = useState('');
   const [complement, setComplement] = useState('');
   const [vcadaster, setVcadaster] = useState('');
+  const [validcep, setValidcep] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
   
@@ -82,6 +83,8 @@ export default function Cadastro() {
     if (cpf == '' || cpf.length != 11 || confirma){
       setVcpf("CPF inválido")
       error = true
+    }else{
+      setCpf(toString(cpf))
     }
 
     if(password != password2 || password == ''){
@@ -97,31 +100,6 @@ export default function Cadastro() {
     if (phone == '' || !cphone){
       setVphone("telefone inválido")
       error = true
-    }
-
-    if (zip== '' || zip.length > 8 || zip.length < 8){
-      setVzip("CEP inválido")
-      error = true
-    }else{
-      sendcep(zip).then(result => {
-        // console.log(result)
-        // console.log("pegou resposta") 
-        if(result.cep){
-          console.log('achou');
-          console.log(result);
-          setCountry(result.state);
-          setCity(result.city);
-          let simple = result.street.split('-')
-          setStreet(simple[0])
-        }else{
-          setVzip("CEP inválido");
-          error = true;
-        }       
-      }).catch(e=>{
-        setIsLoading(false)
-        error = true;
-        console.log(e)
-      });
     }
 
     if(adress == '' || adress.length>5){
@@ -141,6 +119,10 @@ export default function Cadastro() {
       error = true
     }else{
       setNome(toString(nome))
+    }
+    if(!validcep){
+      setVzip("CEP Inválido")
+      error = true
     }
 
     if(country == ''){
@@ -194,6 +176,7 @@ export default function Cadastro() {
     return teste;
   }
 
+  // conexão com a Api de cep para buscar os dados de endereço
   async function sendcep(buscacep) {
     const response = await fetch('https://brasilapi.com.br/api/cep/v1/'+buscacep,{
       method: 'GET',
@@ -233,9 +216,61 @@ export default function Cadastro() {
         // console.log(e)
       });
     }else{
+      alert("Verifique seus dados e tente novamente")
       setIsLoading(false)
     }
   }
+
+  // Função para preencher os outros campo a partir do cep, se ele for valido
+  const filladress = ()=>{
+    setVzip('')
+    sendcep(zip).then(result => {
+      // console.log(result)
+      // console.log("pegou resposta") 
+      if(result.cep){
+        // console.log('achou');
+        // console.log(result);
+        setCountry(result.state);
+        setCity(result.city);
+        let simple = result.street.split('-')
+        setStreet(simple[0])
+        return true
+      }else{
+        setVzip("CEP inválido");
+        return(false);
+      }       
+    }).catch(e=>{
+      setIsLoading(false)
+      console.log(e)
+      return false
+    });
+  }
+
+  // Verifica se é um cep com o tamanho certo
+  const iscepvalid = (cep) =>{
+    let isvalid = false
+    cep = cep.toString()
+    if(cep.length>=1){
+      setVzip("CEP inválido");
+    }else{
+      setVzip("");
+    }
+    if(cep.length >= 8){
+      isvalid = true
+    }
+    
+    return isvalid;
+  }
+
+  // chama as funções para enviar o Cep
+  useEffect( () => {
+    // console.log('verifica')
+    if(iscepvalid(zip)){
+      filladress();
+      setValidcep(true)
+    }
+  });
+
 
   // função para o data picker
   const onChange = (event, selectedDate) => {
@@ -244,6 +279,7 @@ export default function Cadastro() {
     setDate(currentDate);
     // event.preventDefault();
   };
+
   // função para modal do data picker
   const showMode = (currentMode) => {
     DateTimePickerAndroid.open({
@@ -253,6 +289,7 @@ export default function Cadastro() {
       onChange,
     });
   };
+  
   // função para mostrar a modal do datapicker
   const showDatepicker = () => {
     showMode('date');
