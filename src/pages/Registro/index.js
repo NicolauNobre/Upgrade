@@ -3,8 +3,8 @@ import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, Touc
 import 'react-native-gesture-handler';
 import {Feather} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker';
-import {Picker} from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
+import RNPickerSelect from 'react-native-picker-select';
 
 import {useNavigation} from '@react-navigation/native'
 
@@ -166,12 +166,27 @@ export default function Registro(params) {
                 placeholder="Valor do Item"
                 onChangeText={setValor}
                 style={styles.TextValor}
-            />
-            <TextInput
-                placeholder="Estado do Item"
-                onChangeText={setEstado}
-                style={styles.TextEst}
-            />
+              />
+              <View style={styles.TextEst}>
+                <RNPickerSelect
+                  onValueChange={(value) => setEstado(value)}
+                  placeholder = {{
+                    label: 'Estado', 
+                    value: null, 
+                    color: '#C7C7CD',
+                  }}
+                  items={[
+                    { label: 'Novo', value: 'novo', color: 'black'},
+                    { label: 'Usado', value: 'usado', color: 'black'},
+                    { label: 'Velho', value: 'velho', color: 'black'},
+                  ]}
+                />
+              </View>
+              {/* <TextInput
+                  placeholder="Estado do Item"
+                  onChangeText={setEstado}
+                  style={styles.TextEst}
+              /> */}
             </View>
             
             <View style={{flexDirection: 'row' }}>
@@ -181,24 +196,17 @@ export default function Registro(params) {
 
             <Text style={styles.title2}>Categoria Do Item *</Text>
             <View style={styles.pickercontainer}>
-            <Picker
-              style={styles.TextSenha}
-              selectedValue={categoria}
-              onValueChange={(itemValue, itemIndex) =>setCategoria(itemValue)}
-              itemStyle={styles.TextSenha}
-            >
-              <Picker.Item label="Selecione a categoria" value='' />
-              <Picker.Item label="Memória Ram" value="memoria ram" />
-              <Picker.Item label="HD" value="HD" />
-              <Picker.Item label="SSD" value="SSD" />
-              <Picker.Item label="placa de video" value="placa de video" />
-              <Picker.Item label="placa Mãe" value="placa mae" />
-              <Picker.Item label="Monitor" value="monitor" />
-              <Picker.Item label="Gabinete" value="gabinete" />
-              <Picker.Item label="Periférico" value="periférico" />
-              <Picker.Item label="Processador" value="processador" />
-              <Picker.Item label="Cooler" value="Cooler" />
-            </Picker>
+              <RNPickerSelect
+                onValueChange={(value) => console.log(value)}
+                placeholder = {{
+                  label: 'Categoria', 
+                  value: null, 
+                  color: '#C7C7CD',
+                }}
+                items={[
+                  { label: 'Vai vir do back', value: 'aguardando rota', color: 'black'},
+                ]}
+              />
             </View>
             <Text style={styles.msgerro}>{vcategoria}</Text>
             <Text style={styles.title2}>Quantidade *</Text>
@@ -343,13 +351,16 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     TextEst:{
+      display: 'flex',
+      justifyContent: 'center',
       backgroundColor: 'white',
       color: 'black',
       borderRadius: 50,
-      width: '30%',
+      height: 40,
+      width: '35%',
       fontSize: 16,
       textAlign: 'center',
-      marginLeft: 40
+      marginLeft: 25,
     },
     title1:{
       backgroundColor: '#E6E6E6',
@@ -358,10 +369,16 @@ const styles = StyleSheet.create({
       fontWeight: '400'
     },
     pickercontainer:{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
       backgroundColor: 'white',
+      height: 40,
+      textAlign: 'center',
       borderRadius: 50,
       width: '80%',
       alignSelf: 'center',
+      alignItems: 'center',
       fontSize: 10,
     },
     linearGradient:{

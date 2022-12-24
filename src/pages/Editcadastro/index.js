@@ -3,7 +3,7 @@ import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacit
 
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
-import {Picker} from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function Editcadastro(params) {
     //console.log(params.route.params.params.userid)
@@ -184,49 +184,45 @@ export default function Editcadastro(params) {
                     style={styles.textCEP}
                   />
                   <View style={styles.pickercontainer}>
-                    <Picker
-                        style={styles.textEst}
-                        selectedValue={country}
-                        onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
-                        itemStyle={styles.textEst}
-                      >
-                        <Picker.Item label="UF" value=''/>
-                        <Picker.Item label="AC" value="Acre" />
-                        <Picker.Item label="AL" value="Alagoas" />
-                        <Picker.Item label="AP" value="Amapá" />
-                        <Picker.Item label="AM" value="Amazonas" />
-                        <Picker.Item label="BA" value="Bahia" />
-                        <Picker.Item label="CE" value="Ceara" />
-                        <Picker.Item label="DF" value="Distrito Federal" />
-                        <Picker.Item label="ES" value="Espírito Santo" />
-                        <Picker.Item label="GO" value="Goiás" />
-                        <Picker.Item label="MA" value="Maranhão" />
-                        <Picker.Item label="MG" value="Mato Grosso" />
-                        <Picker.Item label="MS" value="Mato Grosso do Sul" />
-                        <Picker.Item label="MG" value="Minas Gerais" />
-                        <Picker.Item label="PA" value="Pará" />
-                        <Picker.Item label="PB" value="Paraíba" />
-                        <Picker.Item label="PR" value="Paraná" />
-                        <Picker.Item label="PE" value="Pernambuco" />
-                        <Picker.Item label="PI" value="Piauí" />
-                        <Picker.Item label="RJ" value="Rio de Janeiro" />
-                        <Picker.Item label="RN" value="Rio Grande do Norte" />
-                        <Picker.Item label="RS" value="Rio Grande do Sul" />
-                        <Picker.Item label="RO" value="Rondônia" />
-                        <Picker.Item label="RR" value="Roraima" />
-                        <Picker.Item label="SC" value="Santa Catarina" />
-                        <Picker.Item label="SP" value="São Paulo" />
-                        <Picker.Item label="SE" value="Sergipe" />
-                        <Picker.Item label="TO" value="Tocantins" />
-                      </Picker>
+                    <RNPickerSelect
+                      onValueChange={(value) => setCountry(value)}
+                      placeholder = {{
+                        label: 'Código UF', 
+                        value: null, 
+                        color: '#C7C7CD',
+                      }}
+                      items={[
+                        { label: 'AC', value: 'Acre', color: 'black'},
+                        { label: 'AL', value: 'Alagoas', color: 'black'},
+                        { label: 'AP', value: 'Amapá', color: 'black'},
+                        { label: 'AM', value: 'Amazonas', color: 'black'},
+                        { label: 'BA', value: 'Bahia', color: 'black'},
+                        { label: 'CE', value: 'Ceara', color: 'black', color: 'black'},
+                        { label: 'DF', value: 'Distrito Federal', color: 'black'},
+                        { label: 'ES', value: 'Espirito Santo', color: 'black'},
+                        { label: 'GO', value: 'Goais', color: 'black'},
+                        { label: 'MA', value: 'Maranhão', color: 'black'},
+                        { label: 'MT', value: 'Mato Grosso', color: 'black'},
+                        { label: 'MS', value: 'Mato Grosso do Sul', color: 'black'},
+                        { label: 'MG', value: 'Minas Gerias', color: 'black'},
+                        { label: 'PR', value: 'Paraná', color: 'black'},
+                        { label: 'PB', value: 'Paraiba', color: 'black'},
+                        { label: 'PA', value: 'Pará', color: 'black'},
+                        { label: 'PE', value: 'Pernambuco', color: 'black'},
+                        { label: 'PI', value: 'Piauí', color: 'black'},
+                        { label: 'Rj', value: 'Rio de Janeiro', color: 'black'},
+                        { label: 'RN', value: 'Rio Grande do Norte', color: 'black'},
+                        { label: 'RS', value: 'Rio Grande do Sul', color: 'black'},
+                        { label: 'RO', value: 'Ronddônia', color: 'black'},
+                        { label: 'RR', value: 'Roraima', color: 'black'},
+                        { label: 'SC', value: 'Santa Catarina', color: 'black'},
+                        { label: 'SE', value: 'Sergipe', color: 'black'},
+                        { label: 'SP', value: 'São Paulo', color: 'black'},
+                        { label: 'TO', value: 'Tocantins', color: 'black'},
+                      ]}
+                    />
                     </View>
                 </View>
-
-                {/* <TextInput
-                  placeholder="Estado..."
-                  onChangeText={setCountry}
-                  style={styles.TextSenha}
-                /> */}
 
                 <Text style={styles.title}>Cidade</Text>
                 <TextInput
@@ -494,12 +490,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   pickercontainer:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'white',
+    height: 30,
+    textAlign: 'center',
     borderRadius: 50,
     width: '41%',
     alignSelf: 'center',
-    alignItems: 'center',
-    marginLeft: 31
+    marginLeft: 31,
   },
   textNome:{
     backgroundColor: 'white',
