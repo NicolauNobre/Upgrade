@@ -102,6 +102,26 @@ export default function Cadastro() {
     if (zip== '' || zip.length > 8 || zip.length < 8){
       setVzip("CEP inválido")
       error = true
+    }else{
+      sendcep(zip).then(result => {
+        // console.log(result)
+        // console.log("pegou resposta") 
+        if(result.cep){
+          console.log('achou');
+          console.log(result);
+          setCountry(result.state);
+          setCity(result.city);
+          let simple = result.street.split('-')
+          setStreet(simple[0])
+        }else{
+          setVzip("CEP inválido");
+          error = true;
+        }       
+      }).catch(e=>{
+        setIsLoading(false)
+        error = true;
+        console.log(e)
+      });
     }
 
     if(adress == '' || adress.length>5){
@@ -173,6 +193,17 @@ export default function Cadastro() {
     const teste = await response.json();
     return teste;
   }
+
+  async function sendcep(buscacep) {
+    const response = await fetch('https://brasilapi.com.br/api/cep/v1/'+buscacep,{
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const result = await response.json();
+    return result;
+  }
+
+
 
   // função de envio de formulários se eles forem válidos
   const salvar = () =>{
@@ -369,6 +400,7 @@ export default function Cadastro() {
             />
             <View style={styles.pickercontainer}>
               <RNPickerSelect
+                value={country}
                 onValueChange={(value) => setCountry(value)}
                 placeholder = {{
                   label: 'Código UF', 
@@ -376,33 +408,33 @@ export default function Cadastro() {
                   color: '#C7C7CD',
                 }}
                 items={[
-                  { label: 'AC', value: 'Acre', color: 'black'},
-                  { label: 'AL', value: 'Alagoas', color: 'black'},
-                  { label: 'AP', value: 'Amapá', color: 'black'},
-                  { label: 'AM', value: 'Amazonas', color: 'black'},
-                  { label: 'BA', value: 'Bahia', color: 'black'},
-                  { label: 'CE', value: 'Ceara', color: 'black', color: 'black'},
-                  { label: 'DF', value: 'Distrito Federal', color: 'black'},
-                  { label: 'ES', value: 'Espirito Santo', color: 'black'},
-                  { label: 'GO', value: 'Goais', color: 'black'},
-                  { label: 'MA', value: 'Maranhão', color: 'black'},
-                  { label: 'MT', value: 'Mato Grosso', color: 'black'},
-                  { label: 'MS', value: 'Mato Grosso do Sul', color: 'black'},
-                  { label: 'MG', value: 'Minas Gerias', color: 'black'},
-                  { label: 'PR', value: 'Paraná', color: 'black'},
-                  { label: 'PB', value: 'Paraiba', color: 'black'},
-                  { label: 'PA', value: 'Pará', color: 'black'},
-                  { label: 'PE', value: 'Pernambuco', color: 'black'},
-                  { label: 'PI', value: 'Piauí', color: 'black'},
-                  { label: 'Rj', value: 'Rio de Janeiro', color: 'black'},
-                  { label: 'RN', value: 'Rio Grande do Norte', color: 'black'},
-                  { label: 'RS', value: 'Rio Grande do Sul', color: 'black'},
-                  { label: 'RO', value: 'Ronddônia', color: 'black'},
-                  { label: 'RR', value: 'Roraima', color: 'black'},
-                  { label: 'SC', value: 'Santa Catarina', color: 'black'},
-                  { label: 'SE', value: 'Sergipe', color: 'black'},
-                  { label: 'SP', value: 'São Paulo', color: 'black'},
-                  { label: 'TO', value: 'Tocantins', color: 'black'},
+                  { label: 'AC', value: 'AL', color: 'black'},
+                  { label: 'AL', value: 'AL', color: 'black'},
+                  { label: 'AP', value: 'AP', color: 'black'},
+                  { label: 'AM', value: 'AM', color: 'black'},
+                  { label: 'BA', value: 'BA', color: 'black'},
+                  { label: 'CE', value: 'CE', color: 'black'},
+                  { label: 'DF', value: 'DF', color: 'black'},
+                  { label: 'ES', value: 'ES', color: 'black'},
+                  { label: 'GO', value: 'GO', color: 'black'},
+                  { label: 'MA', value: 'MA', color: 'black'},
+                  { label: 'MT', value: 'MT', color: 'black'},
+                  { label: 'MS', value: 'MS', color: 'black'},
+                  { label: 'MG', value: 'MG', color: 'black'},
+                  { label: 'PR', value: 'PR', color: 'black'},
+                  { label: 'PB', value: 'PB', color: 'black'},
+                  { label: 'PA', value: 'PA', color: 'black'},
+                  { label: 'PE', value: 'PE', color: 'black'},
+                  { label: 'PI', value: 'PI', color: 'black'},
+                  { label: 'Rj', value: 'RJ', color: 'black'},
+                  { label: 'RN', value: 'RN', color: 'black'},
+                  { label: 'RS', value: 'RS', color: 'black'},
+                  { label: 'RO', value: 'RO', color: 'black'},
+                  { label: 'RR', value: 'RR', color: 'black'},
+                  { label: 'SC', value: 'SC', color: 'black'},
+                  { label: 'SE', value: 'SE', color: 'black'},
+                  { label: 'SP', value: 'SP', color: 'black'},
+                  { label: 'TO', value: 'TO', color: 'black'},
                 ]}
               />
               </View>
@@ -415,6 +447,7 @@ export default function Cadastro() {
 
           <Text style={styles.title}>Cidade *</Text>
           <TextInput
+            value={city}
             placeholder="Cidade..."
             onChangeText={setCity}
             style={styles.textCity}
@@ -422,6 +455,7 @@ export default function Cadastro() {
           <Text style={styles.msgerro}>{vcity}</Text>
           <Text style={styles.title}>Rua *</Text>
           <TextInput
+            value={street}
             placeholder="Rua..."
             onChangeText={setStreet}
             style={styles.textRua}
