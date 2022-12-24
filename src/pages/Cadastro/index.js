@@ -190,6 +190,7 @@ export default function Cadastro() {
 
   // função de envio de formulários se eles forem válidos
   const salvar = () =>{
+    filladress(zip);
     setIsLoading(true)
     let temp = (date.getMonth()+1)+'/'+(date.getDate())+'/'+date.getFullYear()
     // console.log(temp)
@@ -222,13 +223,13 @@ export default function Cadastro() {
   }
 
   // Função para preencher os outros campo a partir do cep, se ele for valido
-  const filladress = ()=>{
+  const filladress = (value)=>{
     setVzip('')
-    sendcep(zip).then(result => {
-      // console.log(result)
+    sendcep(value).then(result => {
+      console.log(result)
       // console.log("pegou resposta") 
       if(result.cep){
-        // console.log('achou');
+        console.log('achou');
         // console.log(result);
         setCountry(result.state);
         setCity(result.city);
@@ -263,13 +264,20 @@ export default function Cadastro() {
   }
 
   // chama as funções para enviar o Cep
-  useEffect( () => {
-    // console.log('verifica')
-    if(iscepvalid(zip)){
-      filladress();
-      setValidcep(true)
+  const callfunction = (value)=>{
+    setZip(value)
+    if(iscepvalid(value)){
+      filladress(value);
+      setValidcep(true);
     }
-  });
+  }
+  // useEffect( () => {
+  //   // console.log('verifica')
+  //   if(iscepvalid(zip)){
+  //     filladress();
+  //     setValidcep(true);
+  //   }
+  // });
 
 
   // função para o data picker
@@ -289,7 +297,7 @@ export default function Cadastro() {
       onChange,
     });
   };
-  
+
   // função para mostrar a modal do datapicker
   const showDatepicker = () => {
     showMode('date');
@@ -432,7 +440,7 @@ export default function Cadastro() {
               // editable = {false}
               keyboardType="number-pad"
               placeholder="CEP..."
-              onChangeText={setZip}
+              onChangeText={value => callfunction(value)}
               style={styles.textCEP}
             />
             <View style={styles.pickercontainer}>
