@@ -171,7 +171,7 @@ export default function Registro(params) {
                 <RNPickerSelect
                   onValueChange={(value) => setEstado(value)}
                   placeholder = {{
-                    label: 'Estado', 
+                    label: 'Estado do Item', 
                     value: null, 
                     color: '#C7C7CD',
                   }}
@@ -182,11 +182,6 @@ export default function Registro(params) {
                   ]}
                 />
               </View>
-              {/* <TextInput
-                  placeholder="Estado do Item"
-                  onChangeText={setEstado}
-                  style={styles.TextEst}
-              /> */}
             </View>
             
             <View style={{flexDirection: 'row' }}>
