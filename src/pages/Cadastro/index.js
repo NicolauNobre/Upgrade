@@ -238,6 +238,9 @@ export default function Cadastro() {
         setCity(result.city);
         let simple = result.street.split('-')
         setStreet(simple[0])
+        setVcountry('')
+        setVcity('')
+        setVstreet('')
         return true
       }else{
         setCity('fodac')
