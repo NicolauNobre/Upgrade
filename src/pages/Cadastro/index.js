@@ -192,9 +192,6 @@ export default function Cadastro() {
     let temp = (date.getMonth()+1)+'/'+(date.getDate())+'/'+date.getFullYear()
     // console.log(temp)
     if (validar()){
-      setCity(city);
-      setCountry(country);
-      setStreet(street);
       setVcadaster('')
       // console.log("manda pro back")
       fetchMoviesJSON(temp).then(teste => {
@@ -208,11 +205,17 @@ export default function Cadastro() {
           setIsLoading(false)
           setVcadaster("Erro ao cadastrar, verifique seus dados")
           // console.log("não cadastro")
+          setCity(city);
+          setCountry(country);
+          setStreet(street);
           alert("Verifique seus dados e tente novamente")
         }
         
       }).catch(e=>{
         setIsLoading(false)
+        setCity(city);
+        setCountry(country);
+        setStreet(street);
         setVcadaster("Sem conexão com o servidor")
         // console.log(e)
       });

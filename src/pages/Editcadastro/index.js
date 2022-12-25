@@ -12,17 +12,23 @@ export default function Editcadastro(params) {
     // console.log(dados)
     const navigation = useNavigation();
 
-    const [email, setEmail] = useState(dados.email);
+    const [email, setEmail] = useState(dados.email.toString());
     const [vemail, setVemail] = useState('');
-    const [phone, setPhone] = useState(dados.phone);
+    const [phone, setPhone] = useState(dados.phone.toString());
     const [vphone, setVphone] = useState('');
-    const [zip, setZip] = useState(dados.zipcode);
-    const [country, setCountry] = useState(dados.country_state);
-    const [city, setCity] = useState(dados.city);
-    const [street, setStreet] = useState(dados.street);
-    const [adress, setAdress] = useState(dados.address_number);
-    const [complement, setComplement] = useState(dados.address_complement);
+    const [zip, setZip] = useState(dados.zipcode.toString());
+    const [vzip, setVzip] = useState('');
+    const [country, setCountry] = useState(dados.country_state.toString());
+    const [vcountry, setVcountry] = useState('');
+    const [city, setCity] = useState(dados.city.toString());
+    const [vcity, setVcity] = useState('');
+    const [street, setStreet] = useState(dados.street.toString());
+    const [vstreet, setVstreet] = useState('');
+    const [adress, setAdress] = useState(dados.address_number.toString());
+    const [vadress, setVadress] = useState('');
+    const [complement, setComplement] = useState(dados.address_complement.toString());
     const [vcadaster, setVcadaster] = useState('');
+    const [validcep, setValidcep] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
     
@@ -31,30 +37,71 @@ export default function Editcadastro(params) {
       setVemail('')
       setVphone('')
       setVzip('')
+      setVphone('')
+      setVzip('')
+      setVadress('')
+      setVcountry('')
+      setVcity('')
+      setVstreet('')
       let error = false
       let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
       if( email == ''){
-
+        setVemail("Preencha seu email")
+        error = true
       }else{
         let match = regex.test(email)
         if (match){
+          setEmail(email.toString())
         } else{
             setVemail("Email inválido")
             error = true
         }
       }
-      if (phone == null){
+      var regexphone = new RegExp('^((1[1-9])|([2-9][0-9]))((3[0-9]{3}[0-9]{4})|(9[0-9]{3}[0-9]{5}))$');
+      let cphone = regexphone.test(phone);
 
-      }else if(phone.length > 12 || phone.length < 10){
+      if (phone == '' || !cphone){
         setVphone("telefone inválido")
         error = true
+      }else{
+        setPhone(phone.toString())
       }
-      if (zip== null){
-        
-      }else if(zip.length > 8 || zip.length < 8){
-        setVzip("CEP inválido")
+
+      if(!validcep){
+        setVzip("CEP Inválido")
         error = true
+      }else{
+        setZip(zip.toString())
       }
+
+      if(country == '' || country == null){
+        setVcountry("Escolha um estado")
+        error = true
+      }else{
+        setCountry(country.toString())
+      }
+
+      if(city == '' || city == null){
+        setVcity("Digite sua cidade")
+        error = true
+      }else{
+        setCity(adress.toString())
+      }
+
+      if(street == '' || street == null){
+        setVstreet("Digite sua rua")
+        error = true
+      }else{
+        setStreet(street.toString())
+      }
+
+      if(adress == '' || adress == null){
+        setVadress("Digite seu número")
+        error = true
+      }else{
+        setAdress(adress.toString())
+      }
+
       return !error
     }
 
@@ -88,6 +135,16 @@ export default function Editcadastro(params) {
         return teste;
     }
 
+    // conexão com a Api de cep para buscar os dados de endereço
+    async function sendcep(buscacep) {
+      const response = await fetch('https://brasilapi.com.br/api/cep/v1/'+buscacep,{
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const result = await response.json();
+      return result;
+    }
+
     // função de envio de formulários se eles forem válidos
     const salvar = () =>{
         setIsLoading(true)
@@ -104,6 +161,9 @@ export default function Editcadastro(params) {
               navigation.goBack()
             }else{
               setIsLoading(false)
+              setCity(city);
+              setCountry(country);
+              setStreet(street);
               setVcadaster("Erro ao cadastrar, verifique seus dados")
               // console.log("não cadastro")
               alert("Verifique seus dados e tente novamente")
@@ -111,13 +171,74 @@ export default function Editcadastro(params) {
             
         }).catch(e=>{
           setIsLoading(false)
+          setCity(city);
+          setCountry(country);
+          setStreet(street);
           setVcadaster("Sem conexão com o servidor")
           // console.log(e)
         });
         }else{
+          setCity(city);
+          setCountry(country);
+          setStreet(street);
           setIsLoading(false)
         }
     }
+
+    // Função para preencher os outros campo a partir do cep, se ele for valido
+    const filladress = (value)=>{
+      setVzip('')
+      sendcep(value).then(result => {
+        // console.log(result)
+        // console.log("pegou resposta") 
+        if(result.cep){
+          // console.log('achou');
+          // console.log(result);
+          setCountry(result.state);
+          setCity(result.city);
+          let simple = result.street.split('-')
+          setStreet(simple[0])
+          setVcountry('')
+          setVcity('')
+          setVstreet('')
+          return true
+        }else{
+          setCity('fodac')
+          setVzip("CEP inválido");
+          return(false);
+        }       
+      }).catch(e=>{
+        setIsLoading(false)
+        console.log(e)
+        return false
+      });
+    }
+
+    // Verifica se é um cep com o tamanho certo
+    const iscepvalid = (cep) =>{
+      let isvalid = false
+      cep = cep.toString()
+      if(cep.length>=1){
+        setVzip("CEP inválido");
+      }else{
+        setVzip("");
+      }
+      if(cep.length >= 8){
+        isvalid = true
+      }
+      
+      return isvalid;
+    }
+
+    // chama as funções para enviar o Cep
+    const callfunction = (value)=>{
+      setZip(value)
+      if(iscepvalid(value)){
+        filladress(value);
+        setValidcep(true);
+      }
+    }
+  
 
     //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
     const loading = () =>{
@@ -154,6 +275,7 @@ export default function Editcadastro(params) {
                 <TextInput
                     keyboardType="phone-pad"
                     placeholder="Telefone..."
+                    value={phone}
                     onChangeText={setPhone}
                     style={styles.TextInput}
                 />
@@ -163,6 +285,7 @@ export default function Editcadastro(params) {
                 <TextInput
                     keyboardType="email-address"
                     placeholder="E-mail..."
+                    value={email}
                     onChangeText={setEmail}
                     style={styles.TextInput}
                 />
@@ -179,62 +302,72 @@ export default function Editcadastro(params) {
                   <TextInput
                     keyboardType="number-pad"
                     placeholder="CEP..."
-                    onChangeText={setZip}
+                    value={zip}
+                    onChangeText={value=>{callfunction(value)}}
                     style={styles.textCEP}
                   />
                   <View style={styles.pickercontainer}>
                     <RNPickerSelect
                       onValueChange={(value) => setCountry(value)}
+                      value={country}
                       placeholder = {{
                         label: 'Código UF', 
                         value: null, 
                         color: '#C7C7CD',
                       }}
                       items={[
-                        { label: 'AC', value: 'Acre', color: 'black'},
-                        { label: 'AL', value: 'Alagoas', color: 'black'},
-                        { label: 'AP', value: 'Amapá', color: 'black'},
-                        { label: 'AM', value: 'Amazonas', color: 'black'},
-                        { label: 'BA', value: 'Bahia', color: 'black'},
-                        { label: 'CE', value: 'Ceara', color: 'black', color: 'black'},
-                        { label: 'DF', value: 'Distrito Federal', color: 'black'},
-                        { label: 'ES', value: 'Espirito Santo', color: 'black'},
-                        { label: 'GO', value: 'Goais', color: 'black'},
-                        { label: 'MA', value: 'Maranhão', color: 'black'},
-                        { label: 'MT', value: 'Mato Grosso', color: 'black'},
-                        { label: 'MS', value: 'Mato Grosso do Sul', color: 'black'},
-                        { label: 'MG', value: 'Minas Gerias', color: 'black'},
-                        { label: 'PR', value: 'Paraná', color: 'black'},
-                        { label: 'PB', value: 'Paraiba', color: 'black'},
-                        { label: 'PA', value: 'Pará', color: 'black'},
-                        { label: 'PE', value: 'Pernambuco', color: 'black'},
-                        { label: 'PI', value: 'Piauí', color: 'black'},
-                        { label: 'Rj', value: 'Rio de Janeiro', color: 'black'},
-                        { label: 'RN', value: 'Rio Grande do Norte', color: 'black'},
-                        { label: 'RS', value: 'Rio Grande do Sul', color: 'black'},
-                        { label: 'RO', value: 'Ronddônia', color: 'black'},
-                        { label: 'RR', value: 'Roraima', color: 'black'},
-                        { label: 'SC', value: 'Santa Catarina', color: 'black'},
-                        { label: 'SE', value: 'Sergipe', color: 'black'},
-                        { label: 'SP', value: 'São Paulo', color: 'black'},
-                        { label: 'TO', value: 'Tocantins', color: 'black'},
+                        { label: 'AC', value: 'AL', color: 'black'},
+                        { label: 'AL', value: 'AL', color: 'black'},
+                        { label: 'AP', value: 'AP', color: 'black'},
+                        { label: 'AM', value: 'AM', color: 'black'},
+                        { label: 'BA', value: 'BA', color: 'black'},
+                        { label: 'CE', value: 'CE', color: 'black'},
+                        { label: 'DF', value: 'DF', color: 'black'},
+                        { label: 'ES', value: 'ES', color: 'black'},
+                        { label: 'GO', value: 'GO', color: 'black'},
+                        { label: 'MA', value: 'MA', color: 'black'},
+                        { label: 'MT', value: 'MT', color: 'black'},
+                        { label: 'MS', value: 'MS', color: 'black'},
+                        { label: 'MG', value: 'MG', color: 'black'},
+                        { label: 'PR', value: 'PR', color: 'black'},
+                        { label: 'PB', value: 'PB', color: 'black'},
+                        { label: 'PA', value: 'PA', color: 'black'},
+                        { label: 'PE', value: 'PE', color: 'black'},
+                        { label: 'PI', value: 'PI', color: 'black'},
+                        { label: 'Rj', value: 'RJ', color: 'black'},
+                        { label: 'RN', value: 'RN', color: 'black'},
+                        { label: 'RS', value: 'RS', color: 'black'},
+                        { label: 'RO', value: 'RO', color: 'black'},
+                        { label: 'RR', value: 'RR', color: 'black'},
+                        { label: 'SC', value: 'SC', color: 'black'},
+                        { label: 'SE', value: 'SE', color: 'black'},
+                        { label: 'SP', value: 'SP', color: 'black'},
+                        { label: 'TO', value: 'TO', color: 'black'},
                       ]}
                     />
                     </View>
+                </View>
+                <View style={{flexDirection: 'row' }}>
+                  <Text style={styles.msgerroCEP}>{vzip}</Text>
+                  <Text style={styles.msgerroEst}>{vcountry}</Text>
                 </View>
 
                 <Text style={styles.title}>Cidade</Text>
                 <TextInput
                   placeholder="Cidade..."
+                  value={city}
                   onChangeText={setCity}
                   style={styles.textCity}
                 />
+                <Text style={styles.msgerro}>{vcity}</Text>
                 <Text style={styles.title}>Rua</Text>
                 <TextInput
                   placeholder="Rua..."
+                  value={street}
                   onChangeText={setStreet}
                   style={styles.textRua}
                 />
+                <Text style={styles.msgerro}>{vstreet}</Text>
 
                 <View style={{flexDirection: 'row' }}>
                   <Text style={styles.titleNumber}>Número</Text>
@@ -245,14 +378,19 @@ export default function Editcadastro(params) {
                   <TextInput
                     keyboardType="number-pad"
                     placeholder="Número..."
+                    value={adress}
                     onChangeText={setAdress}
                     style={styles.textNumber}
                   />
                   <TextInput
                     placeholder="Complemento..."
+                    value={complement}
                     onChangeText={setComplement}
                     style={styles.textComp}
                   />
+                </View>
+                <View>
+                  <Text style={styles.msgerroNumber}>{vadress}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={() => salvar()}>
@@ -448,7 +586,7 @@ const styles = StyleSheet.create({
   },
   TextInput:{
     backgroundColor: 'white',
-    color: '#A3A3A3',
+    color: 'black',
     borderRadius: 50,
     width: '80%',
     alignSelf: 'center',
