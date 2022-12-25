@@ -17,7 +17,6 @@ export default function Editcadastro(params) {
     const [phone, setPhone] = useState(dados.phone);
     const [vphone, setVphone] = useState('');
     const [zip, setZip] = useState(dados.zipcode);
-    const [vzip, setVzip] = useState('');
     const [country, setCountry] = useState(dados.country_state);
     const [city, setCity] = useState(dados.city);
     const [street, setStreet] = useState(dados.street);

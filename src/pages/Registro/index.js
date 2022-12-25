@@ -64,11 +64,11 @@ export default function Registro(params) {
         setVvalor("Digite o valor do item")
         error = true
       }
-      if(estado == ''){
+      if(estado == '' || estado == null){
         setVestado("Digite o estado do item")
         error = true
       }
-      if(categoria == ''){
+      if(categoria == '' || categoria == null){
         setVcategoria("Selecione a categoria do item")
         error = true
       }

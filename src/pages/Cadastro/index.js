@@ -125,7 +125,7 @@ export default function Cadastro() {
       error = true
     }
 
-    if(country == ''){
+    if(country == '' || country == null){
       setVcountry("Escolha um estado")
       error = true
     }else{
