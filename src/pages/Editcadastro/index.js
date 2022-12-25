@@ -102,6 +102,10 @@ export default function Editcadastro(params) {
         setAdress(adress.toString())
       }
 
+      if(complement){
+        setComplement(complement.toString())
+      }
+
       return !error
     }
 
