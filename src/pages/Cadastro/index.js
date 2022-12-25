@@ -7,7 +7,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 // import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { log } from 'react-native-reanimated';
+import { log, set } from 'react-native-reanimated';
 
 export default function Cadastro() {
   const navigation = useNavigation();
@@ -186,15 +186,15 @@ export default function Cadastro() {
     return result;
   }
 
-
-
   // função de envio de formulários se eles forem válidos
   const salvar = () =>{
-    filladress(zip);
     setIsLoading(true)
     let temp = (date.getMonth()+1)+'/'+(date.getDate())+'/'+date.getFullYear()
     // console.log(temp)
     if (validar()){
+      setCity(city);
+      setCountry(country);
+      setStreet(street);
       setVcadaster('')
       // console.log("manda pro back")
       fetchMoviesJSON(temp).then(teste => {
@@ -217,6 +217,9 @@ export default function Cadastro() {
         // console.log(e)
       });
     }else{
+      setCity(city);
+      setCountry(country);
+      setStreet(street);
       alert("Verifique seus dados e tente novamente")
       setIsLoading(false)
     }
@@ -226,10 +229,10 @@ export default function Cadastro() {
   const filladress = (value)=>{
     setVzip('')
     sendcep(value).then(result => {
-      console.log(result)
+      // console.log(result)
       // console.log("pegou resposta") 
       if(result.cep){
-        console.log('achou');
+        // console.log('achou');
         // console.log(result);
         setCountry(result.state);
         setCity(result.city);
@@ -237,6 +240,7 @@ export default function Cadastro() {
         setStreet(simple[0])
         return true
       }else{
+        setCity('fodac')
         setVzip("CEP inválido");
         return(false);
       }       
@@ -271,14 +275,6 @@ export default function Cadastro() {
       setValidcep(true);
     }
   }
-  // useEffect( () => {
-  //   // console.log('verifica')
-  //   if(iscepvalid(zip)){
-  //     filladress();
-  //     setValidcep(true);
-  //   }
-  // });
-
 
   // função para o data picker
   const onChange = (event, selectedDate) => {
@@ -302,8 +298,6 @@ export default function Cadastro() {
   const showDatepicker = () => {
     showMode('date');
   };
-
-
 
   //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
   const loading = () =>{
@@ -494,7 +488,7 @@ export default function Cadastro() {
           <TextInput
             value={city}
             placeholder="Cidade..."
-            onChangeText={setCity}
+            onChangeText={value => setCity(value)}
             style={styles.textCity}
           />
           <Text style={styles.msgerro}>{vcity}</Text>
