@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import RNPickerSelect from 'react-native-picker-select';
 
 
 export default function Ofertas(params) {
@@ -11,6 +12,10 @@ export default function Ofertas(params) {
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [usefilter, setUsefilter] = useState(false);
+    const [estado, setEstado] = useState('');
+    const [max, setMax] = useState('');
+    const [min, setMin] = useState('');
     const [item, setItem] = useState([]);
     const userid = params.route.params.id;
     // console.log(params.route.params.reload);
@@ -38,8 +43,58 @@ export default function Ofertas(params) {
 
 
     useEffect( () => {
-    fetchMoviesJSON();
+        fetchMoviesJSON();
     }, []);
+
+    const showfilter = ()=>{
+        setUsefilter(!usefilter);
+    }
+
+    const aplyfilter = ()=>{
+        setUsefilter(!usefilter);
+        // mandar para o back
+    }
+
+    const filters = ()=>{
+        if(usefilter){
+            return(
+                <View style={styles.filters}>
+                    <Text>Filtros</Text>
+                    <Text>Preço Max</Text>
+                    <TextInput
+                        keyboardType="number-pad"
+                        placeholder="Valor do Item"
+                        onChangeText={setMax}
+                    />
+                    <Text>Preço Min</Text>
+                    <TextInput
+                        keyboardType="number-pad"
+                        placeholder="Valor do Item"
+                        onChangeText={setMax}
+                    />
+                    {/* Select para categoria, aguarda rota */}
+
+                    <RNPickerSelect
+                        onValueChange={(value) => setEstado(value)}
+                        placeholder = {{
+                            label: 'Estado do Item', 
+                            value: null, 
+                            color: '#C7C7CD',
+                        }}
+                        items={[
+                            { label: 'Novo', value: 'novo', color: 'black'},
+                            { label: 'Usado', value: 'usado', color: 'black'},
+                            { label: 'Velho', value: 'velho', color: 'black'},
+                        ]}
+                    />
+                    <TouchableOpacity style={styles.aplyfilterbutton} onPress={() => aplyfilter()}>
+                        <Text style={styles.textaply}>Aplicar filtros</Text>
+                    </TouchableOpacity>
+
+                </View>
+            )
+        }
+    }
 
 
     //função para retornar os itens na view
@@ -118,21 +173,25 @@ export default function Ofertas(params) {
     return (
         <View style={{height: '100%', width: '100%'}}>
             {loading()}
+            {filters()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
                 <LinearGradient 
-                colors={['#1E1E1E', '#E6E6E6']}
-                style={styles.linearGradient}
-                start={{ x: 0, y: 0.9 }}
-                >
-                    <Text style={styles.texttitle}>Produtos disponiveis</Text>
-                    <View style={styles.containerForm}>
-                        <TextInput
-                            placeholder="Buscar Produto"
-                            onChangeText={value => setPesquisa(value)}
-                            style={styles.busca}
-                            />
-                    </View>
+                    colors={['#1E1E1E', '#E6E6E6']}
+                    style={styles.linearGradient}
+                    start={{ x: 0, y: 0.9 }}
+                    >
+                        <Text style={styles.texttitle}>Produtos disponiveis</Text>
+                        <View style={styles.containerForm}>
+                            <TextInput
+                                placeholder="Buscar Produto"
+                                onChangeText={value => setPesquisa(value)}
+                                style={styles.busca}
+                                />
+                        </View>
+                        <TouchableOpacity style={styles.filterbutton} onPress={() => showfilter()}>
+                            <Text>Filtros</Text>
+                        </TouchableOpacity>
                 </LinearGradient>
                 </View>
                 {buscar()}
@@ -256,4 +315,38 @@ const styles = StyleSheet.create({
     semitems:{
         textAlign: 'center',
     },
+    filterbutton:{
+        backgroundColor: '#FF7851',
+        padding: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        marginRight: 22,
+        borderRadius: 15,
+    },
+    filters:{
+        position: 'absolute',
+        backgroundColor: '#FF7851',
+        zIndex: 100,
+        height: '100%',
+        width: '70%',
+        display: 'flex',
+        alignItems: 'center',
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start',
+    },
+    aplyfilterbutton:{
+        backgroundColor: 'black',
+        padding: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        marginRight: 22,
+        borderRadius: 15,
+    },
+    textaply:{
+        color: 'white',
+    }
 });
