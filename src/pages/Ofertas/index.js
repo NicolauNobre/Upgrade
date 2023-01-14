@@ -32,7 +32,8 @@ export default function Ofertas(params) {
             headers: { 'Content-Type': 'application/json' },
           });
         const teste = await response.json();
-        setItem (teste);
+        // console.log(teste)
+        // setItem (teste);
         if(teste[0]){
             setResp(true);
         }else{
@@ -70,7 +71,7 @@ export default function Ofertas(params) {
                     <TextInput
                         keyboardType="number-pad"
                         placeholder="Valor do Item"
-                        onChangeText={setMax}
+                        onChangeText={setMin}
                     />
                     {/* Select para categoria, aguarda rota */}
 
@@ -117,10 +118,17 @@ export default function Ofertas(params) {
                                         <Text style={styles.titletext}>{index.title}</Text>
                                         <View style={styles.line}/>
                                         <View style={{width: '60%', flexDirection: 'row' }}>
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
+                                            {index.images != null ? (
+                                                <Image
+                                                    source={{uri:index.images}}
+                                                    style={styles.Img}
+                                                />
+                                            ) : (
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
+                                            )}
                                             <Text style={styles.pricetext}> R$ {index.price}</Text>
                                         </View>
                                     </TouchableOpacity>  
@@ -135,10 +143,17 @@ export default function Ofertas(params) {
                                             <Text style={styles.titletext}>{index.title}</Text>
                                             <View style={styles.line}/>
                                             <View style={{width: '100%', flexDirection: 'row' }}>
-                                                <Image
-                                                    source={require('../../assets/UpGrade.jpg')}
-                                                    style={styles.Img}
-                                                />
+                                                {index.images != null ? (
+                                                    <Image
+                                                        source={{uri:index.images}}
+                                                        style={styles.Img}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        source={require('../../assets/UpGrade.jpg')}
+                                                        style={styles.Img}
+                                                    />
+                                                )}
                                                 <Text style={styles.pricetext}> R$ {index.price}</Text>
                                             </View>
                                         </TouchableOpacity>  

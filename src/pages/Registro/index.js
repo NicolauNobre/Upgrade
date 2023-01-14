@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView} from 'react-native';
+import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView, Image, ActivityIndicator} from 'react-native';
 import 'react-native-gesture-handler';
 import {Feather} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker';
@@ -7,11 +7,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import RNPickerSelect from 'react-native-picker-select';
 
 import {useNavigation} from '@react-navigation/native'
+import { set } from 'react-native-reanimated';
 
 const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 64;
 
 export default function Registro(params) {
     const [image, setImage] = useState(null);
+    const [singleFile, setSingleFile] = useState(null);
     // console.log(params.route.params.id);
     const userid = params.route.params.id
     const navigation = useNavigation();
@@ -28,18 +30,18 @@ export default function Registro(params) {
     const [quantidade, setQuantidade] = useState('');
     const [vquantidade, setVquantidade] = useState('');
     const [vregistro, setVregistro] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     
     // função para pegar a imagem
     const pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [4, 3],
         quality: 1,
       });
       // console.log(result);
       if (!result.cancelled) {
-        setImage(result.uri);
+        setImage(result);
       }
     };
 
@@ -76,54 +78,94 @@ export default function Registro(params) {
         setVquantidade("Digite a categoria do item")
         error = true
       }
+      if(image == null || image == ''){
+        
+        error = true;
+      } 
 
       return !error
     }
 
     // função para enviar os formulários para o back
     async function fetchMoviesJSON() {
-      const response = await fetch('https://upgrade-back-staging.herokuapp.com/product/register',{
+      let result = image;
+      let localUri = result.uri;
+      var data = new FormData();
+      data.append('file', {
+        uri: localUri,
+        type: 'image/jpeg',
+        name: 'image.jpg',
+      });
+      
+      let fodac = JSON.stringify({
+        "title" : nome,
+        "description" : descricao,
+        "price" : valor,
+        "condition" : estado,
+        "class" : categoria,
+        "amount" : quantidade,
+        "userId" : userid,
+      })
+
+      data.append('info', fodac)
+
+      const response = await fetch('https://upgrade-back-staging.herokuapp.com/product/teste',{
         method: 'POST',
-        body: JSON.stringify({
-          "title" : nome,
-          "description" : descricao,
-          "price" : valor,
-          "condition" : estado,
-          "class" : categoria,
-          "amount" : quantidade,
-          "userId" : userid,
-        }),
-        headers: { 'Content-Type': 'application/json' },
+        body: data,
+        redirect: 'follow'
       });
       const teste = await response.json();
       return teste;
     }
 
+
+
     // função de envio de formulários se eles forem válidos
     const salvar = () =>{
+      setIsLoading(true)
       if (validar()){
         // console.log("manda pro back")
         fetchMoviesJSON().then(teste => {
-          // console.log(teste)
+          console.log("result: "+JSON.stringify(teste))
+          // console.log(teste.image)
+          setSingleFile(teste.image)
           // console.log("pegou resposta")
           if(teste.confirm){
             // console.log("Registrou")
             alert("Item Registrado")
             navigation.navigate("Home")
+            setIsLoading(false)
           }else{
             // console.log("não Registrou")
             alert("Item Não Registrado")
             setVregistro("Não registrou")
+            setIsLoading(false)
           }
         }).catch(e=>{
           setIsLoading(false)
+          alert("Sem conexão com o servidor")
           setVregistro("Sem conexão com o servidor")
           // console.log(e)
         });;
+      }else{
+        setIsLoading(false)
+      }
+    }
+    
+    //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
+    const loading = () =>{
+      if(isLoading){
+        return(
+        <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+          <ActivityIndicator color={"#FF7851"} size={100}/> 
+        </View>
+        )
       }
     }
     
     return (
+      <View style={{height: '100%'}}>
+        {loading()}
         <ScrollView style={styles.container}>
           <View style={styles.containerview}>
           <LinearGradient 
@@ -192,7 +234,7 @@ export default function Registro(params) {
             <Text style={styles.title2}>Categoria Do Item *</Text>
             <View style={styles.pickercontainer}>
               <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
+                onValueChange={(value) => setCategoria(value)}
                 placeholder = {{
                   label: 'Categoria', 
                   value: null, 
@@ -219,9 +261,16 @@ export default function Registro(params) {
             <TouchableOpacity style={styles.buttonRegister} onPress={() => salvar()}>
             <Text style={styles.buttonText}>Registrar item</Text>
             </TouchableOpacity>
+            {/* {singleFile != null ? (
+              <Image
+                source={{uri:singleFile}}
+                style={styles.Img}
+              />
+            ) : null} */}
 
           </View>
         </ScrollView>
+      </View>
     );
 }
   
@@ -229,6 +278,14 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#E6E6E6',
+    },
+    Img:{
+      width: 300,
+      height: 300,
+      alignSelf: 'center',
+      borderRadius: 10,
+      marginTop: 20,
+      marginBottom: 20
     },
     containerview: {
       backgroundColor: "#1E1E1E",
