@@ -74,10 +74,17 @@ export default function Pageitem(params) {
         </LinearGradient>
         <ScrollView style={styles.scrollcontainer}>
             <View style={styles.itemcontainer}>
-                <Image
-                    source={require('../../assets/UpGrade.jpg')}
-                    style={styles.Img}
-                />
+                {index.images != null ? (
+                    <Image
+                        source={{uri:index.images}}
+                        style={styles.Img}
+                    />
+                ) : (
+                    <Image
+                        source={require('../../assets/UpGrade.jpg')}
+                        style={styles.Img}
+                    />
+                )}
                 <View style={styles.infobackground}>
                     <View style={{flexDirection: 'row'}}>
                         <Text style={styles.titletext}>{index.title}</Text>

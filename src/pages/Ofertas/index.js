@@ -33,7 +33,7 @@ export default function Ofertas(params) {
           });
         const teste = await response.json();
         // console.log(teste)
-        // setItem (teste);
+        setItem (teste);
         if(teste[0]){
             setResp(true);
         }else{

@@ -28,7 +28,7 @@ export default function Itens(params) {
         });
         const teste = await response.json();
         setItem (teste);
-        console.log(teste)
+        // console.log(teste)
         setResp(true);
         setIsLoading(false);
     }
@@ -59,10 +59,17 @@ export default function Itens(params) {
                                         <Text style={styles.titletext}>{index.title}</Text>
                                         <View style={styles.line}/>
                                         <View style={{width: '60%', flexDirection: 'row' }}>
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
+                                            {index.images != null ? (
+                                                <Image
+                                                    source={{uri:index.images}}
+                                                    style={styles.Img}
+                                                />
+                                            ) : (
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
+                                            )}
                                             <Text style={styles.pricetext}> R$ {index.price}</Text>
                                         </View>
                                     </TouchableOpacity>  
@@ -77,10 +84,17 @@ export default function Itens(params) {
                                             <Text style={styles.titletext}>{index.title}</Text>
                                             <View style={styles.line}/>
                                             <View style={{width: '100%', flexDirection: 'row' }}>
-                                                <Image
-                                                    source={require('../../assets/UpGrade.jpg')}
-                                                    style={styles.Img}
-                                                />
+                                                {index.images != null ? (
+                                                    <Image
+                                                        source={{uri:index.images}}
+                                                        style={styles.Img}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        source={require('../../assets/UpGrade.jpg')}
+                                                        style={styles.Img}
+                                                    />
+                                                )}
                                                 <Text style={styles.pricetext}> R$ {index.price}</Text>
                                             </View>
                                         </TouchableOpacity>  

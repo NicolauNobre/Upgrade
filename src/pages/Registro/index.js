@@ -12,11 +12,11 @@ import { set } from 'react-native-reanimated';
 const statusbarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 8 : 64;
 
 export default function Registro(params) {
-    const [image, setImage] = useState(null);
-    const [singleFile, setSingleFile] = useState(null);
-    // console.log(params.route.params.id);
+  // console.log(params.route.params.id);
     const userid = params.route.params.id
     const navigation = useNavigation();
+    const [image, setImage] = useState(null);
+    const [vimage, setVimage] = useState('');
     const [nome, setNome] = useState('');
     const [vnome, setVnome] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -37,11 +37,13 @@ export default function Registro(params) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
+        aspect: [4,4],
         quality: 1,
       });
       // console.log(result);
       if (!result.cancelled) {
         setImage(result);
+        
       }
     };
 
@@ -53,6 +55,7 @@ export default function Registro(params) {
       setVcategoria('')
       setVestado('')
       setVquantidade('')
+      setVimage('')
       let error = false
       if (nome == ''){
         setVnome("Digite o nome do item")
@@ -79,7 +82,7 @@ export default function Registro(params) {
         error = true
       }
       if(image == null || image == ''){
-        
+        setVimage("Selecione uma imagem")
         error = true;
       } 
 
@@ -126,9 +129,7 @@ export default function Registro(params) {
       if (validar()){
         // console.log("manda pro back")
         fetchMoviesJSON().then(teste => {
-          console.log("result: "+JSON.stringify(teste))
-          // console.log(teste.image)
-          setSingleFile(teste.image)
+          // console.log("result: "+JSON.stringify(teste))
           // console.log("pegou resposta")
           if(teste.confirm){
             // console.log("Registrou")
@@ -254,19 +255,21 @@ export default function Registro(params) {
                 style={styles.TextSenha}
             />
             <Text style={styles.msgerro}>{vquantidade}</Text>
-            <TouchableOpacity style = {styles.buttonPick}onPress={pickImage} >
-            <Text style={styles.buttonText}>Escolha a imagem do item</Text>
+            <TouchableOpacity style = {styles.buttonPick}onPress={pickImage}>
+              <Text style={styles.buttonText}>Escolha a imagem do item</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity style={styles.buttonRegister} onPress={() => salvar()}>
-            <Text style={styles.buttonText}>Registrar item</Text>
-            </TouchableOpacity>
-            {/* {singleFile != null ? (
+            {image != null ? (
               <Image
-                source={{uri:singleFile}}
+                source={{uri:image.uri}}
                 style={styles.Img}
               />
-            ) : null} */}
+            ) : null}
+            <Text style={styles.msgerro}>{vimage}</Text>
+
+            <TouchableOpacity style={styles.buttonRegister} onPress={() => salvar()}>
+              <Text style={styles.buttonText}>Registrar item</Text>
+            </TouchableOpacity>
+
 
           </View>
         </ScrollView>
@@ -343,6 +346,7 @@ const styles = StyleSheet.create({
     buttonRegister:{
       backgroundColor: '#FF7851',
       marginTop: 30,
+      marginBottom: 30,
       padding: 10,
       borderRadius: 50,
       width: '45%',

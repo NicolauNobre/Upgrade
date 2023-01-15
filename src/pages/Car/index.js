@@ -54,10 +54,17 @@ export default function Car(params) {
                                     <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                     <View style={styles.line}/>
                                     <View style={{width: '60%', flexDirection: 'row' }}>
-                                        <Image
-                                            source={require('../../assets/UpGrade.jpg')}
-                                            style={styles.Img}
-                                        />
+                                        {index.images != null ? (
+                                            <Image
+                                                source={{uri:index.images}}
+                                                style={styles.Img}
+                                            />
+                                        ) : (
+                                            <Image
+                                                source={require('../../assets/UpGrade.jpg')}
+                                                style={styles.Img}
+                                            />
+                                        )}
                                         <View>
                                             <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
                                             <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
@@ -75,10 +82,17 @@ export default function Car(params) {
                                         <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                         <View style={styles.line}/>
                                         <View style={{width: '60%', flexDirection: 'row' }}>
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
+                                            {index.images != null ? (
+                                                <Image
+                                                    source={{uri:index.images}}
+                                                    style={styles.Img}
+                                                />
+                                            ) : (
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
+                                            )}
                                             <View>
                                                 <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
                                                 <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
