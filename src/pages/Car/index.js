@@ -63,44 +63,14 @@ export default function Car(params) {
     const buscar = ()=> {
 
         if (resp){
-            return (
-                // percorre o array de itens
-                item.map(index =>{
-                    // console.log(index)
-                    let filter = pesquisa.toUpperCase();
-                    let products = index.productsInfo.title.toUpperCase();
-                    if(pesquisa == ''){
-                        return(
-                            <View key={index.productsInfo._id} style={styles.itemcontainer} >
-                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
-                                    <Text style={styles.titletext}>{index.productsInfo.title}</Text>
-                                    <View style={styles.line}/>
-                                    <View style={{width: '60%', flexDirection: 'row' }}>
-                                        {index.images != null ? (
-                                            <Image
-                                                source={{uri:index.images}}
-                                                style={styles.Img}
-                                            />
-                                        ) : (
-                                            <Image
-                                                source={require('../../assets/UpGrade.jpg')}
-                                                style={styles.Img}
-                                            />
-                                        )}
-                                        <View>
-                                            <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
-                                            <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
-                                        </View>
-                                    </View>
-                                    <TouchableOpacity onPress={()=> removeItem(index.productsInfo._id)} style={styles.buttonedit}>
-                                        <Text style={styles.buttonText}>Retirar</Text>
-                                    </TouchableOpacity>
-                                </TouchableOpacity>  
-                            </View>  
-                        );
-                    }else{
-                        // console.log("produto: ", products, "pesquisa", filter)
-                        if(products.includes(filter)){
+            if (item.length > 0){
+                return (
+                    // percorre o array de itens
+                    item.map(index =>{
+                        // console.log(index)
+                        let filter = pesquisa.toUpperCase();
+                        let products = index.productsInfo.title.toUpperCase();
+                        if(pesquisa == ''){
                             return(
                                 <View key={index.productsInfo._id} style={styles.itemcontainer} >
                                     <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
@@ -129,10 +99,48 @@ export default function Car(params) {
                                     </TouchableOpacity>  
                                 </View>  
                             );
+                        }else{
+                            // console.log("produto: ", products, "pesquisa", filter)
+                            if(products.includes(filter)){
+                                return(
+                                    <View key={index.productsInfo._id} style={styles.itemcontainer} >
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
+                                            <Text style={styles.titletext}>{index.productsInfo.title}</Text>
+                                            <View style={styles.line}/>
+                                            <View style={{width: '60%', flexDirection: 'row' }}>
+                                                {index.images != null ? (
+                                                    <Image
+                                                        source={{uri:index.images}}
+                                                        style={styles.Img}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        source={require('../../assets/UpGrade.jpg')}
+                                                        style={styles.Img}
+                                                    />
+                                                )}
+                                                <View>
+                                                    <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
+                                                    <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
+                                                </View>
+                                            </View>
+                                            <TouchableOpacity onPress={()=> removeItem(index.productsInfo._id)} style={styles.buttonedit}>
+                                                <Text style={styles.buttonText}>Retirar</Text>
+                                            </TouchableOpacity>
+                                        </TouchableOpacity>  
+                                    </View>  
+                                );
+                            }
                         }
-                    }
-                })
-            );
+                    })
+                );
+            }else{
+                return(
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <Text>Seu carrinho está vazio</Text>
+                    </View>
+                )
+            }
         }
     }
 
