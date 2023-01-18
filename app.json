@@ -4,10 +4,10 @@
     "slug": "UP",
     "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./src/assets/UpGrade.jpg",
+    "icon": "./assets/UPGrade.png",
     "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./src/assets/UpGrade.jpg",
+      "image": "./assets/UPGrade.png",
       "resizeMode": "contain",
       "backgroundColor": "#1E1E1E"
     },

@@ -1,15 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
-import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens';
-
+import { View, Text, StyleSheet, Image,TouchableOpacity, SafeAreaView } from 'react-native';
 import * as Animatable from 'react-native-animatable'
-
 import {useNavigation} from '@react-navigation/native'
 
 export default function Welcome() {
   const navigation = useNavigation();
- return (
-    <View style={styles.container}>
+
+  return (
+    <SafeAreaView style={styles.container}>
     
       <View style={styles.containerLogo}>
         <Animatable.Image
@@ -19,21 +17,17 @@ export default function Welcome() {
           resizeMode = "contain"
         />
       </View>
+
       <Animatable.View delay={600} animation="fadeInUp" style={styles.containerForm}>
         <Text style={styles.title}>Cansou de ter peças empoeirando?</Text>
         <Text style={styles.title}>Isso acaba agora.</Text>
         <Text style={styles.text}>Faça o login.</Text>
-
-        <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate("SignIn")}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("SignIn")}>
           <Text style={styles.buttonText}>Começar</Text>
         </TouchableOpacity>
       </Animatable.View>
-  
 
-
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -78,8 +72,7 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     fontSize: 20,
-    color: 'black',
-    fontWeight: 'bold'
+    color: 'white',
   }
 
 })

@@ -1,156 +1,154 @@
-import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import styles from "./styles";
+import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, useWindowDimensions } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import {useNavigation} from '@react-navigation/native';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 
-import * as Animatable from 'react-native-animatable'
-
-import {Ionicons} from '@expo/vector-icons'
-import {useNavigation} from '@react-navigation/native'
-
-sendDatas = (email, password) => {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      "email" : email,
-      "password" : password,
-  })
-  };
-  fetch('https://upgrade-back-staging.herokuapp.com/login', requestOptions)
-  .then(response => {
-      response.json().then(json => {
-        console.log(json);
-      });
-  });
-}
 
 export default function SignIn() {
   const navigation = useNavigation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [vemail, setVemail] = useState('');
+  const [vpassword, setVpassword] = useState('');
+  const [v2login, setV2login] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // função para validar os formularios
+  const validar = () =>{
+    setVemail('')
+    setVpassword('')
+    setV2login('')
+    let error = false
+    let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+    let match = regex.test(email)
+    if (match){
+    } else{
+      if(email== ''){
+        setVemail("Preencha o Email")
+        error = true
+      }else
+        setVemail("Preencha o Email corretamente")
+        error = true
+    }
+    if(password == ''){
+      setVpassword("Preencha a Senha")
+      error = true
+    }
+    return !error
+
+  }
+
+  // função para enviar os formularios para o back
+  async function fetchMoviesJSON() {
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/login',{
+      method: 'POST',
+      body: JSON.stringify({
+        "email" : email,
+        "password" : password,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    // console.log("espera reposta");
+    const teste = await response.json();
+    return teste;
+  }
+  
+  // função de envio de formulários se eles forem válidos
+  const enviar = () =>{
+    setIsLoading(true)
+    if (validar()){
+      setV2login('') 
+      // console.log("mandando para o back") 
+      fetchMoviesJSON().then(teste => {
+        // console.log(teste)
+        // console.log("pegou resposta e chama login")
+        const id = teste.user_id
+        
+        if(teste.confirm){
+          // console.log("logou")
+          setIsLoading(false)
+          navigation.navigate('Initial', {
+            params: {userid: id},
+          })
+        }else{
+          setV2login("Usuário ou senha inválidos")
+          // console.log("não logou")
+          setIsLoading(false)
+        }
+
+      }).catch(e=>{
+        setIsLoading(false)
+        setV2login("Sem conexão com o servidor")
+        // console.log(e)
+      });
+
+    }else{
+      setIsLoading(false)
+    }
+  }
+
+  //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
+  const loading = () =>{
+    if(isLoading){
+      return(
+      <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+        <ActivityIndicator color={"#FF7851"} size={100}/> 
+      </View>
+      )
+    }
+  }
+  
 
  return (
-   <ScrollView style={styles.container}>
-    <View style={styles.containerLogo}>
-        <Animatable.Image
-        animation="flipInY"
-          source={require('../../assets/UpGrade.jpg')}
-          style = {{ width:'100%'}}
-          resizeMode = "contain"
-        />
-      </View>
+    <View style={{height: '100%'}}>
+      {loading()}
+      <ScrollView style={styles.container}>
+        <View style={styles.containerLogo}>
+          <Animatable.Image
+            animation="flipInY"
+            source={require('../../assets/UpGrade.jpg')}
+            style = {{ width:'100%'}}
+            resizeMode = "contain"
+          />
+        </View>
+        <Animatable.View animation="fadeInUp" style={styles.containerForm}>
 
-    <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-      <Text style={styles.title}>E-mail</Text>
-      <TextInput
-        placeholder="E-mail..."
-        onChangeText={setEmail}
-        style={styles.TextInput}
-      />
-      <Text style={styles.title}>Senha</Text>
-      <TextInput
-        placeholder="Senha..."
-        onChangeText={setPassword}
-        style={styles.TextSenha}
-        secureTextEntry={true}
-      />
-      <TouchableOpacity style={styles.button} onPress={() => this.sendDatas(email, password)}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+          <Text style={styles.msgerro}>{v2login}</Text>
+          <Text style={styles.title}>E-mail</Text>
+          <TextInput
+            placeholder="E-mail..."
+            onChangeText={value => setEmail(value)}
+            style={styles.TextInput}
+          />
+          <Text style={styles.msgerro}>{vemail}</Text>
 
-      <TouchableOpacity style={styles.buttonRegister}
-      onPress={() => navigation.navigate("Cadastro")}>
-        <Text style={styles.registerText}>Não possui uma conta? Registre-se</Text>
+          <Text style={styles.title}>Senha</Text>
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={value => setPassword(value)}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword}</Text>
+          
+          <TouchableOpacity style={styles.button} onPress={() => enviar()}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <View style={styles.line}/>
+          <TouchableOpacity styles={styles.buttonRegister}>
+          <Text style={styles.whiteText} onPress={() => navigation.navigate("Password")}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
 
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonRegister}
+          onPress={() => navigation.navigate("Cadastro")}>
+            <Text style={styles.whiteText}>Não possui uma conta? <Text style={styles.orangetext}>Registre-se</Text></Text>
+          </TouchableOpacity>
 
-
-
-    </Animatable.View>
-
-
-
-   </ScrollView>
+        </Animatable.View>
+      </ScrollView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container:{
-    flex:1.,
-    backgroundColor: '#1E1E1E'
-  },
-  title:{
-    color: '#FF7851',
-    fontSize: 16,
-  },
-  containerHeader:{
-    marginBottom: '8%',
-    marginTop: '14%',
-    paddingStart: '5%',
-  },
-  message:{
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FF7851' 
-  },
-  containerForm:{
-    backgroundColor: '#1E1E1E',
-    flex:1,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    paddingStart: '5%',
-    paddingEnd: '5%',
-  },
-  title: {
-    color: '#FF7851',
-    fontSize: 20,
-    marginTop: 28,
-    marginLeft: 35,
-    marginBottom: 5,
-  },
-  input:{
-    backgroundColor: '#FFFFFF',
-    color: '#FF7851',
-    borderBottomWidth: 1,
-    height: 40,
-    marginBottom: 12,
-    fontSize: 16,
-  },
-  button:{
-    backgroundColor: '#FF7851',
-    width: '80%',
-    borderRadius: 50,
-    paddingVertical: 8,
-    marginTop: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center'
-  },
-  buttonText:{
-    color: '#1E1E1E',
-    fontSize: 18,
-  },
-  buttonRegister:{
-    marginTop: 14,
-    alignSelf: 'center'
-  },
-  registerText:{
-    color: '#FF7851'
-  },
-  TextInput:{
-    backgroundColor: 'white',
-    color: '#A3A3A3',
-    borderRadius: 50,
-    width: '80%',
-    alignSelf: 'center',
-    textAlign: 'center'
-  },
-  TextSenha:{
-    backgroundColor: 'white',
-    color: '#A3A3A3',
-    borderRadius: 50,
-    width: '80%',
-    alignSelf: 'center',
-    textAlign: 'center'
-  }
-})
