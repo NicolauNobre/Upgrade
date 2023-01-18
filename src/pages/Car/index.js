@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Car(params) {
     const navigation = useNavigation();
-    const userid = params.route.params.id
+    const userid = params.route.params.id;
+    const reload = params.route.params.reload;
+    // console.log(reload);
     // console.log(userid)
     const [pesquisa, setPesquisa] = useState('');
     const [resp, setResp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [item, setItem] = useState([]);
+    const [retirada, setRetirada] = useState(1);
+    const [cart_id, setCart_id] = useState('');
 
     // função do request de produtos no carrinho ao back
     async function fetchMoviesJSON() {
@@ -24,60 +28,136 @@ export default function Car(params) {
         });
         const teste = await response.json();
         // console.log(teste)
+        if(teste.length > 0){
+            setCart_id(teste[0].cart_id)
+        }
         setItem (teste);
         setResp(true);
         setIsLoading(false);
     }
 
-    useEffect( () => {
-        fetchMoviesJSON();
-    }, []);
+    // função para retirar item do carrinho
+    async function removeItem(id) {
+        setIsLoading(true)
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/DeleteItem',{
+            method: 'POST',
+            body: JSON.stringify({
+                "userId" : userid,
+                "cart_id" : cart_id,
+                "productId" : id,
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const teste = await response.json();
+        // console.log(teste)
+        setIsLoading(false);
+        setRetirada(retirada + 1);
+    }
 
+    if(reload){
+        useEffect( () => {
+            fetchMoviesJSON();
+        }, [retirada]);
+    }
     //função para retornar os itens na view
     const buscar = ()=> {
 
         if (resp){
-            // console.log(item)
-            return (
-                // percorre o array de itens
-                item.map(index =>{
-                    // console.log(index)
-                    let filter = pesquisa.toUpperCase();
-                    let products = index.productsInfo.title.toUpperCase();
-                    if(pesquisa == ''){
-                        return(
-                            <View key={index.productsInfo._id} style={styles.itemcontainer} >
-                                <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
-                                    <Text style={styles.titletext}>{index.productsInfo.title}</Text>
-                                    <Image
-                                        source={require('../../assets/UpGrade.jpg')}
-                                        style={styles.Img}
-                                    />
-                                    <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
-                                    <Text style={styles.pricetext}> R$: {index.productsInfo.price}</Text>
-                                </TouchableOpacity>  
-                            </View>  
-                        );
-                    }else{
-                        // console.log("produto: ", products, "pesquisa", filter)
-                        if(products.includes(filter)){
+            if (item.length > 0){
+                return (
+                    // percorre o array de itens
+                    item.map(index =>{
+                        // console.log(index)
+                        let filter = pesquisa.toUpperCase();
+                        let products = index.productsInfo.title.toUpperCase();
+                        if(pesquisa == ''){
                             return(
                                 <View key={index.productsInfo._id} style={styles.itemcontainer} >
                                     <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
                                         <Text style={styles.titletext}>{index.productsInfo.title}</Text>
-                                        <Image
-                                            source={require('../../assets/UpGrade.jpg')}
-                                            style={styles.Img}
-                                        />
-                                        <Text style={styles.pricetext}> R$: {index.productsInfo.price}</Text>
+                                        <View style={styles.line}/>
+                                        <View style={{width: '60%', flexDirection: 'row' }}>
+                                            {index.images != null ? (
+                                                <Image
+                                                    source={{uri:index.images}}
+                                                    style={styles.Img}
+                                                />
+                                            ) : (
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
+                                            )}
+                                            <View>
+                                                <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
+                                                <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
+                                            </View>
+                                        </View>
+                                        <TouchableOpacity onPress={()=> removeItem(index.productsInfo._id)} style={styles.buttonedit}>
+                                            <Text style={styles.buttonText}>Retirar</Text>
+                                        </TouchableOpacity>
                                     </TouchableOpacity>  
                                 </View>  
                             );
+                        }else{
+                            // console.log("produto: ", products, "pesquisa", filter)
+                            if(products.includes(filter)){
+                                return(
+                                    <View key={index.productsInfo._id} style={styles.itemcontainer} >
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
+                                            <Text style={styles.titletext}>{index.productsInfo.title}</Text>
+                                            <View style={styles.line}/>
+                                            <View style={{width: '60%', flexDirection: 'row' }}>
+                                                {index.images != null ? (
+                                                    <Image
+                                                        source={{uri:index.images}}
+                                                        style={styles.Img}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        source={require('../../assets/UpGrade.jpg')}
+                                                        style={styles.Img}
+                                                    />
+                                                )}
+                                                <View>
+                                                    <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
+                                                    <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
+                                                </View>
+                                            </View>
+                                            <TouchableOpacity onPress={()=> removeItem(index.productsInfo._id)} style={styles.buttonedit}>
+                                                <Text style={styles.buttonText}>Retirar</Text>
+                                            </TouchableOpacity>
+                                        </TouchableOpacity>  
+                                    </View>  
+                                );
+                            }
                         }
-                    }
-                })
-            );
+                    })
+                );
+            }else{
+                return(
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <Text>Seu carrinho está vazio</Text>
+                    </View>
+                )
+            }
         }
+    }
+
+    const validitem = () => {
+        if(item.length > 0){
+            return(
+                <TouchableOpacity style={styles.buttonedit} onPress={()=> gotopay()}>
+                    <Text style={styles.buttonText}>Finalizar compra</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
+
+    // enviar para tela de pagamento
+    const gotopay = () => {
+        navigation.navigate("Checkout", {params: {id: userid, cart_id: cart_id}})
     }
 
     // função para tela de carregamento enquanto busca produtos
@@ -93,51 +173,33 @@ export default function Car(params) {
     }
 
     return (
-        <View style={{height: '100%'}}>
+        <View style={{height: '100%', width: '100%'}}>
             {loading()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
-                    <Text style={styles.header}>Meu Carrinho</Text>
+                <LinearGradient 
+                colors={['#1E1E1E', '#E6E6E6']}
+                style={styles.linearGradient}
+                start={{ x: 0, y: 0.9 }}
+                >
+                    <Text style={styles.texttitle}>Meu Carrinho</Text>
                     <View style={styles.containerForm}>
                         <TextInput
                             placeholder="Buscar Produto"
                             onChangeText={value => setPesquisa(value)}
                             style={styles.busca}
-                        />
+                            />
                     </View>
-                    {buscar()}
+                </LinearGradient>
                 </View>
+                {buscar()}
+                {validitem()}
             </ScrollView>
         </View>
   );
 }
 
 const styles = StyleSheet.create({
-    text:{
-        color: 'white',
-        fontSize: 25,
-        fontWeight: 'bold'
-    },
-    header:{
-        color:'white',
-        alignSelf: 'center',
-        flexDirection: 'row',
-        marginVertical: '5%',
-        fontSize: 25,
-
-    },
-    line:{
-        borderBottomColor: 'white',
-        borderBottomWidth: 2,
-    },
-    itemtext:{
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
-        paddingTop: 10,
-    },
     container:{
         flex:1,
         justifyContent:'center',
@@ -147,7 +209,7 @@ const styles = StyleSheet.create({
     },
     scrollcontainer:{
         flex:1,
-        backgroundColor: '#1E1E1E',
+        backgroundColor: '#E6E6E6',
     },
     text:{
         fontSize: 20,
@@ -159,17 +221,29 @@ const styles = StyleSheet.create({
     },
     pricetext:{
         fontSize: 25,
+        padding: 5,
+        paddingRight: 10,
         fontWeight: 'bold',
-        color: 'yellow',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
-        paddingTop: 10,
+        color: '#1E1E1E',
+        justifyContent: 'flex-start',
+        alignSelf: 'flex-end',
+        backgroundColor: "#FF7851",
+        borderRadius: 5,
+        marginLeft: 10,
+    },
+    itemtext:{
+        fontSize: 25,
+        padding: 5,
+        paddingRight: 10,
+        fontWeight: 'bold',
+        color: '#1E1E1E',
+        marginBottom: 40,
     },
     texttitle:{
         fontSize: 25,
         fontWeight: 'bold',
         alignSelf: 'center',
-        color: 'white',
+        color: '#E6E6E6',
         padding: 10,
     },
     buttonRegister:{
@@ -183,23 +257,22 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         paddingBottom: 20,
-        margin: 10,
-
+        marginTop: 10,
     },
     titletext:{
-        fontSize: 36,
+        fontSize: 25,
         fontWeight: 'bold',
-        color: '#FFFF',
-        backgroundColor: '#FF7851',
-        alignSelf: 'center',
-        paddingBottom: 10,
+        color: '#1E1E1E',
+        alignSelf: 'flex-start',
     },
     itembutton:{
-        width: '80%',
-        backgroundColor: '#FF7851',
-        borderRadius: 30,
+        width: '90%',
+        backgroundColor: 'white',
+        borderRadius: 5,
         padding: 20,
-        alignSelf: 'center',   
+        alignSelf: 'center',
+        borderColor: '#1E1E1E',
+        borderWidth: 0.4
     },
     containerForm:{
         backgroundColor: 'white',
@@ -218,9 +291,9 @@ const styles = StyleSheet.create({
         fontSize: 1 ,
     },
     Img:{
-        width: 100,
-        height: 100,
-        alignSelf: 'center',
+        width: 150,
+        height: 150,
+        alignSelf: 'flex-start',
         borderRadius: 10,
     },
     busca:{
@@ -233,5 +306,32 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         textAlignVertical: 'center',
+    },
+    line:{
+        borderBottomColor: '#E7E7E7',
+        borderBottomWidth: 2,
+        marginTop: 2,
+        marginBottom: 7,
+    },
+    linearGradient:{
+        width: '100%',
+        alignItems: 'center',
+    },
+    buttonedit:{
+        flexDirection:'row',
+        backgroundColor: '#FF7851',
+        width: '80%',
+        borderRadius: 50,
+        paddingVertical: 8,
+        marginTop: 20,
+        marginBottom: 5,
+        justifyContent:'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    buttonText:{
+        flexDirection:'row',
+        color: 'white',
+        fontSize: 18,
     },
 });

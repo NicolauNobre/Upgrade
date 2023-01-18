@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     buttonText:{
-      color: '#1E1E1E',
+      color: 'white',
       fontSize: 18,
     },
     buttonRegister:{
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
     TextSenha:{
       backgroundColor: 'white',
-      color: '#A3A3A3',
+      color: 'black',
       borderRadius: 50,
       width: '80%',
       alignSelf: 'center',

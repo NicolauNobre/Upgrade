@@ -3,86 +3,126 @@ import {KeyboardAvoidingView, View, Text, StyleSheet, TextInput, TouchableOpacit
 
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
-import {Picker} from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function Editcadastro(params) {
     //console.log(params.route.params.params.userid)
     const userid = params.route.params.params.userid
+    const dados = params.route.params.params.data
+    // console.log(dados)
     const navigation = useNavigation();
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(dados.email.toString());
     const [vemail, setVemail] = useState('');
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useState(dados.phone.toString());
     const [vphone, setVphone] = useState('');
-    const [zip, setZip] = useState('');
+    const [zip, setZip] = useState(dados.zipcode.toString());
     const [vzip, setVzip] = useState('');
-    const [country, setCountry] = useState('');
+    const [country, setCountry] = useState(dados.country_state.toString());
     const [vcountry, setVcountry] = useState('');
-    const [city, setCity] = useState('');
+    const [city, setCity] = useState(dados.city.toString());
     const [vcity, setVcity] = useState('');
-    const [street, setStreet] = useState('');
+    const [street, setStreet] = useState(dados.street.toString());
     const [vstreet, setVstreet] = useState('');
-    const [adress, setAdress] = useState('');
+    const [adress, setAdress] = useState(dados.address_number.toString());
     const [vadress, setVadress] = useState('');
-    const [complement, setComplement] = useState('');
+    const [complement, setComplement] = useState(dados.address_complement.toString());
     const [vcadaster, setVcadaster] = useState('');
+    const [validcep, setValidcep] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+
     
     // função para validar os formulários (precisa de melhorias)
     const validar = () =>{
-        setVemail('')
-        setVphone('')
-        setVzip('')
-        setVadress('')
-        setVcountry('')
-        setVcity('')
-        setVstreet('')
-        let error = false
-        let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+      setVemail('')
+      setVphone('')
+      setVzip('')
+      setVphone('')
+      setVzip('')
+      setVadress('')
+      setVcountry('')
+      setVcity('')
+      setVstreet('')
+      let error = false
+      let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+      if( email == ''){
+        setVemail("Preencha seu email")
+        error = true
+      }else{
         let match = regex.test(email)
         if (match){
+          setEmail(email.toString())
         } else{
             setVemail("Email inválido")
             error = true
         }
+      }
+      var regexphone = new RegExp('^((1[1-9])|([2-9][0-9]))((3[0-9]{3}[0-9]{4})|(9[0-9]{3}[0-9]{5}))$');
+      let cphone = regexphone.test(phone);
 
-        if (phone == '' || phone.length > 12 || phone.length < 10){
+      if (phone == '' || !cphone){
         setVphone("telefone inválido")
         error = true
-        }
+      }else{
+        setPhone(phone.toString())
+      }
 
-        if (zip== '' || zip.length > 8 || zip.length < 8){
-        setVzip("CEP inválido")
+      if(!validcep){
+        setVzip("CEP Inválido")
         error = true
-        }
+      }else{
+        setZip(zip.toString())
+      }
 
-        if(adress == '' || adress.length>5){
-        setVadress("número invalido")
+      if(country == '' || country == null){
+        setVcountry("Escolha um estado")
         error = true
-        }
+      }else{
+        setCountry(country.toString())
+      }
 
-        if(country == ''){
-        setVcountry("Preencha o campo estado")
+      if(city == '' || city == null){
+        setVcity("Digite sua cidade")
         error = true
-        }
+      }else{
+        setCity(adress.toString())
+      }
 
-        if(city == ''){
-        setVcity("preencha o campo Cidade")
+      if(street == '' || street == null){
+        setVstreet("Digite sua rua")
         error = true
-        }
+      }else{
+        setStreet(street.toString())
+      }
 
-        if(street == ''){
-        setVstreet("preencha o campo Rua")
+      if(adress == '' || adress == null){
+        setVadress("Digite seu número")
         error = true
-        }
-        return !error
+      }else{
+        setAdress(adress.toString())
+      }
+
+      if(complement){
+        setComplement(complement.toString())
+      }
+
+      return !error
     }
 
     // função para enviar os formularios para o back
-    async function fetchMoviesJSON(temp) {
-        const response = await fetch('Rota',{
-        method: 'POST',
+    async function fetchMoviesJSON() {
+        // console.log(email)
+        // console.log(phone)
+        // console.log(zip)
+        // console.log(country)
+        // console.log(city)
+        // console.log(street)
+        // console.log(adress)
+        // console.log(complement)
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/update-cadaster',{
+        method: 'PUT',
         body: JSON.stringify({
+            "user_id": userid,
             "email" : email,
             "phone" : phone,
             "zipcode" : zip,
@@ -95,7 +135,18 @@ export default function Editcadastro(params) {
         headers: { 'Content-Type': 'application/json' },
         });
         const teste = await response.json();
+        // console.log(teste)
         return teste;
+    }
+
+    // conexão com a Api de cep para buscar os dados de endereço
+    async function sendcep(buscacep) {
+      const response = await fetch('https://brasilapi.com.br/api/cep/v1/'+buscacep,{
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const result = await response.json();
+      return result;
     }
 
     // função de envio de formulários se eles forem válidos
@@ -104,26 +155,94 @@ export default function Editcadastro(params) {
         if (validar()){
         setVcadaster('')
         // console.log("manda pro back")
-        fetchMoviesJSON(temp).then(teste => {
+        fetchMoviesJSON().then(teste => {
             // console.log(teste)
             // console.log("pegou resposta")
             if(teste.confirm){
-            // console.log("cadastrou")
-            setIsLoading(false)
-            alert("Cadastro Atualizado")
-            navigation.goBack()
+              // console.log("cadastrou")
+              setIsLoading(false)
+              alert("Cadastro Atualizado")
+              navigation.goBack()
             }else{
-            setIsLoading(false)
-            setVcadaster("Erro ao cadastrar, verifique seus dados")
-            // console.log("não cadastro")
-            alert("Verifique seus dados e tente novamente")
+              setIsLoading(false)
+              setCity(city);
+              setCountry(country);
+              setStreet(street);
+              setVcadaster("Erro ao cadastrar, verifique seus dados")
+              // console.log("não cadastro")
+              alert("Verifique seus dados e tente novamente")
             }
             
+        }).catch(e=>{
+          setIsLoading(false)
+          setCity(city);
+          setCountry(country);
+          setStreet(street);
+          setVcadaster("Sem conexão com o servidor")
+          // console.log(e)
         });
         }else{
-        setIsLoading(false)
+          setCity(city);
+          setCountry(country);
+          setStreet(street);
+          setIsLoading(false)
         }
     }
+
+    // Função para preencher os outros campo a partir do cep, se ele for valido
+    const filladress = (value)=>{
+      setVzip('')
+      sendcep(value).then(result => {
+        // console.log(result)
+        // console.log("pegou resposta") 
+        if(result.cep){
+          // console.log('achou');
+          // console.log(result);
+          setCountry(result.state);
+          setCity(result.city);
+          let simple = result.street.split('-')
+          setStreet(simple[0])
+          setVcountry('')
+          setVcity('')
+          setVstreet('')
+          return true
+        }else{
+          setCity('fodac')
+          setVzip("CEP inválido");
+          return(false);
+        }       
+      }).catch(e=>{
+        setIsLoading(false)
+        console.log(e)
+        return false
+      });
+    }
+
+    // Verifica se é um cep com o tamanho certo
+    const iscepvalid = (cep) =>{
+      let isvalid = false
+      cep = cep.toString()
+      if(cep.length>=1){
+        setVzip("CEP inválido");
+      }else{
+        setVzip("");
+      }
+      if(cep.length >= 8){
+        isvalid = true
+      }
+      
+      return isvalid;
+    }
+
+    // chama as funções para enviar o Cep
+    const callfunction = (value)=>{
+      setZip(value)
+      if(iscepvalid(value)){
+        filladress(value);
+        setValidcep(true);
+      }
+    }
+  
 
     //função para tela de carregamento durante o envio dos formularios para aguardar a resposta
     const loading = () =>{
@@ -156,106 +275,130 @@ export default function Editcadastro(params) {
                 <Animatable.View animation="fadeInUp" style={styles.containerForm}>
                 <Text style={styles.msgerro}>{vcadaster}</Text>
 
-                <Text style={styles.title}>Telefone (DDD+número) *</Text>
+                <Text style={styles.titleTel}>Telefone (DDD+número) *</Text>
                 <TextInput
                     keyboardType="phone-pad"
                     placeholder="Telefone..."
+                    value={phone}
                     onChangeText={setPhone}
-                    style={styles.TextSenha}
+                    style={styles.TextInput}
                 />
                 <Text style={styles.msgerro}>{vphone}</Text>
                 
-                <Text style={styles.title}>E-mail *</Text>
+                <Text style={styles.titleEmail}>E-mail *</Text>
                 <TextInput
                     keyboardType="email-address"
                     placeholder="E-mail..."
+                    value={email}
                     onChangeText={setEmail}
-                    style={styles.TextSenha}
+                    style={styles.TextInput}
                 />
                 <Text style={styles.msgerro}>{vemail}</Text>
             
                 <Text style={styles.Dados}>Endereço</Text>
-                <Text style={styles.title}>CEP (apenas os números) *</Text>
-                <TextInput
+          
+                <View style={{flexDirection: 'row' }}>
+                  <Text style={styles.titleCEP}>CEP (apenas números)</Text>
+                  <Text style={styles.title}>Estado</Text>
+                </View>
+
+                <View style={{flexDirection: 'row' }}>
+                  <TextInput
                     keyboardType="number-pad"
                     placeholder="CEP..."
-                    onChangeText={setZip}
-                    style={styles.TextSenha}
-                />
-                <Text style={styles.msgerro}>{vzip}</Text>
-                <Text style={styles.title}>Estado *</Text>
-                <View style={styles.pickercontainer}>
-                    <Picker
-                        style={styles.TextSenha}
-                        selectedValue={country}
-                        onValueChange={(itemValue, itemIndex) =>setCountry(itemValue)}
-                        itemStyle={styles.TextSenha}
-                    >
-                        <Picker.Item label="Acre" value="Acre" />
-                        <Picker.Item label="Alagoas" value="Alagoas" />
-                        <Picker.Item label="Amapá" value="Amapá" />
-                        <Picker.Item label="Amazonas" value="Amazonas" />
-                        <Picker.Item label="Bahia" value="Bahia" />
-                        <Picker.Item label="Ceara" value="Ceara" />
-                        <Picker.Item label="Distrito Federal" value="Distrito Federal" />
-                        <Picker.Item label="Espírito Santo" value="Espírito Santo" />
-                        <Picker.Item label="Goiás" value="Goiás" />
-                        <Picker.Item label="Maranhão" value="Maranhão" />
-                        <Picker.Item label="Mato Grosso" value="Mato Grosso" />
-                        <Picker.Item label="Mato Grosso do Sul" value="Mato Grosso do Sul" />
-                        <Picker.Item label="Minas Gerais" value="Minas Gerais" />
-                        <Picker.Item label="Pará" value="Pará" />
-                        <Picker.Item label="Paraíba" value="Paraíba" />
-                        <Picker.Item label="Paraná" value="Paraná" />
-                        <Picker.Item label="Pernambuco" value="Pernambuco" />
-                        <Picker.Item label="Piauí" value="Piauí" />
-                        <Picker.Item label="Rio de Janeiro" value="Rio de Janeiro" />
-                        <Picker.Item label="Rio Grande do Norte" value="Rio Grande do Norte" />
-                        <Picker.Item label="Rio Grande do Sul" value="Rio Grande do Sul" />
-                        <Picker.Item label="Rondônia" value="Rondônia" />
-                        <Picker.Item label="Roraima" value="Roraima" />
-                        <Picker.Item label="Santa Catarina" value="Santa Catarina" />
-                        <Picker.Item label="São Paulo" value="São Paulo" />
-                        <Picker.Item label="Sergipe" value="Sergipe" />
-                        <Picker.Item label="Tocantins" value="Tocantins" />
-                    </Picker>
+                    value={zip}
+                    onChangeText={value=>{callfunction(value)}}
+                    style={styles.textCEP}
+                  />
+                  <View style={styles.pickercontainer}>
+                    <RNPickerSelect
+                      onValueChange={(value) => setCountry(value)}
+                      value={country}
+                      placeholder = {{
+                        label: 'Código UF', 
+                        value: null, 
+                        color: '#C7C7CD',
+                      }}
+                      items={[
+                        { label: 'AC', value: 'AL', color: 'black'},
+                        { label: 'AL', value: 'AL', color: 'black'},
+                        { label: 'AP', value: 'AP', color: 'black'},
+                        { label: 'AM', value: 'AM', color: 'black'},
+                        { label: 'BA', value: 'BA', color: 'black'},
+                        { label: 'CE', value: 'CE', color: 'black'},
+                        { label: 'DF', value: 'DF', color: 'black'},
+                        { label: 'ES', value: 'ES', color: 'black'},
+                        { label: 'GO', value: 'GO', color: 'black'},
+                        { label: 'MA', value: 'MA', color: 'black'},
+                        { label: 'MT', value: 'MT', color: 'black'},
+                        { label: 'MS', value: 'MS', color: 'black'},
+                        { label: 'MG', value: 'MG', color: 'black'},
+                        { label: 'PR', value: 'PR', color: 'black'},
+                        { label: 'PB', value: 'PB', color: 'black'},
+                        { label: 'PA', value: 'PA', color: 'black'},
+                        { label: 'PE', value: 'PE', color: 'black'},
+                        { label: 'PI', value: 'PI', color: 'black'},
+                        { label: 'Rj', value: 'RJ', color: 'black'},
+                        { label: 'RN', value: 'RN', color: 'black'},
+                        { label: 'RS', value: 'RS', color: 'black'},
+                        { label: 'RO', value: 'RO', color: 'black'},
+                        { label: 'RR', value: 'RR', color: 'black'},
+                        { label: 'SC', value: 'SC', color: 'black'},
+                        { label: 'SE', value: 'SE', color: 'black'},
+                        { label: 'SP', value: 'SP', color: 'black'},
+                        { label: 'TO', value: 'TO', color: 'black'},
+                      ]}
+                    />
                     </View>
-                {/* <TextInput
-                    placeholder="Estado..."
-                    onChangeText={setCountry}
-                    style={styles.TextSenha}
-                /> */}
-                <Text style={styles.msgerro}>{vcountry}</Text>
-                <Text style={styles.title}>Cidade *</Text>
+                </View>
+                <View style={{flexDirection: 'row' }}>
+                  <Text style={styles.msgerroCEP}>{vzip}</Text>
+                  <Text style={styles.msgerroEst}>{vcountry}</Text>
+                </View>
+
+                <Text style={styles.title}>Cidade</Text>
                 <TextInput
-                    placeholder="Cidade..."
-                    onChangeText={setCity}
-                    style={styles.TextSenha}
+                  placeholder="Cidade..."
+                  value={city}
+                  onChangeText={setCity}
+                  style={styles.textCity}
                 />
                 <Text style={styles.msgerro}>{vcity}</Text>
-                <Text style={styles.title}>Rua *</Text>
+                <Text style={styles.title}>Rua</Text>
                 <TextInput
-                    placeholder="Rua..."
-                    onChangeText={setStreet}
-                    style={styles.TextSenha}
+                  placeholder="Rua..."
+                  value={street}
+                  onChangeText={setStreet}
+                  style={styles.textRua}
                 />
                 <Text style={styles.msgerro}>{vstreet}</Text>
-                <Text style={styles.title}>Número *</Text>
-                <TextInput
+
+                <View style={{flexDirection: 'row' }}>
+                  <Text style={styles.titleNumber}>Número</Text>
+                  <Text style={styles.titleComp}>Complemento</Text>
+                </View>
+
+                <View style={{flexDirection: 'row' }}>
+                  <TextInput
                     keyboardType="number-pad"
                     placeholder="Número..."
+                    value={adress}
                     onChangeText={setAdress}
-                    style={styles.TextSenha}
-                />
-                <Text style={styles.msgerro}>{vadress}</Text>
-                <Text style={styles.title}>Complemento</Text>
-                <TextInput
+                    style={styles.textNumber}
+                  />
+                  <TextInput
                     placeholder="Complemento..."
+                    value={complement}
                     onChangeText={setComplement}
-                    style={styles.TextSenha}
-                />
+                    style={styles.textComp}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.msgerroNumber}>{vadress}</Text>
+                </View>
+
                 <TouchableOpacity style={styles.button} onPress={() => salvar()}>
-                    <Text style={styles.buttonText}>Salvar</Text>
+                  <Text style={styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonRegister}
                 onPress={() => navigation.goBack()}>
@@ -271,26 +414,13 @@ export default function Editcadastro(params) {
 const styles = StyleSheet.create({
   container:{
     flex:1.,
-    backgroundColor: '#1E1E1E'
-  },
-  msgerro:{
-    color:"red",
-    fontSize: 20,
-    alignSelf:'center',
-  },
-  title:{
-    color: '#FF7851',
-    fontSize: 16,
+    backgroundColor: '#1E1E1E',
+    paddingBottom: 15,
   },
   containerHeader:{
     marginBottom: '8%',
     marginTop: '14%',
     paddingStart: '5%',
-  },
-  message:{
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FF7851' 
   },
   containerForm:{
     backgroundColor: '#1E1E1E',
@@ -300,12 +430,133 @@ const styles = StyleSheet.create({
     paddingStart: '5%',
     paddingEnd: '5%',
   },
+  msgerro:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'center',
+  },
+  msgerroHalf:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 60,
+  },
+  msgerroTel:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 98,
+  },
+  msgerroEmail:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 110,
+  },
+  msgerroSenha:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 45,
+  },
+  msgerroCSenha:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 80,
+  },
+  msgerroCEP:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 65,
+  },
+  msgerroEst:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 90,
+  },
+  msgerroNumber:{
+    color:"red",
+    fontSize: 16,
+    alignSelf:'flex-start',
+    marginLeft: 45,
+    width: 80
+  },
+  message:{
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FF7851' 
+  },
   title: {
     color: '#FF7851',
     fontSize: 16,
     marginTop: 10,
     marginLeft: 35,
     marginBottom: 5,
+    alignSelf: 'flex-start',
+    width: '41%'
+  },
+  titleTel: {
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 50,
+    marginBottom: 5,
+    marginRight: 100,
+    alignSelf: 'flex-start'
+  },
+  titleEmail: {
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 50,
+    marginBottom: 5,
+    width: '66%',
+    alignSelf: 'flex-start'
+  },
+  titleSenha: {
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 35,
+    marginBottom: 5,
+    width: '39%'
+  },
+  titleData: {
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 5,
+    marginRight: 100,
+    alignSelf: 'flex-start'
+  },
+  titleCEP:{
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 35,
+    marginBottom: 5,
+    alignSelf: 'flex-start',
+    width: '50%'
+  },
+  titleComp:{
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 5,
+    alignSelf: 'flex-start',
+    width: '50%'
+  },
+  titleNumber:{
+    color: '#FF7851',
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 5,
+    marginLeft: 35,
+    alignSelf: 'flex-start',
+    width: '28%'
   },
   input:{
     backgroundColor: '#FFFFFF',
@@ -320,7 +571,7 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 50,
     paddingVertical: 8,
-    marginTop: 14,
+    marginTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'
@@ -328,30 +579,24 @@ const styles = StyleSheet.create({
   buttonText:{
     color: '#1E1E1E',
     fontSize: 18,
+    //fontFamily: 'Inter'
   },
   buttonRegister:{
     marginTop: 14,
     alignSelf: 'center'
   },
   registerText:{
-    color: '#FF7851'
+    color: 'white'
   },
   TextInput:{
-    backgroundColor: 'white',
-    color: '#A3A3A3',
-    borderRadius: 50,
-    width: '80%',
-    alignSelf: 'center',
-    textAlign: 'center'
-  },
-  TextSenha:{
     backgroundColor: 'white',
     color: 'black',
     borderRadius: 50,
     width: '80%',
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'center'
   },
+  
   Dados:{
     color: '#FFFFFF',
     fontSize: 25,
@@ -359,15 +604,144 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   Obg:{
-    color: '#FF7851',
+    color: 'white',
     fontSize: 15,
     alignSelf: 'center',
     marginTop: 15,
   },
-  pickercontainer:{
+  datebutton:{
     backgroundColor: 'white',
     borderRadius: 50,
-    width: '80%',
+    width: '20%',
+    height: 30,
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 23
+  },
+  
+  datetext:{
+    backgroundColor: 'white',
+    color: 'gray',
+    height: 30,
+    textAlignVertical: 'center',
+    borderRadius: 50,
+    width: '100%',
+    fontSize: 15,
     alignSelf: 'center',
+    textAlign: 'center',
+  },
+  pickercontainer:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: 30,
+    textAlign: 'center',
+    borderRadius: 50,
+    width: '41%',
+    alignSelf: 'center',
+    marginLeft: 31,
+  },
+  textNome:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  textHalf:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '35%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textTel:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '45%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 23,
+  },
+  textEmail:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '60%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textSenha:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '39%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  TextSenha:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '50%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textCEP:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '37%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textEst:{
+    backgroundColor: 'white',
+    color: 'black',
+    width: '65%',
+    alignSelf: 'center',
+    textAlign: 'center'
+  },
+  textCity:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  textRua:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  textNumber:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '20%',
+    textAlign: 'center',
+    marginLeft: 31,
+  },
+  textComp:{
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: 50,
+    width: '58%',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    marginLeft: 31,
   }
 })

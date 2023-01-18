@@ -3,6 +3,7 @@ import styles from "./styles";
 import {ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, useWindowDimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 
 
 export default function SignIn() {
@@ -78,7 +79,12 @@ export default function SignIn() {
           setIsLoading(false)
         }
 
+      }).catch(e=>{
+        setIsLoading(false)
+        setV2login("Sem conexão com o servidor")
+        // console.log(e)
       });
+
     }else{
       setIsLoading(false)
     }

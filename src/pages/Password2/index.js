@@ -4,55 +4,59 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 
 
-export default function Password() {
+export default function Password2(params) {
+  const email = params.route.params.params.email;
+  const cod = params.route.params.params.codigo;
+  // console.log(email)
+  // console.log(cod)
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [vemail, setVemail] = useState('');
+  const [code, setCode] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [vpassword, setVpassword] = useState('');
+  const [vpassword2, setVpassword2] = useState('');
   const [send, setSend] = useState('');
 
   // função para enviar os formularios para o back
   async function fetchMoviesJSON() {
-    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/password-recovery',{
-      method: 'POST',
+    const response = await fetch('https://upgrade-back-staging.herokuapp.com/auth/change-password-email',{
+      method: 'PUT',
       body: JSON.stringify({
-        "email" : email,
+        'user_mail': email,
+        'new_password': password,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
     // console.log("espera reposta");
     const teste = await response.json();
-    // console.log(teste)
     return teste;
   }
 
   // função para validar os formularios (precisa de melhorias)
   const validar = () =>{
-    setVemail('')
+    setSend('')
     let error = false
-    let regex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-    let match = regex.test(email)
-    if (match){
-    } else{
-      if(email== ''){
-        setVemail("Preencha o Email")
+    if(cod != code){
+      setSend("Código inválido")
+      error = true
+    }else{
+      setVpassword('')
+      setVpassword2("")
+      if(password == ''){
+        setVpassword("Preencha a Senha")
         error = true
-      }else
-        setVemail("Preencha o Email corretamente")
-        error = true
+      }else{
+        if(password == password2){
+          error = false
+          setVpassword2("")
+        }else{
+          error = true
+          setVpassword2("Ambas a senhas devem ser iguais")
+        }
+      }
     }
-    // if(password == ''){
-    //   setVpassword("Preencha a Senha")
-    //   error = true
-    // }else{
-    //   if(password == password2){
-    //     error = false
-    //     setVpassword2("")
-    //   }else{
-    //     error = true
-    //     setVpassword2("Ambas a senhas devem ser iguais")
-    //   }
-    // }
+    
     return !error
   }
 
@@ -65,13 +69,13 @@ export default function Password() {
       fetchMoviesJSON().then(teste => {
         // console.log(teste)
         // console.log("pegou resposta")
+        const userid = teste.user_id
         
         if(teste.confirm){
           // console.log("enviou")
           setIsLoading(false)
-          navigation.navigate('Password2', {
-            params: {email: email, codigo: teste.cod},
-          })
+          alert("Senha alterada com sucesso!")
+          navigation.navigate('SignIn')
         }else{
           setSend("Email não registrado")
           // console.log("não enviou")
@@ -112,26 +116,37 @@ export default function Password() {
             />
           </View>
           <Text style={styles.msgerro}>{send}</Text>
-          <Text style={styles.Dados}>Um código de confirmação será enviado para o seu email</Text>
+          <Text style={styles.Dados}>Digite o código de confirmação que você recebeu por email</Text>
           <Text style={styles.msgerro}></Text>
-          <Text style={styles.title}>E-mail *</Text>
+          <Text style={styles.title}>Código *</Text>
           <TextInput
-            keyboardType="email-address"
-            placeholder="E-mail..."
-            onChangeText={setEmail}
+            placeholder="Código..."
+            onChangeText={setCode}
             style={styles.TextInput}
           />
-          <Text style={styles.msgerro}>{vemail}</Text>
+
+          <Text style={styles.title}>Senha *</Text>
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={setPassword}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword}</Text>
+          <Text style={styles.title}>Confirmar Senha *</Text>
+
+          <TextInput
+            placeholder="Senha..."
+            onChangeText={setPassword2}
+            style={styles.TextSenha}
+            secureTextEntry={true}
+          />
+          <Text style={styles.msgerro}>{vpassword2}</Text>
 
           <TouchableOpacity style={styles.buttonback}
             onPress={() => navigation.goBack()}>
             <Text style={styles.buttonText}>Voltar</Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity style={styles.buttonback}
-            onPress={() => navigation.navigate('Password2')}>
-            <Text style={styles.buttonText}>Próxima página</Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity style={styles.button}
             onPress={() => enviar()}>

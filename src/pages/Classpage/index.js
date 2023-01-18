@@ -2,24 +2,20 @@ import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import RNPickerSelect from 'react-native-picker-select';
 
 
-export default function Ofertas(params) {
+export default function Classpage(params) {
     const navigation = useNavigation();
+
 
     // variaveis utilizadas
     const [resp, setResp] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [usefilter, setUsefilter] = useState(false);
-    const [usingfilter, setUsingfilter] = useState(false);
-    const [estado, setEstado] = useState('');
-    const [max, setMax] = useState(0);
-    const [min, setMin] = useState(0);
     const [item, setItem] = useState([]);
-    const userid = params.route.params.id;
-    // console.log(params.route.params.reload);
+    const userid = params.route.params.params.userid;
+    const categoria = params.route.params.params.category;
+    // console.log(categoria);
     // console.log(userid);
 
     // função do request de produtos ao back
@@ -28,15 +24,12 @@ export default function Ofertas(params) {
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
             method: 'Post',
             body: JSON.stringify({
-                "user_id" : userid,
-                // "max" : max,
-                // "min" : min,
-                // "estado" : estado,
+              "user_id" : userid,
+            //   "class" : class,
             }),
             headers: { 'Content-Type': 'application/json' },
-          });
+        });
         const teste = await response.json();
-        // console.log(teste)
         setItem (teste);
         if(teste[0]){
             setResp(true);
@@ -48,58 +41,7 @@ export default function Ofertas(params) {
 
     useEffect( () => {
         fetchMoviesJSON();
-    }, [usingfilter]);
-
-    const showfilter = ()=>{
-        setUsefilter(!usefilter);
-    }
-
-    const aplyfilter = ()=>{
-        setUsingfilter(!usingfilter);
-        setUsefilter(!usefilter);
-    }
-
-    const filters = ()=>{
-        if(usefilter){
-            return(
-                <View style={styles.filters}>
-                    <Text>Filtros</Text>
-                    <Text>Preço Max</Text>
-                    <TextInput
-                        keyboardType="number-pad"
-                        placeholder="Valor do Item"
-                        onChangeText={setMax}
-                    />
-                    <Text>Preço Min</Text>
-                    <TextInput
-                        keyboardType="number-pad"
-                        placeholder="Valor do Item"
-                        onChangeText={setMin}
-                    />
-                    {/* Select para categoria, aguarda rota */}
-
-                    <RNPickerSelect
-                        onValueChange={(value) => setEstado(value)}
-                        placeholder = {{
-                            label: 'Estado do Item', 
-                            value: null, 
-                            color: '#C7C7CD',
-                        }}
-                        items={[
-                            { label: 'Novo', value: 'novo', color: 'black'},
-                            { label: 'Usado', value: 'usado', color: 'black'},
-                            { label: 'Velho', value: 'velho', color: 'black'},
-                        ]}
-                    />
-                    <TouchableOpacity style={styles.aplyfilterbutton} onPress={() => aplyfilter()}>
-                        <Text style={styles.textaply}>Aplicar filtros</Text>
-                    </TouchableOpacity>
-
-                </View>
-            )
-        }
-    }
-
+    }, []);
 
     //função para retornar os itens na view
     const buscar = ()=> {
@@ -115,48 +57,36 @@ export default function Ofertas(params) {
                         let filter = pesquisa.toUpperCase();
                         let products = index.title.toUpperCase();
                         if(pesquisa == ''){
-                            return(
-                                <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                        <Text style={styles.titletext}>{index.title}</Text>
-                                        <View style={styles.line}/>
-                                        <View style={{width: '60%', flexDirection: 'row' }}>
-                                            {index.images != null ? (
-                                                <Image
-                                                    source={{uri:index.images}}
-                                                    style={styles.Img}
-                                                />
-                                            ) : (
+                            if(index.class == categoria){
+                                return(
+                                    <View key={index._id} style={styles.itemcontainer} >
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
+                                            <Text style={styles.titletext}>{index.title}</Text>
+                                            <View style={styles.line}/>
+                                            <View style={{width: '60%', flexDirection: 'row' }}>
                                                 <Image
                                                     source={require('../../assets/UpGrade.jpg')}
                                                     style={styles.Img}
                                                 />
-                                            )}
-                                            <Text style={styles.pricetext}> R$ {index.price}</Text>
-                                        </View>
-                                    </TouchableOpacity>  
-                                </View>  
-                            );
+                                                <Text style={styles.pricetext}> R$ {index.price}</Text>
+                                            </View>
+                                        </TouchableOpacity>  
+                                    </View>  
+                                );
+                            }
                         }else{
                             // console.log("produto: ", products, "pesquisa", filter)
-                            if(products.includes(filter)){
+                            if(products.includes(filter) && index.class == categoria){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
                                         <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
                                             <Text style={styles.titletext}>{index.title}</Text>
                                             <View style={styles.line}/>
                                             <View style={{width: '100%', flexDirection: 'row' }}>
-                                                {index.images != null ? (
-                                                    <Image
-                                                        source={{uri:index.images}}
-                                                        style={styles.Img}
-                                                    />
-                                                ) : (
-                                                    <Image
-                                                        source={require('../../assets/UpGrade.jpg')}
-                                                        style={styles.Img}
-                                                    />
-                                                )}
+                                                <Image
+                                                    source={require('../../assets/UpGrade.jpg')}
+                                                    style={styles.Img}
+                                                />
                                                 <Text style={styles.pricetext}> R$ {index.price}</Text>
                                             </View>
                                         </TouchableOpacity>  
@@ -170,7 +100,7 @@ export default function Ofertas(params) {
         }else{
             return(
                 <View>
-                    <Text style={styles.semitems}>nenhum item a venda</Text>
+                    <Text style={styles.semitems}>nenhum item a venda nessa categoria</Text>
                 </View>
             )
         }
@@ -191,25 +121,21 @@ export default function Ofertas(params) {
     return (
         <View style={{height: '100%', width: '100%'}}>
             {loading()}
-            {filters()}
             <ScrollView style={styles.scrollcontainer}>
                 <View style={styles.container}>
                 <LinearGradient 
-                    colors={['#1E1E1E', '#E6E6E6']}
-                    style={styles.linearGradient}
-                    start={{ x: 0, y: 0.9 }}
-                    >
-                        <Text style={styles.texttitle}>Produtos disponiveis</Text>
-                        <View style={styles.containerForm}>
-                            <TextInput
-                                placeholder="Buscar Produto"
-                                onChangeText={value => setPesquisa(value)}
-                                style={styles.busca}
-                                />
-                        </View>
-                        <TouchableOpacity style={styles.filterbutton} onPress={() => showfilter()}>
-                            <Text>Filtros</Text>
-                        </TouchableOpacity>
+                colors={['#1E1E1E', '#E6E6E6']}
+                style={styles.linearGradient}
+                start={{ x: 0, y: 0.9 }}
+                >
+                    <Text style={styles.texttitle}>{categoria}</Text>
+                    <View style={styles.containerForm}>
+                        <TextInput
+                            placeholder="Buscar Produto"
+                            onChangeText={value => setPesquisa(value)}
+                            style={styles.busca}
+                            />
+                    </View>
                 </LinearGradient>
                 </View>
                 {buscar()}
@@ -333,38 +259,4 @@ const styles = StyleSheet.create({
     semitems:{
         textAlign: 'center',
     },
-    filterbutton:{
-        backgroundColor: '#FF7851',
-        padding: 10,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'flex-end',
-        marginRight: 22,
-        borderRadius: 15,
-    },
-    filters:{
-        position: 'absolute',
-        backgroundColor: '#FF7851',
-        zIndex: 100,
-        height: '100%',
-        width: '70%',
-        display: 'flex',
-        alignItems: 'center',
-        alignSelf: 'flex-start',
-        justifyContent: 'flex-start',
-    },
-    aplyfilterbutton:{
-        backgroundColor: 'black',
-        padding: 10,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'flex-end',
-        marginRight: 22,
-        borderRadius: 15,
-    },
-    textaply:{
-        color: 'white',
-    }
 });
