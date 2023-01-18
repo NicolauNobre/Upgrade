@@ -13,6 +13,8 @@ export default function Car(params) {
     const [resp, setResp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [item, setItem] = useState([]);
+    const [retirada, setRetirada] = useState(1);
+    const [cart_id, setCart_id] = useState('');
 
     // função do request de produtos no carrinho ao back
     async function fetchMoviesJSON() {
@@ -26,21 +28,41 @@ export default function Car(params) {
         });
         const teste = await response.json();
         // console.log(teste)
+        if(teste.length > 0){
+            setCart_id(teste[0].cart_id)
+        }
         setItem (teste);
         setResp(true);
         setIsLoading(false);
     }
 
+    // função para retirar item do carrinho
+    async function removeItem(id) {
+        setIsLoading(true)
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/DeleteItem',{
+            method: 'POST',
+            body: JSON.stringify({
+                "userId" : userid,
+                "cart_id" : cart_id,
+                "productId" : id,
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const teste = await response.json();
+        // console.log(teste)
+        setIsLoading(false);
+        setRetirada(retirada + 1);
+    }
+
     if(reload){
         useEffect( () => {
             fetchMoviesJSON();
-        }, []);
+        }, [retirada]);
     }
     //função para retornar os itens na view
     const buscar = ()=> {
 
         if (resp){
-            // console.log(item)
             return (
                 // percorre o array de itens
                 item.map(index =>{
@@ -70,6 +92,9 @@ export default function Car(params) {
                                             <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                         </View>
                                     </View>
+                                    <TouchableOpacity onPress={()=> removeItem(index.productsInfo._id)} style={styles.buttonedit}>
+                                        <Text style={styles.buttonText}>Retirar</Text>
+                                    </TouchableOpacity>
                                 </TouchableOpacity>  
                             </View>  
                         );
@@ -94,10 +119,13 @@ export default function Car(params) {
                                                 />
                                             )}
                                             <View>
-                                                <Text style={styles.itemtext}>Quantidade: {index.productsInfo.amount}</Text>
+                                                <Text style={styles.itemtext}>Quantidade: {index.quantity }</Text>
                                                 <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                             </View>
                                         </View>
+                                        <TouchableOpacity onPress={()=> removeItem(index.productsInfo._id)} style={styles.buttonedit}>
+                                            <Text style={styles.buttonText}>Retirar</Text>
+                                        </TouchableOpacity>
                                     </TouchableOpacity>  
                                 </View>  
                             );
@@ -106,6 +134,22 @@ export default function Car(params) {
                 })
             );
         }
+    }
+
+    const validitem = () => {
+        if(item.length > 0){
+            return(
+                <TouchableOpacity style={styles.buttonedit} onPress={()=> gotopay()}>
+                    <Text style={styles.buttonText}>Finalizar compra</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
+
+    // enviar para tela de pagamento
+    const gotopay = () => {
+        navigation.navigate("Checkout", {params: {id: userid, cart_id: cart_id}})
     }
 
     // função para tela de carregamento enquanto busca produtos
@@ -141,6 +185,7 @@ export default function Car(params) {
                 </LinearGradient>
                 </View>
                 {buscar()}
+                {validitem()}
             </ScrollView>
         </View>
   );
@@ -263,5 +308,22 @@ const styles = StyleSheet.create({
     linearGradient:{
         width: '100%',
         alignItems: 'center',
+    },
+    buttonedit:{
+        flexDirection:'row',
+        backgroundColor: '#FF7851',
+        width: '80%',
+        borderRadius: 50,
+        paddingVertical: 8,
+        marginTop: 20,
+        marginBottom: 5,
+        justifyContent:'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    buttonText:{
+        flexDirection:'row',
+        color: 'white',
+        fontSize: 18,
     },
 });

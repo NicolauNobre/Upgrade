@@ -13,9 +13,10 @@ export default function Ofertas(params) {
     const [pesquisa, setPesquisa] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [usefilter, setUsefilter] = useState(false);
+    const [usingfilter, setUsingfilter] = useState(false);
     const [estado, setEstado] = useState('');
-    const [max, setMax] = useState('');
-    const [min, setMin] = useState('');
+    const [max, setMax] = useState(0);
+    const [min, setMin] = useState(0);
     const [item, setItem] = useState([]);
     const userid = params.route.params.id;
     // console.log(params.route.params.reload);
@@ -27,7 +28,10 @@ export default function Ofertas(params) {
         const response = await fetch('https://upgrade-back-staging.herokuapp.com/home/itens',{
             method: 'Post',
             body: JSON.stringify({
-              "user_id" : userid,
+                "user_id" : userid,
+                // "max" : max,
+                // "min" : min,
+                // "estado" : estado,
             }),
             headers: { 'Content-Type': 'application/json' },
           });
@@ -42,18 +46,17 @@ export default function Ofertas(params) {
         setIsLoading(false);
     }
 
-
     useEffect( () => {
         fetchMoviesJSON();
-    }, []);
+    }, [usingfilter]);
 
     const showfilter = ()=>{
         setUsefilter(!usefilter);
     }
 
     const aplyfilter = ()=>{
+        setUsingfilter(!usingfilter);
         setUsefilter(!usefilter);
-        // mandar para o back
     }
 
     const filters = ()=>{

@@ -17,6 +17,7 @@ import Editcadastro from '../pages/Editcadastro'
 import Changepassword from '../pages/Changepassword'
 import Changepassword2 from '../pages/Changepassword2'
 import Classpage from '../pages/Classpage'
+import Checkout from '../pages/Checkout'
 
 const Stack = createNativeStackNavigator();
 
@@ -106,6 +107,11 @@ export default function Routes(){
             <Stack.Screen
                 name='Classpage'
                 component={Classpage}
+                options={{headerShown: false}}             
+            />
+            <Stack.Screen
+                name='Checkout'
+                component={Checkout}
                 options={{headerShown: false}}             
             />
         </Stack.Navigator>
