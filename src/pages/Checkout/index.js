@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, ActivityIndicator, TouchableOpacity, TextInput } from 'react-native';
 import { WebView } from 'react-native-webview';
+import {useNavigation} from '@react-navigation/native';
+
 
 export default function Checkout(params) {
+    const navigation = useNavigation();
     const cart_id = params.route.params.params.cart_id;
     // console.log(params.route.params.params.cart_id)
     const [state, setState] = useState(false)
 
     useEffect( () => {
         if(state){
-            alert('Pagamento realizado com sucesso!');           
+            alert('Pagamento realizado com sucesso!');   
+            navigation.navigate('Home');        
         }
     }, [state]);
 

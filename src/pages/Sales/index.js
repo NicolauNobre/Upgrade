@@ -19,7 +19,7 @@ export default function Sales(params) {
     // função do request de produtos ao back
     async function fetchMoviesJSON() {
         setIsLoading(true);
-        const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/products',{
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/MySell',{
           method: 'Post',
           body: JSON.stringify({
             "user_id" : userid,
@@ -28,6 +28,7 @@ export default function Sales(params) {
         });
         const teste = await response.json();
         setItem (teste);
+        // console.log(teste)
         setResp(true);
         setIsLoading(false);
     }
@@ -46,21 +47,22 @@ export default function Sales(params) {
                 // percorre o array de itens
                 item.map(index =>{
                     // console.log(index)
-                    if(index.title == undefined){
+                    if(index.productsInfo.title == undefined){
                         setResp(false);
-                    }else if(index.out){
+                    }else if(true){
+                        // console.log(index)
                         let filter = pesquisa.toUpperCase();
-                        let products = index.title.toUpperCase();
+                        let products = index.productsInfo.title.toUpperCase();
                         if(pesquisa == ''){
                             return(
                                 <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                        <Text style={styles.titletext}>{index.title}</Text>
+                                    <TouchableOpacity style={styles.itembutton} onPress={() => alert('item ja vendido')}>
+                                        <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                         <View style={styles.line}/>
                                         <View style={{width: '60%', flexDirection: 'row' }}>
-                                            {index.images != null ? (
+                                            {index.productsInfo.images != null ? (
                                                 <Image
-                                                    source={{uri:index.images}}
+                                                    source={{uri:index.productsInfo.images}}
                                                     style={styles.Img}
                                                 />
                                             ) : (
@@ -69,7 +71,7 @@ export default function Sales(params) {
                                                     style={styles.Img}
                                                 />
                                             )}
-                                            <Text style={styles.pricetext}> R$ {index.price}</Text>
+                                            <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                         </View>
                                     </TouchableOpacity>  
                                 </View>  
@@ -79,13 +81,13 @@ export default function Sales(params) {
                             if(products.includes(filter)){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
-                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
                                             <Text style={styles.titletext}>{index.title}</Text>
                                             <View style={styles.line}/>
                                             <View style={{width: '100%', flexDirection: 'row' }}>
-                                                {index.images != null ? (
+                                                {index.productsInfo.images != null ? (
                                                     <Image
-                                                        source={{uri:index.images}}
+                                                        source={{uri:index.productsInfo.images}}
                                                         style={styles.Img}
                                                     />
                                                 ) : (
@@ -94,7 +96,7 @@ export default function Sales(params) {
                                                         style={styles.Img}
                                                     />
                                                 )}
-                                                <Text style={styles.pricetext}> R$ {index.price}</Text>
+                                                <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                             </View>
                                         </TouchableOpacity>  
                                     </View> 

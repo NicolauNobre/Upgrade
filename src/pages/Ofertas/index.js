@@ -15,7 +15,7 @@ export default function Ofertas(params) {
     const [usefilter, setUsefilter] = useState(false);
     const [usingfilter, setUsingfilter] = useState(false);
     const [estado, setEstado] = useState('');
-    const [max, setMax] = useState(0);
+    const [max, setMax] = useState(1000000);
     const [min, setMin] = useState(0);
     const [item, setItem] = useState([]);
     const userid = params.route.params.id;
@@ -29,9 +29,6 @@ export default function Ofertas(params) {
             method: 'Post',
             body: JSON.stringify({
                 "user_id" : userid,
-                // "max" : max,
-                // "min" : min,
-                // "estado" : estado,
             }),
             headers: { 'Content-Type': 'application/json' },
           });
@@ -67,13 +64,13 @@ export default function Ofertas(params) {
                     <Text>Preço Max</Text>
                     <TextInput
                         keyboardType="number-pad"
-                        placeholder="Valor do Item"
+                        placeholder="Valor maximo do Item"
                         onChangeText={setMax}
                     />
                     <Text>Preço Min</Text>
                     <TextInput
                         keyboardType="number-pad"
-                        placeholder="Valor do Item"
+                        placeholder="Valor minimo do Item"
                         onChangeText={setMin}
                     />
                     {/* Select para categoria, aguarda rota */}
@@ -82,7 +79,7 @@ export default function Ofertas(params) {
                         onValueChange={(value) => setEstado(value)}
                         placeholder = {{
                             label: 'Estado do Item', 
-                            value: null, 
+                            value: '', 
                             color: '#C7C7CD',
                         }}
                         items={[
@@ -114,7 +111,7 @@ export default function Ofertas(params) {
                     }else{
                         let filter = pesquisa.toUpperCase();
                         let products = index.title.toUpperCase();
-                        if(pesquisa == ''){
+                        if(pesquisa == '' && (index.price >= min || min == '')&& (index.price <= max || max=='') && (index.condition == estado || estado == '')){
                             return(
                                 <View key={index._id} style={styles.itemcontainer} >
                                     <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
@@ -139,7 +136,7 @@ export default function Ofertas(params) {
                             );
                         }else{
                             // console.log("produto: ", products, "pesquisa", filter)
-                            if(products.includes(filter)){
+                            if(products.includes(filter) && index.price >= min && index.price <= max && (index.condition == estado || estado == '')){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
                                         <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
