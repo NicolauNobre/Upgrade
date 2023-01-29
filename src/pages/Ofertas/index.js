@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image,
 import {useNavigation} from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import RNPickerSelect from 'react-native-picker-select';
+import { color } from 'react-native-reanimated';
 
 
 export default function Ofertas(params) {
@@ -63,15 +64,17 @@ export default function Ofertas(params) {
         if(usefilter){
             return(
                 <View style={styles.filters}>
-                    <Text>Filtros</Text>
-                    <Text>Preço Max</Text>
+                    <Text style={styles.text}>Filtros</Text>
+                    <Text style={styles.textaply}>Preço Max</Text>
                     <TextInput
+                        style={styles.aplypricebutton}
                         keyboardType="number-pad"
                         placeholder="Valor do Item"
                         onChangeText={setMax}
                     />
-                    <Text>Preço Min</Text>
+                    <Text style={styles.textaply}>Preço Min</Text>
                     <TextInput
+                        style={styles.aplypricebutton}
                         keyboardType="number-pad"
                         placeholder="Valor do Item"
                         onChangeText={setMin}
@@ -80,15 +83,16 @@ export default function Ofertas(params) {
 
                     <RNPickerSelect
                         onValueChange={(value) => setEstado(value)}
+                        style = {{dropdownIconColor: 'white'}}
                         placeholder = {{
                             label: 'Estado do Item', 
                             value: null, 
-                            color: '#C7C7CD',
+                            color: 'white',
                         }}
                         items={[
-                            { label: 'Novo', value: 'novo', color: 'black'},
-                            { label: 'Usado', value: 'usado', color: 'black'},
-                            { label: 'Velho', value: 'velho', color: 'black'},
+                            { label: 'Novo' , value: 'novo' , color: '#FF7851'},
+                            { label: 'Usado', value: 'usado', color: '#FF7851'},
+                            { label: 'Velho', value: 'velho', color: '#FF7851'},
                         ]}
                     />
                     <TouchableOpacity style={styles.aplyfilterbutton} onPress={() => aplyfilter()}>
@@ -345,7 +349,7 @@ const styles = StyleSheet.create({
     },
     filters:{
         position: 'absolute',
-        backgroundColor: '#FF7851',
+        backgroundColor: '#1E1E1E',
         zIndex: 100,
         height: '100%',
         width: '70%',
@@ -353,9 +357,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'flex-start',
         justifyContent: 'flex-start',
+        paddingTop: '20%',
     },
     aplyfilterbutton:{
-        backgroundColor: 'black',
+        backgroundColor: '#FF7851',
         padding: 10,
         display: 'flex',
         justifyContent: 'center',
@@ -363,8 +368,20 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         marginRight: 22,
         borderRadius: 15,
+        color: 'white',
     },
     textaply:{
         color: 'white',
-    }
+    },
+    aplypricebutton:{
+        backgroundColor: '#FF7851',
+        padding: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 10,
+        borderRadius: 15,
+        color: 'white',
+    },
 });
