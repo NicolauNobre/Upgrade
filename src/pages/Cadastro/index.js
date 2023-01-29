@@ -169,6 +169,7 @@ export default function Cadastro() {
         "street" : street,
         "address_number" : adress,
         "address_complement" : complement,
+        // "has_whatsapp" : toggleCheckBox,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
@@ -208,6 +209,11 @@ export default function Cadastro() {
           setCity(city);
           setCountry(country);
           setStreet(street);
+          setCpf(cpf)
+          setEmail(email)
+          setPassword(password)
+          setPassword2(password2)
+          setAdress(adress)
           alert("Verifique seus dados e tente novamente")
         }
         
@@ -216,6 +222,11 @@ export default function Cadastro() {
         setCity(city);
         setCountry(country);
         setStreet(street);
+        setCpf(cpf)
+        setEmail(email)
+        setPassword(password)
+        setPassword2(password2)
+        setAdress(adress)
         setVcadaster("Sem conexão com o servidor")
         // console.log(e)
       });
@@ -223,6 +234,11 @@ export default function Cadastro() {
       setCity(city);
       setCountry(country);
       setStreet(street);
+      setCpf(cpf)
+      setEmail(email)
+      setPassword(password)
+      setPassword2(password2)
+      setAdress(adress)
       alert("Verifique seus dados e tente novamente")
       setIsLoading(false)
     }
@@ -246,7 +262,6 @@ export default function Cadastro() {
         setVstreet('')
         return true
       }else{
-        setCity('fodac')
         setVzip("CEP inválido");
         return(false);
       }       
