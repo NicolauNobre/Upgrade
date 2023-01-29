@@ -26,11 +26,13 @@ export default function Editcadastro(params) {
     const [vstreet, setVstreet] = useState('');
     const [adress, setAdress] = useState(dados.address_number.toString());
     const [vadress, setVadress] = useState('');
-    const [complement, setComplement] = useState(dados.address_complement.toString());
+    const [complement, setComplement] = useState('');
     const [vcadaster, setVcadaster] = useState('');
     const [validcep, setValidcep] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-
+    if(dados.complement){
+      setComplement(dados.complement.toString())
+    }
     
     // função para validar os formulários (precisa de melhorias)
     const validar = () =>{
