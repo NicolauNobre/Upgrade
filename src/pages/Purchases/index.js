@@ -19,7 +19,7 @@ export default function Purchases(params) {
     // função do request de produtos ao back
     async function fetchMoviesJSON() {
         setIsLoading(true);
-        const response = await fetch('https://upgrade-back-staging.herokuapp.com/user/products',{
+        const response = await fetch('https://upgrade-back-staging.herokuapp.com/cart/MyPurchase',{
           method: 'Post',
           body: JSON.stringify({
             "user_id" : userid,
@@ -28,6 +28,7 @@ export default function Purchases(params) {
         });
         const teste = await response.json();
         setItem (teste);
+        // console.log(teste);
         setResp(true);
         setIsLoading(false);
     }
@@ -46,21 +47,21 @@ export default function Purchases(params) {
                 // percorre o array de itens
                 item.map(index =>{
                     // console.log(index)
-                    if(index.title == undefined){
+                    if(index.productsInfo.title == undefined){
                         setResp(false);
-                    }else if(index.out){
+                    }else if(true){
                         let filter = pesquisa.toUpperCase();
-                        let products = index.title.toUpperCase();
+                        let products = index.productsInfo.title.toUpperCase();
                         if(pesquisa == ''){
                             return(
                                 <View key={index._id} style={styles.itemcontainer} >
-                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                        <Text style={styles.titletext}>{index.title}</Text>
+                                    <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
+                                        <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                         <View style={styles.line}/>
                                         <View style={{width: '60%', flexDirection: 'row' }}>
-                                            {index.images != null ? (
+                                            {index.productsInfo.images != null ? (
                                                 <Image
-                                                    source={{uri:index.images}}
+                                                    source={{uri:index.productsInfo.images}}
                                                     style={styles.Img}
                                                 />
                                             ) : (
@@ -69,7 +70,7 @@ export default function Purchases(params) {
                                                     style={styles.Img}
                                                 />
                                             )}
-                                            <Text style={styles.pricetext}> R$ {index.price}</Text>
+                                            <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                         </View>
                                     </TouchableOpacity>  
                                 </View>  
@@ -79,13 +80,13 @@ export default function Purchases(params) {
                             if(products.includes(filter)){
                                 return(
                                     <View key={index._id} style={styles.itemcontainer} >
-                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index, id: userid} })}>
-                                            <Text style={styles.titletext}>{index.title}</Text>
+                                        <TouchableOpacity style={styles.itembutton} onPress={() => navigation.navigate("Pageitem",  {params: {item: index.productsInfo, id: userid} })}>
+                                            <Text style={styles.titletext}>{index.productsInfo.title}</Text>
                                             <View style={styles.line}/>
                                             <View style={{width: '100%', flexDirection: 'row' }}>
-                                                {index.images != null ? (
+                                                {index.productsInfo.images != null ? (
                                                     <Image
-                                                        source={{uri:index.images}}
+                                                        source={{uri:index.productsInfo.images}}
                                                         style={styles.Img}
                                                     />
                                                 ) : (
@@ -94,7 +95,7 @@ export default function Purchases(params) {
                                                         style={styles.Img}
                                                     />
                                                 )}
-                                                <Text style={styles.pricetext}> R$ {index.price}</Text>
+                                                <Text style={styles.pricetext}> R$ {index.productsInfo.price}</Text>
                                             </View>
                                         </TouchableOpacity>  
                                     </View> 
@@ -107,7 +108,7 @@ export default function Purchases(params) {
         }else{
             return(
                 <View>
-                    <Text style={styles.semitems}>nenhum item vendido</Text>
+                    <Text style={styles.semitems}>Você não fez nenhuma compra</Text>
                 </View>
             )
         }
@@ -135,7 +136,7 @@ export default function Purchases(params) {
                 style={styles.linearGradient}
                 start={{ x: 0, y: 0.9 }}
                 >
-                    <Text style={styles.texttitle}>Meus itens vendidos</Text>
+                    <Text style={styles.texttitle}>Minhas compras</Text>
                     <View style={styles.containerForm}>
                         <TextInput
                             placeholder="Buscar Item"
@@ -150,16 +151,6 @@ export default function Purchases(params) {
         </View>
     );
 }
-//     const navigation = useNavigation();
-//     const id = userid.route.params.params.userid;
-//     // console.log (id)
-//     return (
-//         <View style={styles.container}>
-//             <Text style={styles.header}>Meus itens a venda</Text>
-//             <View style={styles.line}/>
-//         </View>
-//     );
-// }
 
 const styles = StyleSheet.create({
     container:{
