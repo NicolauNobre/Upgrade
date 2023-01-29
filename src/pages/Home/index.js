@@ -61,24 +61,41 @@ export default function Home(params) {
             </View>
             <Text style={styles.labelButton}>Monitores</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Classpage', {
+                                                                              params: {userid: userid, category: 'cpu'},})}>
             <View style={styles.areaButton}>
               <Feather name="cpu" size={27} color="#FF7851"/>
             </View>
             <Text style={styles.labelButton}>CPUs</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Classpage', {
+                                                                              params: {userid: userid, category: 'Headset gamer'},})}>
             <View style={styles.areaButton}>
               <Feather name="headphones" size={27} color="#FF7851"/>
             </View>
-            <Text style={styles.labelButton}>Periféricos</Text>
+            <Text style={styles.labelButton}>Headsets</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Classpage', {
+                                                                              params: {userid: userid, category: 'SSD'},})}>
             <View style={styles.areaButton}>
               <Feather name="hard-drive" size={27} color="#FF7851"/>
             </View>
-            <Text style={styles.labelButton}>Memórias</Text>
+            <Text style={styles.labelButton}>SSDs</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Classpage', {
+                                                                              params: {userid: userid, category: 'fonte'},})}>
+            <View style={styles.areaButton}>
+              <Feather name="battery" size={27} color="#FF7851"/>
+            </View>
+            <Text style={styles.labelButton}>Fontes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Classpage', {
+                                                                              params: {userid: userid, category: 'Webcam'},})}>
+            <View style={styles.areaButton}>
+              <Feather name="camera" size={27} color="#FF7851"/>
+            </View>
+            <Text style={styles.labelButton}>Webcams</Text>
           </TouchableOpacity>
         </ScrollView>
     </SafeAreaView>

@@ -242,7 +242,29 @@ export default function Registro(params) {
                   color: '#C7C7CD',
                 }}
                 items={[
-                  { label: 'Vai vir do back', value: 'aguardando rota', color: 'black'},
+                  { label: 'Processador'         , value: 'Processador'         , color: 'black'},
+                  { label: 'Placa-mãe'           , value: 'Placa-mãe'           , color: 'black'},
+                  { label: 'Fonte'               , value: 'Fonte'               , color: 'black'},
+                  { label: 'Cooler'              , value: 'Cooler'              , color: 'black'},
+                  { label: 'Disco rígido (HDs)'  , value: 'Disco rígido (HDs)'  , color: 'black'},
+                  { label: 'Memória RAM'         , value: 'Memória RAM'         , color: 'black'},
+                  { label: 'Placa de vídeo'      , value: 'Placa de vídeo'      , color: 'black'},
+                  { label: 'SSD'                 , value: 'SSD'                 , color: 'black'},
+                  { label: 'Gabinete'            , value: 'Gabinete'            , color: 'black'},
+                  { label: 'Cabos e adaptadores' , value: 'Cabos e adaptadores' , color: 'black'},
+                  { label: 'Caixa de som'        , value: 'Caixa de som'        , color: 'black'},
+                  { label: 'Headset Gamer'       , value: 'Headset Gamer'       , color: 'black'},
+                  { label: 'Fone de ouvido gamer', value: 'Fone de ouvido gamer', color: 'black'},
+                  { label: 'Mouse'               , value: 'Mouse'               , color: 'black'},
+                  { label: 'Teclado'             , value: 'Teclado'             , color: 'black'},
+                  { label: 'Mousepad'            , value: 'Mousepad'            , color: 'black'},
+                  { label: 'Webcam'              , value: 'Webcam'              , color: 'black'},
+                  { label: 'Playstation 4'       , value: 'Playstation 4'       , color: 'black'},
+                  { label: 'Playstation 5'       , value: 'Playstation 5'       , color: 'black'},
+                  { label: 'Xbox One'            , value: 'Xbox One'            , color: 'black'},
+                  { label: 'Xbox Series S'       , value: 'Xbox Series S'       , color: 'black'},
+                  { label: 'Xbox Series X'       , value: 'Xbox Series X'       , color: 'black'},
+                  { label: 'Outros'              , value: 'Outros'              , color: 'black'},
                 ]}
               />
             </View>
