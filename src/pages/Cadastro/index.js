@@ -214,6 +214,8 @@ export default function Cadastro() {
           setPassword(password)
           setPassword2(password2)
           setAdress(adress)
+          setNome(nome)
+          setComplement(complement)
           alert("Verifique seus dados e tente novamente")
         }
         
@@ -227,6 +229,8 @@ export default function Cadastro() {
         setPassword(password)
         setPassword2(password2)
         setAdress(adress)
+        setNome(nome)
+        setComplement(complement)
         setVcadaster("Sem conexão com o servidor")
         // console.log(e)
       });
@@ -239,6 +243,8 @@ export default function Cadastro() {
       setPassword(password)
       setPassword2(password2)
       setAdress(adress)
+      setNome(nome)
+      setComplement(complement)
       alert("Verifique seus dados e tente novamente")
       setIsLoading(false)
     }
